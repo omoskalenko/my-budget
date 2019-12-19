@@ -11,7 +11,7 @@ export default
         "member": 0,
         "transactions": {
           "income": [0, 11, 1],
-          "costs": [0, 1]
+          "costs": [0, 1, 2, 3, 4]
         }
       },
       "1": {
