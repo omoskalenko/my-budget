@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 import ruRU from 'antd/es/locale/ru_RU';
 import { ConfigProvider } from 'antd';
 import { Provider } from 'react-redux'
+import store, { history } from './store'
+import { ConnectedRouter } from 'connected-react-router'
 
 import * as serviceWorker from './serviceWorker';
 
-import store from './store'
 
 import App from './App';
 
@@ -15,9 +16,11 @@ import "antd/dist/antd.css";
 
 ReactDOM.render(
   <Provider store={store} >
-  <ConfigProvider local={ruRU} >
-    <App />,
+    <ConnectedRouter history={history}>
+      <ConfigProvider local={ruRU} >
+        <App />,
   </ConfigProvider>
+    </ConnectedRouter>
   </Provider>,
   document.getElementById('root')
 );

@@ -1,31 +1,37 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Menu, Layout, Icon } from 'antd'
+
+import './styles.sass'
 
 const { SubMenu } = Menu
 const { Sider } = Layout
 
-export default function SiderBlock({
-  collapsed
-}) {
+export default function SiderBlock() {
+
+  const [collapsed, setCollapsed] = useState([])
+
+  const toggle = () => {
+    setCollapsed(!collapsed)
+  }
 
   return (
-    <Sider trigger={null} collapsible collapsed={collapsed}>
-    <div className="logo" />
+    <Sider id="side" onCollapse={toggle} collapsible collapsed={collapsed}>
+    <div className="logo" ></div>
     <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
       <Menu.Item key="1">
         <Icon type="pie-chart" />
-        <span>Option 1</span>
+        <span>Главная</span>
       </Menu.Item>
       <Menu.Item key="2">
         <Icon type="desktop" />
-        <span>Option 2</span>
+        <span>Отчет за период</span>
       </Menu.Item>
       <SubMenu
         key="sub1"
         title={
           <span>
             <Icon type="user" />
-            <span>User</span>
+            <span>Справочники</span>
           </span>
         }
       >
@@ -38,7 +44,7 @@ export default function SiderBlock({
         title={
           <span>
             <Icon type="team" />
-            <span>Team</span>
+            <span>Владельцы</span>
           </span>
         }
       >
@@ -47,7 +53,7 @@ export default function SiderBlock({
       </SubMenu>
       <Menu.Item key="9">
         <Icon type="file" />
-        <span>File</span>
+        <span>Настройки</span>
       </Menu.Item>
     </Menu>
   </Sider>
