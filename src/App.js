@@ -23,12 +23,23 @@ function normalize(object) {
 }
 
   /**
-  * Получить сумму транзакций
+  * Получить сумму транзакций по id транзакций
   *
   * @returns {@number} - сумма транзакций
   */
- function getAmountByIdTransactions(transactionIds, transactions) {
+ function getAmountByIdsTransactions(transactionIds, transactions) {
   return transactionIds.reduce((res, op) => res + transactions[op].amount, 0)
+}
+
+  /**
+  * Получить сумму транзакций по id счета
+  *
+  * @returns {@number} - сумма транзакций
+  */
+ function getAmountByIdAccount(account, transactions) {
+  return (normalize(transactions)
+    .filter(transaction => transaction.account === +account)
+    .reduce((res, transaction) => res + transaction.amount, 0))
 }
 
 function App() {
@@ -65,6 +76,15 @@ function App() {
     })
   }
 
+  const renderIncomeList = () => {
+    return normalize(incomePerfect).map(income => {
+      const { id, title, committed, amount } = income
+      return (
+      <li key={id}>{committed} {title} {amount}</li>
+      )
+    })
+  }
+
 
   /**
   * Получить входящие зачисления на счет
@@ -74,7 +94,8 @@ function App() {
   * @returns {number} - сумму зачислений за все время
   */
   const getIncoming = (accountId, income) => {
-    return  getAmountByIdTransactions(accounts[accountId].transactions.income, income)
+    // return  getAmountByIdsTransactions(accounts[accountId].transactions.income, income)
+    return getAmountByIdAccount(accountId, income)
   }
 
   /**
@@ -85,7 +106,8 @@ function App() {
   * @returns {@number} - сумму зачислений за все время
   */
   const getCoasts = (accountId, costs) => {
-    return getAmountByIdTransactions(accounts[accountId].transactions.costs, costs)
+    // return getAmountByIdsTransactions(accounts[accountId].transactions.costs, costs)
+    return getAmountByIdAccount(accountId, costs)
   }
 
 
@@ -115,6 +137,7 @@ function App() {
   return (
     <div className="App">
       {renderAccounts()}
+      {renderIncomeList()}
     </div>
   );
 }

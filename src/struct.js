@@ -5,32 +5,32 @@ export default
       "1": "Саша"
     },
     "accounts": { //Счета
-      "0": {
+      0: {
         "name": "main",
         "title": "Основной",
         "member": 0,
-        "transactions": {
-          "income": [0, 11, 1],
-          "costs": [0, 1, 2, 3, 4]
-        }
+        // "transactions": {
+        //   "income": [0, 11, 1],
+        //   "costs": [0, 1, 2, 3, 4]
+        // }
       },
-      "1": {
+      1: {
         "name": "second",
         "title": "Еще один",
         "member": 1,
-        "transactions": {
-          "income": [],
-          "costs": []
-        }
+        // "transactions": {
+        //   "income": [],
+        //   "costs": []
+        // }
       },
-      "10": {
+      10: {
         "name": "savings",
         "title": "Сбережения",
         "member": 1,
-        "transactions": {
-          "income": [],
-          "costs": []
-        }
+        // "transactions": {
+        //   "income": [],
+        //   "costs": []
+        // }
       }
     },
     "periods": {
@@ -38,52 +38,64 @@ export default
     },
     "catigories": {
       "costs": {
-        "0": {
+        0: {
           "name": "credits",
           "title": "Кредиты"
         },
-        "1": {
+        1: {
           "name": "utilities",
           "title": "ЖКХ"
         },
-        "2": {
+        2: {
           "name": "personal",
           "title": "Личные"
         },
-        "3": {
+        3: {
           "name": "transport",
           "title": "Транспорт"
         },
-        "4": {
+        4: {
           "name": "food",
           "title": "Питание"
         },
-        "5": {
+        5: {
           "name": "household",
           "title": "Бытовые товары"
         },
-        "6": {
+        6: {
           "name": "others",
           "title": "Прочие"
+        },
+        7: {
+          "name": "transferToAccount",
+          "title": "Перевод на другой счет"
         }
       },
       "income": {
-        "0": {
+        0: {
           "name": "salary",
           "title": "ЗП"
         },
-        "1": {
+        1: {
           "name": "prepaidExpense",
           "title": "Аванс"
         },
-        "2": {
+        2: {
           "name": "other",
           "title": "Прочие"
+        },
+        10: {
+          "name": "receiptWithYourAccount",
+          "title": "Поступление с своего счета"
+        },
+        20: {
+          "name": "receiptOther",
+          "title": "Прочие поступление"
         }
       }
     },
     "costs": {
-      "monthly": [
+      "planned": [
         {
           "id": 0,
           "catigory": 3,
@@ -115,8 +127,8 @@ export default
           "account": 0
         }
       ],
-      "perfect": [
-        {
+      "perfect": {
+        0: {
           "id": 0,
           "catigory": 3,
           "name": "Бензин",
@@ -125,7 +137,7 @@ export default
           "account": 0,
           "plan": 0 //Относится к запланированному
         },
-        {
+        1: {
           "id": 1,
           "catigory": 6,
           "name": "Подарки",
@@ -133,7 +145,7 @@ export default
           "committed": "15.12.2019",
           "account": 0
         },
-        {
+        2: {
           "id": 2,
           "catigory": 6,
           "name": "Расход 1",
@@ -141,7 +153,7 @@ export default
           "committed": "01.12.2019",
           "account": 0
         },
-        {
+        3: {
           "id": 3,
           "catigory": 6,
           "name": "Расход 2",
@@ -149,19 +161,27 @@ export default
           "committed": "10.11.2019",
           "account": 0
         },
-        {
+        4: {
           "id": 4,
           "catigory": 6,
           "name": "Расход 3",
           "amount": 500,
           "committed": "01.11.2019",
           "account": 0
+        },
+        5: {
+          "id": 5,
+          "catigory": 7,
+          "name": "Перевод на сберегательный счет",
+          "amount": 500,
+          "committed": "10.11.2019",
+          "account": 0,
+          "to": 10,
         }
-      ],
-
+      },
     },
     "income": {
-      "monthly": [
+      "planned": [
         {
           "id": 0,
           "name": "Зарплата",
@@ -184,35 +204,46 @@ export default
       "perfect": {
         0: {
           "id": 0,
-          "name": "Зарплата",
-          "categories": 0,
+          "title": "Зарплата",
+          "catigory": 0,
           "planAvailableDay": "7",
           "amount": 34000.00,
           "committed": "07.12.2019",
           "member": 0,
+          "account": 0,
         },
         11: {
           "id": 11,
           "catigory": 6,
-          "name": "Подарок",
+          "title": "Подарок",
           "amount": 10000.00,
-          "date": "19.12.2019",
-          "member": 0
+          "committed": "19.12.2019",
+          "member": 0,
+          "account": 0,
         },
         1: {
           "id": 1,
-          "name": "Аванс",
-          "categories": 0,
-          "date": "23.12.2019",
+          "title": "Аванс",
+          "catigory": 0,
+          "committed": "23.12.2019",
           "amount": 16000.00,
           "member": 0,
-
+          "account": 0,
+        },
+        2: {
+          "id": 2,
+          "title": "Перевод",
+          "catigory": 7,
+          "amount": 500,
+          "committed": "10.11.2019",
+          "account": 10,
+          "from": 0,
         }
       }
-
     },
     "saving": {
-
+      "planned": {},
+      "perfect": {},
     },
     "balance": {
 
