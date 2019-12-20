@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { getAllData } from './API'
 import moment from 'moment'
-import { Layout } from 'antd';
+import { Layout } from 'antd'
 
 import Sider from './components/Blocks/Sider'
 import HeaderBlock from './components/Blocks/Header'
 
 import './styles.sass'
-import Accounts from './components/Blocks/Accounts';
+import Accounts from './components/Blocks/Accounts'
 
-const { Content, Footer } = Layout;
+const { Content, Footer } = Layout
 
 const period = {
   startDate: moment('07.12.2019', 'DD.MM.YYYY'),
@@ -19,7 +19,7 @@ const period = {
   days() { return this.endDay() - this.startDay() },
 }
 
-console.log(period.days());
+console.log(period.days())
 
 
 /**
@@ -66,7 +66,7 @@ function App() {
         income,
         costs
       } = data
-      console.log(data);
+      console.log(data)
       setAccounts(accounts)
       setIncomePerfect(income.perfect)
       setCostsPerfect(costs.perfect)
@@ -76,8 +76,8 @@ function App() {
   }, [])
 
   const toggle = () => {
-    setCollapsed(!collapsed);
-  };
+    setCollapsed(!collapsed)
+  }
 
 
   const renderAccounts = () => {
@@ -161,7 +161,7 @@ function App() {
         <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
       </Layout>
     </Layout>
-  );
+  )
 }
 
 export default App

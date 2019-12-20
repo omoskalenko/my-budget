@@ -1,6 +1,6 @@
-import { Layout, Icon } from "antd";
+import { Layout, Icon } from "antd"
 
-import React from "react";
+import React from "react"
 
 import './styles.sass'
 
@@ -20,5 +20,5 @@ export default function HeaderBlock({
         />
       </span>
     </Header>
-  );
+  )
 }

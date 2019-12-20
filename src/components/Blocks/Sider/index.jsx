@@ -1,8 +1,8 @@
-import React from 'react';
-import { Menu, Layout, Icon } from 'antd';
+import React from 'react'
+import { Menu, Layout, Icon } from 'antd'
 
-const { SubMenu } = Menu;
-const { Sider } = Layout;
+const { SubMenu } = Menu
+const { Sider } = Layout
 
 export default function SiderBlock({
   collapsed
@@ -51,5 +51,5 @@ export default function SiderBlock({
       </Menu.Item>
     </Menu>
   </Sider>
-  );
+  )
 }
