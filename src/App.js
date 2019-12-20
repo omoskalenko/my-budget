@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { getAllData, getAccounts } from './API'
+import { getAllData } from './API'
 import moment from 'moment'
-import { Layout, Icon } from 'antd';
+import { Layout } from 'antd';
 
 import Sider from './components/Blocks/Sider'
 import HeaderBlock from './components/Blocks/Header'
@@ -36,7 +36,7 @@ function normalize(object) {
 *
 * @returns {@number} - сумма транзакций
 */
-function getAmountByIdsTransactions(transactionIds, transactions) {
+export function getAmountByIdsTransactions(transactionIds, transactions) {
   return transactionIds.reduce((res, op) => res + transactions[op].amount, 0)
 }
 
