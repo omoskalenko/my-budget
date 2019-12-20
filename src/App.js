@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { getAllData, getAccounts } from './API'
 import moment from 'moment'
+import { Layout, Icon } from 'antd';
+
+import Sider from './components/Blocks/Sider'
+import HeaderBlock from './components/Blocks/Header'
+
+import './styles.sass'
+import Accounts from './components/Blocks/Accounts';
+
+const { Content, Footer } = Layout;
 
 const period = {
   startDate: moment('07.12.2019', 'DD.MM.YYYY'),
@@ -13,30 +22,30 @@ const period = {
 console.log(period.days());
 
 
-  /**
-  * Преобразование объекта с данными по id в массив объектов с свойством id
-  *
-  * @returns {@array}
-  */
+/**
+* Преобразование объекта с данными по id в массив объектов с свойством id
+*
+* @returns {@array}
+*/
 function normalize(object) {
   return Object.entries(object).map(item => ({ id: item[0], ...item[1] }))
 }
 
-  /**
-  * Получить сумму транзакций по id транзакций
-  *
-  * @returns {@number} - сумма транзакций
-  */
- function getAmountByIdsTransactions(transactionIds, transactions) {
+/**
+* Получить сумму транзакций по id транзакций
+*
+* @returns {@number} - сумма транзакций
+*/
+function getAmountByIdsTransactions(transactionIds, transactions) {
   return transactionIds.reduce((res, op) => res + transactions[op].amount, 0)
 }
 
-  /**
-  * Получить сумму транзакций по id счета
-  *
-  * @returns {@number} - сумма транзакций
-  */
- function getAmountByIdAccount(account, transactions) {
+/**
+* Получить сумму транзакций по id счета
+*
+* @returns {@number} - сумма транзакций
+*/
+function getAmountByIdAccount(account, transactions) {
   return (normalize(transactions)
     .filter(transaction => transaction.account === +account)
     .reduce((res, transaction) => res + transaction.amount, 0))
@@ -47,6 +56,7 @@ function App() {
   const [accounts, setAccounts] = useState([])
   const [incomePerfect, setIncomePerfect] = useState([])
   const [costsPerfect, setCostsPerfect] = useState([])
+  const [collapsed, setCollapsed] = useState([])
 
   useEffect(() => {
     setFetching(true)
@@ -65,6 +75,9 @@ function App() {
     })
   }, [])
 
+  const toggle = () => {
+    setCollapsed(!collapsed);
+  };
 
 
   const renderAccounts = () => {
@@ -80,7 +93,7 @@ function App() {
     return normalize(incomePerfect).map(income => {
       const { id, title, committed, amount } = income
       return (
-      <li key={id}>{committed} {title} {amount}</li>
+        <li key={id}>{committed} {title} {amount}</li>
       )
     })
   }
@@ -135,10 +148,19 @@ function App() {
   if (isFetching) return <h1>Загрузка...</h1>
 
   return (
-    <div className="App">
-      {renderAccounts()}
-      {renderIncomeList()}
-    </div>
+    <Layout style={{ minHeight: '100vh' }}>
+       <Sider collapsed={collapsed}/>
+      <Layout>
+        <HeaderBlock collapsed={collapsed} toggle={toggle} />
+
+        <Content style={{ margin: '20px 16px' }}>
+          <Accounts data={renderAccounts()}/>
+
+          {renderIncomeList()}
+        </Content>
+        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+      </Layout>
+    </Layout>
   );
 }
 
