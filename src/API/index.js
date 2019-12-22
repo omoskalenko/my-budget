@@ -1,13 +1,15 @@
-import data from '../struct'
+import axios from 'axios'
 
-export function getAllData() {
-  return new Promise(resolve => {
-    setTimeout(() => resolve(data), 500)
-  })
+export async function fetchAccounts() {
+  try {
+    const response = await axios.get('/api/accounts')
+    return response.data
+  } catch (error) {
+    throw Error(error)
+  }
+  
 }
 
-export function getAccounts() {
-  return new Promise(resolve => {
-    setTimeout(() => resolve(data.accounts), 1000)
-  })
+export default {
+  fetchAccounts
 }

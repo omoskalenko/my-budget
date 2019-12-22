@@ -5,21 +5,23 @@ import { ConfigProvider } from 'antd';
 import { Provider } from 'react-redux'
 import store, { history } from './store'
 import { ConnectedRouter } from 'connected-react-router'
+import moment from 'moment'
 
+import {DATE_LOCAL} from './config'
 import * as serviceWorker from './serviceWorker';
-
 
 import App from './App';
 
-
 import "antd/dist/antd.css";
+
+moment.locale('ru')
 
 ReactDOM.render(
   <Provider store={store} >
     <ConnectedRouter history={history}>
-      <ConfigProvider local={ruRU} >
+      <ConfigProvider locale={ruRU} >
         <App />,
-  </ConfigProvider>
+      </ConfigProvider>
     </ConnectedRouter>
   </Provider>,
   document.getElementById('root')

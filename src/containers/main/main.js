@@ -1,6 +1,5 @@
-import { getAllData } from '../../API'
-// import { Record } from 'immutable'
-import { getBalance, normalize } from '../../utils'
+import API from '../../API'
+import { Record } from 'immutable'
 import { take, spawn, call, put } from  'redux-saga/effects'
 import { createSelector } from 'reselect'
 
@@ -11,37 +10,38 @@ export const moduleName = 'main'
 
 /** Actions */
 
-export const FETCH_ALL_REQUEST = `${moduleName}/FETCH_ALL_REQUEST`
-export const FETCH_ALL_SUCCESS = `${moduleName}/FETCH_ALL_SUCCESS`
-export const FETCH_ALL_ERROR = `${moduleName}/FETCH_ALL_ERROR`
+export const FETCH_ACCOUNTS_REQUEST = `${moduleName}/FETCH_ACCOUNTS_REQUEST`
+export const FETCH_ACCOUNTS_SUCCESS = `${moduleName}/FETCH_ACCOUNTS_SUCCESS`
+export const FETCH_ACCOUNTS_ERROR = `${moduleName}/FETCH_ACCOUNTS_ERROR`
 
 /** Initial State */
 
 
-const initialState = {
-  isFetching: false,
+const initialState = Record({
+  accounts: null,
+  isFetching: true,
   error: false,
-}
+})
 
 /** Reducer */
 
-export const reducer = ( state = initialState, action) => {
+export const reducer = ( state = new initialState(), action) => {
   const { type, payload } = action
   switch (type) {
-    case FETCH_ALL_REQUEST: {
+    // case FETCH_ACCOUNTS_REQUEST: {
+    //   return {
+    //     ...state,
+    //     isFetching: true
+    //   }
+    // }
+    case FETCH_ACCOUNTS_SUCCESS: {
       return {
         ...state,
-        isFetching: true
-      }
-    }
-    case FETCH_ALL_SUCCESS: {
-      return {
-        ...state,
-        ...payload,
+        accounts: payload,
         isFetching: false
       }
     }
-    case FETCH_ALL_ERROR: {
+    case FETCH_ACCOUNTS_ERROR: {
       return {
         ...state,
         error: true,
@@ -58,35 +58,31 @@ export const reducer = ( state = initialState, action) => {
 export const stateSelector = state => state[moduleName]
 
 export const accounts = createSelector(stateSelector, state => state.accounts)
-export const income = createSelector(stateSelector, state => state.income)
-export const costs = createSelector(stateSelector, state => state.costs)
-export const getAccountsWithBalance = createSelector(
-  [accounts, income, costs],
-  (accounts, income, costs) => normalize(accounts).map(account => {
-    account.balance = getBalance(account.id, income.perfect, costs.perfect)
-    return account
-  })
+
+export const getAccounts = createSelector(
+  [accounts],
+  accounts => accounts
 )
 
 
 /** Actions Creators */
 
-export const fetchAll = () => ({ type: FETCH_ALL_REQUEST })
+export const fetchAccounts = () => ({ type: FETCH_ACCOUNTS_REQUEST })
 
 /** Sagas */
 
-export const fetchAllSaga = function* () {
-  while(yield take(FETCH_ALL_REQUEST)) {
+export const fetchAccountsSaga = function* () {
+  while(yield take(FETCH_ACCOUNTS_REQUEST)) {
     try {
-      const payload = yield call(getAllData)
+      const payload = yield call([API, API.fetchAccounts])
 
       yield put({
-        type: FETCH_ALL_SUCCESS,
+        type: FETCH_ACCOUNTS_SUCCESS,
         payload
       })
     } catch(error) {
       yield put({
-        type: FETCH_ALL_ERROR,
+        type: FETCH_ACCOUNTS_ERROR,
         error
       })
     }
@@ -95,7 +91,7 @@ export const fetchAllSaga = function* () {
 }
 
 export const saga = function* () {
-  yield spawn(fetchAllSaga)
+  yield spawn(fetchAccountsSaga)
 }
 
 

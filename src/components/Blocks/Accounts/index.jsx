@@ -1,7 +1,10 @@
 import React from "react";
 import { Card, Icon, Statistic, Row, Col } from "antd";
+import withError from '../../../HOC/withError/index'
 
-export default function Accounts({ isFetching, accounts }) {
+function Accounts({ isFetching, accounts }) {
+  console.log( isFetching, accounts);
+  
   return (
     <Card
       loading={isFetching}
@@ -16,7 +19,7 @@ export default function Accounts({ isFetching, accounts }) {
       ]}
     >
       <Row gutter={16}>
-        {accounts.map(({ id, title, balance }) => (
+        {!isFetching && accounts.map(({ id, title, balance }) => (
           <Col span={8} key={id}>
             <Statistic
               title={title}
@@ -32,3 +35,5 @@ export default function Accounts({ isFetching, accounts }) {
     </Card>
   );
 }
+
+export default withError(Accounts)

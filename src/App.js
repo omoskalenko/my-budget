@@ -5,7 +5,7 @@ import { Route } from 'react-router'
 import { Layout } from 'antd'
 
 import Sider from './components/Blocks/Sider'
-import MainContainer from './containers/main'
+import MainContainer from './containers/main/mainContainer'
 
 import './styles.sass'
 
@@ -27,8 +27,6 @@ console.log(period.days())
 function App({
   isFetching,
 }) {
-
-
   if (isFetching) return <h1>Загрузка...</h1>
 
   return (

@@ -1,10 +1,10 @@
 import { Layout, Avatar, DatePicker, Row, Col } from "antd";
-
-import React from "react";
-
-import { DATE_LOCAL} from  '../../../config'
+import React from "react"
+import moment from 'moment'
 
 import "./styles.sass";
+
+moment.locale('ru');
 
 const { RangePicker } = DatePicker;
 
@@ -22,7 +22,13 @@ export default function HeaderBlock() {
       </span> */}
       <Row>
         <Col offset={1} span={15}>
-          <RangePicker size="large" format="DD.MM.YYYY" locale={DATE_LOCAL}/>
+            <RangePicker
+              defaultValue={[moment('22.12.2019', 'DD.MM.YYYY'), moment('25.12.2019', 'DD.MM.YYYY')]}
+              defaultPickerValue={[moment('22.12.2019', 'DD.MM.YYYY'), moment('25.12.2019', 'DD.MM.YYYY')]}
+              size="large"
+              format="DD.MM.YYYY"
+              onCalendarChange={dates => console.log(dates)}
+            />
         </Col>
         <Col offset={7} span={1}>
           <Avatar className="header_user__avatar" icon="user" />
