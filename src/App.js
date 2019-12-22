@@ -1,40 +1,38 @@
-import React from 'react'
-
-import moment from 'moment'
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
 import { Route } from 'react-router'
 import { Layout } from 'antd'
 
 import Sider from './components/Blocks/Sider'
-import MainContainer from './containers/main/mainContainer'
+import Main from './pages/Main'
+
+import { fetchDirectories, moduleName } from './containers/directores'
 
 import './styles.sass'
 
-
-
-const period = {
-  startDate: moment('07.12.2019', 'DD.MM.YYYY'),
-  endDate: moment('14.12.2019', 'DD.MM.YYYY'),
-  startDay() { return this.startDate.get('date') },
-  endDay() { return this.endDate.get('date') },
-  days() { return this.endDay() - this.startDay() },
-}
-
-console.log(period.days())
-
-
-
-
 function App({
+  fetchDirectories,
   isFetching,
 }) {
+  useEffect(() => {
+    fetchDirectories()
+  })
+
   if (isFetching) return <h1>Загрузка...</h1>
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-       <Sider />
-        <Route exact path='/' component={MainContainer}/>
+        <Sider />
+        <Route exact path='/' component={Main}/>
     </Layout>
   )
 }
 
-export default App
+export default connect(
+  state => ({
+    isFetching: state[moduleName].isFetching
+  }),
+  dispatch => ({
+    fetchDirectories: () => dispatch(fetchDirectories())
+  })
+)(App)

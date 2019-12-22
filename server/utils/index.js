@@ -46,8 +46,6 @@ const getCosts = (accountId, costs) => {
 
 // Получить баланс счета по id счета
 const getBalance = (accountId, income, costs) => {
-  console.log('getBalance', getCosts(accountId, costs));
-  
   return getIncoming(accountId, income) - getCosts(accountId, costs)
 }
 

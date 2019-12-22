@@ -20,7 +20,7 @@ ReactDOM.render(
   <Provider store={store} >
     <ConnectedRouter history={history}>
       <ConfigProvider locale={ruRU} >
-        <App />,
+        <App />
       </ConfigProvider>
     </ConnectedRouter>
   </Provider>,

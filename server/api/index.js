@@ -1,5 +1,6 @@
-var router = require('express').Router()
-var data = require('../data')
+let router = require('express').Router()
+let data = require('../data')
+
 const { getBalance, normalize } = require('../utils')
 
 const reply = (res, body, timeout = 1000, status = 200) =>
@@ -7,17 +8,47 @@ const reply = (res, body, timeout = 1000, status = 200) =>
     res.status(status).json(body)
   }, timeout)
 
-router.get('/accounts', function(req, res, next) {
-  
-  const incomes = data.incomes.perfect
-  const costs = data.costs.perfect
+const costsWithCategory = (data) => {
+  const costs = normalize(data.costs.commited)
+  const categories = data.categories.costs
+  const accounts = data.accounts
+
+  return  costs.map(cost => {
+    cost.category = { id: cost.category, ...categories[cost.category] }
+    cost.account = { id: cost.account, ...accounts[cost.account] }
+    return cost
+  })
+}
+
+router.get('/directories', (req, res, next) => {
+  const categories = {
+    costs: normalize(data.categories.costs),
+    incomes: normalize(data.categories.incomes)
+  }
+  const members = normalize(data.members)
+
+  reply(res, { categories, members })
+})
+
+router.get('/accounts', (req, res, next) => {
+  const incomes = data.incomes.commited
+  const costs = data.costs.commited
   const accounts = normalize(data.accounts)
     .map(account => {
       account.balance = getBalance(account.id, incomes, costs)
-      console.log('getBalance(account.id, incomes, costs)', getBalance(account.id, incomes, costs))
       return account
     })
   reply(res, accounts)
+})
+
+router.get('/costs/commited', (req, res, next) => {
+  reply(res, costsWithCategory(data))
+})
+
+router.post('/costs/add', (req, res) => {
+   const id = Date.now()
+  data.costs.commited[id] = req.body
+  reply(res, { status: 'ok', cost: costsWithCategory(data) })
 })
 
 module.exports = router
