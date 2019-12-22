@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 
 import { fetchCosts, addCost, getCosts, moduleName } from './costs'
 import { getCostCategories } from '../directores'
+import { getAccounts } from '../accounts'
 
 function CostsContainer({
   isFetching,
@@ -13,6 +14,7 @@ function CostsContainer({
   addCost,
   costs,
   categories,
+  accounts,
   isSubmit
 }) {
   useEffect(() => {
@@ -24,6 +26,7 @@ function CostsContainer({
       addCost={addCost}
       costs={costs}
       categories={categories}
+      accounts={accounts}
       isSubmit={isSubmit}
     />
   )
@@ -34,6 +37,7 @@ export default compose(
       isFetching: state[moduleName].isFetching,
       costs: getCosts(state),
       categories: getCostCategories(state),
+      accounts: getAccounts(state),
       isSubmit: state[moduleName].isSubmit
     }),
     dispatch => ({

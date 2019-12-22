@@ -21,7 +21,7 @@ function App({
   if (isFetching) return <h1>Загрузка...</h1>
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout style={{ maxHeight: '100vh', minHeight: '100vh' }}>
         <Sider />
         <Route exact path='/' component={Main}/>
     </Layout>

@@ -113,13 +113,13 @@ module.exports = {
         account: 0
       }
     ],
-    commited: {
+    committed: {
       0: {
         id: 0,
         category: 3,
         name: "Бензин",
         amount: 1500.0,
-        committed: "17.12.2019",
+        committed: '2019-12-22T19:41:05.221Z',
         account: 0,
         plan: 0 //Относится к запланированному
       },
@@ -146,7 +146,7 @@ module.exports = {
         dates: ["23.12.2019"]
       }
     ],
-    commited: {
+    committed: {
       0: {
         id: 0,
         title: "Зарплата",

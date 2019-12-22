@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react'
 import { Empty, Card, Table, Typography  } from 'antd'
 import AddCost from './AddCost'
-import moment from 'moment'
 
 import styles from './costs.module.sass'
 
@@ -12,6 +11,7 @@ function Costs({
   addCost,
   costs,
   categories,
+  accounts,
   isSubmit
 }) {
 
@@ -22,7 +22,7 @@ function Costs({
         id, committed, name, amount
       }) => ({
         key: id,
-        committed: moment(committed).format('DD.MM.YYYY'),
+        committed,
         name,
         amount,
       }))
@@ -63,7 +63,15 @@ function Costs({
     <Card
       loading={isFetching}
       title="Расходы"
-      extra={<AddCost isSubmit={isSubmit} categories={categories} addCost={addCost} isFetching={isFetching} />}
+      extra={
+        <AddCost
+          isSubmit={isSubmit}
+          categories={categories}
+          accounts={accounts}
+          addCost={addCost}
+          isFetching={isFetching}
+        />
+      }
       className={styles.costs}
     >
       {!isFetching && renderCategories()}

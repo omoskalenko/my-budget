@@ -11,7 +11,7 @@ export default function Main() {
     <Layout id="main">
     <HeaderBlock/>
 
-    <Content style={{ margin: '20px 16px' }}>
+    <Content style={{ margin: '20px 16px', overflowY: 'scroll' }}>
       <Accounts />
       <Costs />
     </Content>

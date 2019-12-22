@@ -1,12 +1,22 @@
 import API from '../../API';
 import { Record } from 'immutable'
+import * as yup from 'yup'
+import moment from 'moment'
 import { take, spawn, call, put, takeEvery } from  'redux-saga/effects'
 import { createSelector } from 'reselect'
-import { FETCH_ACCOUNTS_REQUEST } from '../accounts'
+import { COMPUTED_ACCOUNTS_BALANCE } from '../accounts'
 /** Constants */
 
 export const moduleName = 'costs'
 
+const Schema = yup.object().shape({
+  category: yup.string().required(),
+  name: yup.string().required(),
+  amount: yup.number().required(),
+  committed: yup.date().required(),
+  account: yup.string().required(),
+  plan: yup.boolean()
+})
 
 /** Actions */
 
@@ -72,7 +82,10 @@ export const costs = createSelector(stateSelector, state => state.list)
 
 export const getCosts = createSelector(
   [costs],
-  costs => costs
+  costs => costs.map(cost => {
+    cost.committed = moment(cost.committed).format('DD.MM.YYYY')
+    return cost
+  } )
 )
 
 
@@ -102,6 +115,7 @@ export const fetchCostsSaga = function* () {
 
 export const addCostSaga = function* (action) {
    try {
+    Schema.validate(action.payload)
     const data = yield call([API, API.addCost], action.payload)    
     yield put({
       type: ADD_COST_SUCCESS
@@ -111,7 +125,7 @@ export const addCostSaga = function* (action) {
       payload: data
     })
     yield put({
-      type: FETCH_ACCOUNTS_REQUEST,
+      type: COMPUTED_ACCOUNTS_BALANCE,
     })
    } catch(error) {
 

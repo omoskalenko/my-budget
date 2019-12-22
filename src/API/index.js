@@ -11,7 +11,7 @@ export async function fetchAccounts() {
 
 export async function fetchCosts() {
   try {
-    const response = await axios.get('/api/costs/commited')
+    const response = await axios.get('/api/costs/committed')
     return response.data
   } catch (error) {
     throw Error(error)

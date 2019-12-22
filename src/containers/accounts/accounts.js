@@ -1,7 +1,8 @@
 import API from '../../API';
 import { Record } from 'immutable'
-import { take, spawn, call, put } from  'redux-saga/effects'
+import { take, spawn, call, put, select } from  'redux-saga/effects'
 import { createSelector } from 'reselect'
+import { getCosts } from '../costs/costs';
 
 /** Constants */
 
@@ -16,6 +17,7 @@ export const FETCH_ACCOUNTS_ERROR = `${moduleName}/FETCH_ACCOUNTS_ERROR`
 export const FETCH_COSTS_REQUEST = `${moduleName}/FETCH_COSTS_REQUEST`
 export const FETCH_COSTS_SUCCESS = `${moduleName}/FETCH_COSTS_SUCCESS`
 export const FETCH_COSTS_ERROR = `${moduleName}/FETCH_COSTS_ERROR`
+export const COMPUTED_ACCOUNTS_BALANCE = `${moduleName}/COMPUTED_ACCOUNTS_BALANCE`
 
 /** Initial State */
 
@@ -45,6 +47,7 @@ export const reducer = ( state = new initialState(), action) => {
         isFetching: false
       }
     }
+
     default:
       return state
   }
@@ -87,6 +90,14 @@ export const fetchAccountsSaga = function* () {
   }
 }
 
+export const computedBalanceSaga = function* () {
+  while(yield take(COMPUTED_ACCOUNTS_BALANCE)) {
+    const accounts = yield select(state => getAccounts(state))
+    const costs = yield select(state => getCosts(state))
+    
+  }
+}
+
 export const fetchCostsSaga = function* () {
   while(yield take(FETCH_COSTS_REQUEST)) {
     try {
@@ -107,6 +118,7 @@ export const fetchCostsSaga = function* () {
 
 export const saga = function* () {
   yield spawn(fetchAccountsSaga)
+  yield spawn(computedBalanceSaga)
 }
 
 

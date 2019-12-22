@@ -1,5 +1,7 @@
 let router = require('express').Router()
-let data = require('../data')
+let origin = require('../data')
+
+let data = { ...origin }
 
 const { getBalance, normalize } = require('../utils')
 
@@ -9,7 +11,7 @@ const reply = (res, body, timeout = 1000, status = 200) =>
   }, timeout)
 
 const costsWithCategory = (data) => {
-  const costs = normalize(data.costs.commited)
+  const costs = normalize(data.costs.committed)
   const categories = data.categories.costs
   const accounts = data.accounts
 
@@ -31,8 +33,9 @@ router.get('/directories', (req, res, next) => {
 })
 
 router.get('/accounts', (req, res, next) => {
-  const incomes = data.incomes.commited
-  const costs = data.costs.commited
+  const incomes = data.incomes.committed
+  const costs = data.costs.committed
+
   const accounts = normalize(data.accounts)
     .map(account => {
       account.balance = getBalance(account.id, incomes, costs)
@@ -41,13 +44,13 @@ router.get('/accounts', (req, res, next) => {
   reply(res, accounts)
 })
 
-router.get('/costs/commited', (req, res, next) => {
+router.get('/costs/committed', (req, res, next) => {
   reply(res, costsWithCategory(data))
 })
 
 router.post('/costs/add', (req, res) => {
    const id = Date.now()
-  data.costs.commited[id] = req.body
+  data.costs.committed[id] = req.body
   reply(res, { status: 'ok', cost: costsWithCategory(data) })
 })
 
