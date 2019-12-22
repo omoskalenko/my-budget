@@ -2,38 +2,35 @@ import React from 'react'
 import { Card } from 'antd'
 import AddForm from '../Common/AddForm'
 
-import styles from './costs.module.sass'
+import styles from './incomes.module.sass'
 import List from '../Common/List'
 
-function Costs({
+function Incomes({
   isFetching,
-  addCost,
-  costs,
+  addIncome,
+  incomes,
   categories,
   accounts,
   isSubmit
 }) {
-
- 
-
   return (
     <Card
       loading={isFetching}
-      title="Расходы"
+      title="Доходы"
       extra={
         <AddForm
           isSubmit={isSubmit}
           categories={categories}
           accounts={accounts}
-          addCost={addCost}
+          addIncome={addIncome}
           isFetching={isFetching}
         />
       }
-      className={styles.costs}
+      className={styles.incomes}
     >
-      <List isFetching={isFetching} items={costs} categories={categories} />
+      <List isFetching={isFetching} items={incomes} categories={categories} />
     </Card>
   )
 }
 
-export default Costs
+export default Incomes

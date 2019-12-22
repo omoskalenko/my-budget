@@ -10,15 +10,15 @@ const reply = (res, body, timeout = 1000, status = 200) =>
     res.status(status).json(body)
   }, timeout)
 
-const costsWithCategory = (data) => {
-  const costs = normalize(data.costs.committed)
-  const categories = data.categories.costs
+const withCategory = (data, list) => {
+  const items = normalize(data[list].committed)
+  const categories = data.categories[list]
   const accounts = data.accounts
 
-  return  costs.map(cost => {
-    cost.category = { id: cost.category, ...categories[cost.category] }
-    cost.account = { id: cost.account, ...accounts[cost.account] }
-    return cost
+  return  items.map(item => {
+    item.category = { id: item.category, ...categories[item.category] }
+    item.account = { id: item.account, ...accounts[item.account] }
+    return item
   })
 }
 
@@ -44,14 +44,28 @@ router.get('/accounts', (req, res, next) => {
   reply(res, accounts)
 })
 
+
+
 router.get('/costs/committed', (req, res, next) => {
-  reply(res, costsWithCategory(data))
+  reply(res, withCategory(data, 'costs'))
 })
 
 router.post('/costs/add', (req, res) => {
    const id = Date.now()
   data.costs.committed[id] = req.body
-  reply(res, { status: 'ok', cost: costsWithCategory(data) })
+  reply(res, { status: 'ok', cost: withCategory(data) })
+})
+
+
+
+router.get('/incomes/committed', (req, res, next) => {
+  reply(res, withCategory(data, 'incomes'))
+})
+
+router.post('/incomes/add', (req, res) => {
+   const id = Date.now()
+  data.incomes.committed[id] = req.body
+  reply(res, { status: 'ok', cost: withCategory(data) })
 })
 
 module.exports = router

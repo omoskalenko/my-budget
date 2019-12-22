@@ -7,7 +7,8 @@ function Accounts({ isFetching, accounts }) {
     <Card
       loading={isFetching}
       style={{
-        width: '50%'
+        width: '50%',
+        margin: '10px 10px'
       }}
       title="Счета"
       actions={[

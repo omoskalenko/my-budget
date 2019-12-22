@@ -58,6 +58,13 @@ export const getCostCategories = createSelector(
   categories => categories.costs
 )
 
+export const getIncomeCategories = createSelector(
+  categories,
+  categories => categories.incomes
+)
+
+
+
 
 /** Actions Creators */
 

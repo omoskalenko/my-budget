@@ -27,6 +27,24 @@ export async function addCost(cost) {
   }
 }
 
+export async function fetchIncomes() {
+  try {
+    const response = await axios.get('/api/incomes/committed')
+    return response.data
+  } catch (error) {
+    throw Error(error)
+  }
+}
+
+export async function addIncomes(cost) {
+  try {
+    const response = await axios.post('/api/incomes/add', cost)
+    return response.data.incomes
+  } catch (error) {
+    throw Error(error)
+  }
+}
+
 export async function fetchDirectories() {
   try {
     const response = await axios.get('/api/directories')
@@ -42,5 +60,7 @@ export default {
   fetchAccounts,
   fetchCosts,
   addCost,
+  fetchIncomes,
+  addIncomes,
   fetchDirectories,
 }

@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Modal, Form, Input, DatePicker, Select, Icon } from 'antd'
-import { withFormik } from 'formik';
 import moment from 'moment';
+import { moduleName } from '../../../containers/costs/costs'
 
 import Rub from '../../../images/rub.svg'
 
 const { Option } = Select;
 
-function AddCost({
+function AddForm({
   isFetching,
-  addCost,
+  handleAdd,
   categories,
   accounts,
   form,
@@ -34,7 +34,7 @@ function AddCost({
     e.preventDefault()
     form.validateFields((err, values) => {
       if (!err) {
-        addCost({ category, ...values })
+        handleAdd({ category, ...values })
       }
     })
 
@@ -90,7 +90,7 @@ function AddCost({
           <Form.Item label="Сумма">
             {getFieldDecorator('amount', {
               rules: [{ required: true, message: 'Введите сумму расхода!', type: 'string' }],
-            })(<Input suffix={<img src={Rub} width="10" />} />)}
+            })(<Input suffix={<img src={Rub} width="10" alt="Рубль"/>} />)}
           </Form.Item>
           <Form.Item label="Дата">
             {getFieldDecorator('committed', {
@@ -104,13 +104,13 @@ function AddCost({
   )
 }
 
-export default Form.create({ name: 'addCost' })(AddCost)
+export default Form.create({ name: moduleName })(AddForm)
 
 // withFormik({
 //   mapPropsToValues: () => ({}),
 //   validationSchema: () => (schema),
 //   handleSubmit: (values, { setSubmitting, props }) => {
-//       props.addCost(values)
+//       props.handleAdd(values)
 //       setSubmitting(false);
 //   },
 // })(AddCost)
