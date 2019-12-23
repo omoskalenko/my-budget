@@ -116,7 +116,7 @@ export const fetchIncomesSaga = function* () {
 export const addIncomeSaga = function* (action) {
    try {
     Schema.validate(action.payload)
-    const data = yield call([API, API.addIncome], action.payload)    
+    const data = yield call([API, API.addIncome], action.payload)
     yield put({
       type: ADD_INCOME_SUCCESS
     })
@@ -136,7 +136,7 @@ export const saga = function* () {
 
   yield spawn(fetchIncomesSaga)
   yield takeEvery(ADD_INCOME_REQUEST, addIncomeSaga)
-  
+
 }
 
 

@@ -94,7 +94,7 @@ export const computedBalanceSaga = function* () {
   while(yield take(COMPUTED_ACCOUNTS_BALANCE)) {
     const accounts = yield select(state => getAccounts(state))
     const costs = yield select(state => getCosts(state))
-    
+
   }
 }
 

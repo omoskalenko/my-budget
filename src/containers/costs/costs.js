@@ -116,7 +116,7 @@ export const fetchCostsSaga = function* () {
 export const addCostSaga = function* (action) {
    try {
     Schema.validate(action.payload)
-    const data = yield call([API, API.addCost], action.payload)    
+    const data = yield call([API, API.addCost], action.payload)
     yield put({
       type: ADD_COST_SUCCESS
     })
@@ -136,7 +136,7 @@ export const saga = function* () {
 
   yield spawn(fetchCostsSaga)
   yield takeEvery(ADD_COST_REQUEST, addCostSaga)
-  
+
 }
 
 
