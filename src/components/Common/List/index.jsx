@@ -42,7 +42,7 @@ function List({
         title: 'Сумма',
         dataIndex: 'amount',
         key: 'amount',
-        className: styles.amountCol,
+        className: type === 'costs' ? styles.amountCostCol : styles.amountCol,
         width: '100px',
       },
       {

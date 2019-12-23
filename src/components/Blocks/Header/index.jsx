@@ -1,5 +1,5 @@
 import { Layout, Avatar, DatePicker, Row, Col } from "antd";
-import React from "react"
+import React, { useState, useEffect } from "react"
 import moment from 'moment'
 
 import "./styles.sass";
@@ -10,24 +10,21 @@ const { RangePicker } = DatePicker;
 
 const { Header } = Layout;
 
-export default function HeaderBlock() {
+export default function HeaderBlock({
+  handleChange,
+  dates
+}) {
+
   return (
     <Header id="header">
-      {/* <span className="header-trigger">
-        <Icon
-          style={{ fontSize: "20px" }}
-          type={collapsed ? "menu-unfold" : "menu-fold"}
-          onClick={toggle}
-        />
-      </span> */}
       <Row>
         <Col offset={1} span={15}>
             <RangePicker
-              defaultValue={[moment('22.12.2019', 'DD.MM.YYYY'), moment('25.12.2019', 'DD.MM.YYYY')]}
-              defaultPickerValue={[moment('22.12.2019', 'DD.MM.YYYY'), moment('25.12.2019', 'DD.MM.YYYY')]}
+              defaultValue={dates}
+              defaultPickerValue={dates}
               size="large"
               format="DD.MM.YYYY"
-              onCalendarChange={dates => console.log(dates)}
+              onCalendarChange={dates => handleChange(dates)}
             />
         </Col>
         <Col offset={7} span={1}>
