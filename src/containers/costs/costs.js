@@ -66,6 +66,7 @@ export const reducer = ( state = new initialState(), action) => {
     case ADD_COST_SUCCESS: {
       return {
         ...state,
+        list: payload,
         isFetching: true,
         isSubmit: true
       }
@@ -119,18 +120,15 @@ export const addCostSaga = function* (action) {
     Schema.validate(action.payload)
     const data = yield call([API, API.addCost], action.payload)
     yield put({
-      type: ADD_COST_SUCCESS
-    })
-    yield put({
-      type: FETCH_COSTS_SUCCESS,
-      payload: data
+      type: ADD_COST_SUCCESS,
+      payload: data,
     })
     yield put({
       type: COMPUTED_ACCOUNTS_BALANCE,
     })
    } catch(error) {
     yield put({
-      type: ADD_COST_ERROR
+      type: ADD_COST_ERROR,
     })
    }
 }

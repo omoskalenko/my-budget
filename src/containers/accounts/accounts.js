@@ -1,8 +1,10 @@
-import API from '../../API';
+import API from '../../API'
 import { Record } from 'immutable'
 import { take, spawn, call, put, select } from  'redux-saga/effects'
 import { createSelector } from 'reselect'
-import { getCosts } from '../costs/costs';
+import { getCosts } from '../costs/costs'
+import { getIncomes } from '../incomes/incomes'
+import { getBalance } from '../../utils/index'
 
 /** Constants */
 
@@ -94,6 +96,18 @@ export const computedBalanceSaga = function* () {
   while(yield take(COMPUTED_ACCOUNTS_BALANCE)) {
     const accounts = yield select(state => getAccounts(state))
     const costs = yield select(state => getCosts(state))
+    const incomes = yield select(state => getIncomes(state))
+
+    const payload = accounts.map(account => {
+      account.balance = getBalance(account.id, incomes, costs)
+      return account
+    })
+
+    yield put({
+      type: FETCH_ACCOUNTS_SUCCESS,
+      payload
+    })
+
 
   }
 }

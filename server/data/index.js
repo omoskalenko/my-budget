@@ -153,24 +153,24 @@ module.exports = {
         category: 0,
         planAvailableDay: "7",
         amount: 100000.0,
-        committed: "07.12.2019",
+        committed: '2019-12-07T19:41:05.221Z',
         member: 0,
         account: 0
       },
       11: {
         id: 11,
-        category: 6,
         title: "Подарок",
+        category: 2,
         amount: 10000.0,
-        committed: "19.12.2019",
+        committed: '2019-12-19T19:41:05.221Z',
         member: 0,
         account: 0
       },
       1: {
         id: 1,
         title: "Аванс",
-        category: 0,
-        committed: "23.12.2019",
+        category: 1,
+        committed: '2019-12-23T19:41:05.221Z',
         amount: 50000.0,
         member: 0,
         account: 0
@@ -178,9 +178,9 @@ module.exports = {
       2: {
         id: 2,
         title: "Перевод",
-        category: 7,
+        category: 10,
         amount: 500,
-        committed: "10.11.2019",
+        committed: '2019-12-10T19:41:05.221Z',
         account: 10,
         from: 0
       }

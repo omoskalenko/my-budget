@@ -14,9 +14,13 @@ export function normalize(object) {
 * @returns {@number} - сумма транзакций
 */
 export function getAmountByIdAccount(account, transactions) {
-  return (normalize(transactions)
-    .filter(transaction => transaction.account === +account)
-    .reduce((res, transaction) => res + transaction.amount, 0))
+
+  let normalizeTransactions = null
+  normalizeTransactions = !transactions.length ? transactions : normalize(transactions)
+
+  return (normalizeTransactions
+    .filter(transaction => String(transaction.account.id) === String(account))
+    .reduce((res, transaction) => res + +transaction.amount, 0))
 }
 
   /**
@@ -26,7 +30,7 @@ export function getAmountByIdAccount(account, transactions) {
   * @param {object} - income - Коллекция транзакции доходов
   * @returns {number} - сумму зачислений за все время
   */
- export const getIncoming = (accountId, income) => {
+ export const getIncomingAmount = (accountId, income) => {
   // return  getAmountByIdsTransactions(accounts[accountId].transactions.income, income)
   return getAmountByIdAccount(accountId, income)
 }
@@ -38,13 +42,15 @@ export function getAmountByIdAccount(account, transactions) {
 * @param {object} - costs - Коллекция транзакции расходов
 * @returns {@number} - сумму зачислений за все время
 */
-export const getCoasts = (accountId, costs) => {
+export const getCoastsAmount = (accountId, costs) => {
   // return getAmountByIdsTransactions(accounts[accountId].transactions.costs, costs)
   return getAmountByIdAccount(accountId, costs)
 }
 
 
 // Получить баланс счета по id счета
-export const getBalance = (accountId, income, costs) => {
-  return getIncoming(accountId, income) - getCoasts(accountId, costs)
+export const getBalance = (accountId, incomes, costs) => {
+  console.log(getIncomingAmount(accountId, incomes), getCoastsAmount(accountId, costs));
+
+  return getIncomingAmount(accountId, incomes) - getCoastsAmount(accountId, costs)
 }

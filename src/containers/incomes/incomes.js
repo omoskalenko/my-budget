@@ -66,6 +66,7 @@ export const reducer = ( state = new initialState(), action) => {
     case ADD_INCOME_SUCCESS: {
       return {
         ...state,
+        list: payload,
         isFetching: true,
         isSubmit: true
       }
@@ -119,10 +120,7 @@ export const addIncomeSaga = function* (action) {
     Schema.validate(action.payload)
     const data = yield call([API, API.addIncome], action.payload)
     yield put({
-      type: ADD_INCOME_SUCCESS
-    })
-    yield put({
-      type: FETCH_INCOMES_SUCCESS,
+      type: ADD_INCOME_SUCCESS,
       payload: data
     })
     yield put({
@@ -136,7 +134,6 @@ export const addIncomeSaga = function* (action) {
 }
 
 export const saga = function* () {
-
   yield spawn(fetchIncomesSaga)
   yield takeEvery(ADD_INCOME_REQUEST, addIncomeSaga)
 
