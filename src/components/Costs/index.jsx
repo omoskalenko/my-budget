@@ -18,10 +18,12 @@ function Costs({
 
   return (
     <Card
+      className="costs"
       loading={isFetching}
       title="Расходы"
       extra={
         <AddForm
+          className="cost"
           isSubmit={isSubmit}
           categories={categories}
           accounts={accounts}
@@ -32,7 +34,7 @@ function Costs({
       }
       className={styles.costs}
     >
-      <List isFetching={isFetching} items={costs} categories={categories} />
+      <List isFetching={isFetching} items={costs} categories={categories}  type="cost"/>
     </Card>
   )
 }

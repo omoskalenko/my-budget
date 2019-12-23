@@ -8,7 +8,7 @@ import Main from './pages/Main'
 
 import { fetchDirectories, moduleName } from './containers/directores'
 
-import './styles.sass'
+import './styles/styles.sass'
 
 function App({
   fetchDirectories,

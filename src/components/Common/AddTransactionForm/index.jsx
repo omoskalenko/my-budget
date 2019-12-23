@@ -15,9 +15,10 @@ function AddTransactionForm({
   form,
   isSubmit,
   type,
+  className,
 }) {
   const [show, setShow] = useState(false)
-  const [category, setCategory] = useState(null)
+
   const { getFieldDecorator } = form
 
   const types = {
@@ -26,27 +27,27 @@ function AddTransactionForm({
       name: {
         label: '',
         message: '',
-        placeholder: '',
+        placeholder: 'Комментарий',
       },
       account: {
-        label: '',
-        message: '',
-        placeholder: '',
+        label: 'Счет',
+        message: 'Выберите счет зачисления!',
+        placeholder: 'Счет',
       },
       amount: {
         label: '',
-        message: '',
-        placeholder: '',
+        message: 'Введите сумму дохода!',
+        placeholder: 'Сумма',
       },
       committed: {
         label: '',
-        message: '',
+        message: 'Выберите дату!',
         placeholder: '',
       },
       category: {
         label: '',
-        message: '',
-        placeholder: '',
+        message: 'Выберите категорию!',
+        placeholder: 'Категория',
       },
     },
     cost: {
@@ -54,27 +55,27 @@ function AddTransactionForm({
       name: {
         label: '',
         message: '',
-        placeholder: '',
+        placeholder: 'На что совершен расход?',
       },
       account: {
-        label: '',
-        message: '',
-        placeholder: '',
+        label: 'Счет',
+        message: 'Выберите счет списания!',
+        placeholder: 'Счет',
       },
       amount: {
         label: '',
-        message: '',
-        placeholder: '',
+        message: 'Введите сумму расхода!',
+        placeholder: 'Сумма',
       },
       committed: {
         label: '',
-        message: '',
+        message: 'Выберите дату!',
         placeholder: '',
       },
       category: {
         label: '',
-        message: '',
-        placeholder: '',
+        message: 'Выберите категорию!',
+        placeholder: 'Категория',
       },
     }
   }
@@ -86,15 +87,12 @@ function AddTransactionForm({
   }, [isSubmit])
 
 
-  const handleSelectChange = value => {
-    setCategory(value)
-  }
-
   const handleSubmit = (e) => {
     e.preventDefault()
     form.validateFields((err, values) => {
       if (!err) {
         handleAdd({ ...values })
+        console.log(form);
       }
     })
 
@@ -115,19 +113,24 @@ function AddTransactionForm({
     <div>
       <Button type="primary" shape="circle" icon="plus" onClick={() => setShow(true)} />
       <Modal
+        className={className}
         title={types[type].title}
         visible={show}
         onOk={handleSubmit}
         confirmLoading={isFetching}
         onCancel={() => setShow(false)}
       >
-        <Form labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit}>
         <Form.Item label={types[type].account.label}>
             {getFieldDecorator('account', {
               rules: [{ required: true, message: types[type].account.message }],
               initialValue: "0",
             })(<Select
               placeholder={types[type].account.placeholder}
+              size="large"
+              style={{
+                width: '100%'
+              }}
             >
               {renderAccounts()}
             </Select>)}
@@ -137,26 +140,26 @@ function AddTransactionForm({
               rules: [{ required: true, message: types[type].category.message }],
             })(<Select
               placeholder={types[type].category.placeholder}
-              // onChange={handleSelectChange}
+              size="large"
             >
               {renderCategories()}
             </Select>)}
           </Form.Item>
           <Form.Item label={types[type].name.label}>
             {getFieldDecorator('name', {
-              rules: [{ required: true, message: types[type].name.message, type: 'string' }],
-            })(<Input placeholder={types[type].name.placeholder} />)}
+              rules: [{ required: type === 'cost', message: types[type].name.message, type: 'string' }],
+            })(<Input size="large" placeholder={types[type].name.placeholder} />)}
           </Form.Item>
           <Form.Item label={types[type].amount.label}>
             {getFieldDecorator('amount', {
               rules: [{ required: true, message: types[type].amount.message, type: 'string' }],
-            })(<Input suffix={<img src={Rub} width="10" alt="Рубль"/>} />)}
+            })(<Input size="large" suffix={<img src={Rub} width="14" alt="Рубль" />} placeholder={types[type].amount.placeholder} />)}
           </Form.Item>
           <Form.Item label={types[type].committed.label}>
             {getFieldDecorator('committed', {
               rules: [{ required: true, message: types[type].committed.message, type: 'object' }],
               initialValue: moment(),
-            })(<DatePicker format="DD.MM.YYYY" />)}
+            })(<DatePicker size="large" format="DD.MM.YYYY" />)}
           </Form.Item>
         </Form>
       </Modal>

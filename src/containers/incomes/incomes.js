@@ -67,7 +67,7 @@ export const reducer = ( state = new initialState(), action) => {
       return {
         ...state,
         list: payload,
-        isFetching: true,
+        isFetching: false,
         isSubmit: true
       }
     }

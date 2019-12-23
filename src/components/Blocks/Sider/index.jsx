@@ -16,7 +16,10 @@ export default function SiderBlock() {
 
   return (
     <Sider id="side" onCollapse={toggle} collapsible collapsed={collapsed}>
-    <div className="logo" ></div>
+    <div className="logo" >
+    <Icon type="wallet" size="large"/><span>My Budget</span>
+    </div>
+    
     <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
       <Menu.Item key="1">
         <Icon type="pie-chart" />

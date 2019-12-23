@@ -15,10 +15,12 @@ function Incomes({
 }) {
   return (
     <Card
+      className="incomes"
       loading={isFetching}
       title="Доходы"
       extra={
         <AddTransactionForm
+          className="income"
           isSubmit={isSubmit}
           categories={categories}
           accounts={accounts}
@@ -29,7 +31,7 @@ function Incomes({
       }
       className={styles.incomes}
     >
-      <List isFetching={isFetching} items={incomes} categories={categories} />
+      <List isFetching={isFetching} items={incomes} categories={categories} type="income"/>
     </Card>
   )
 }

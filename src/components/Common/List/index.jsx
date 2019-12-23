@@ -8,6 +8,7 @@ function List({
   isFetching,
   items,
   categories,
+  type,
 }) {
 
   const renderItems = (id) => {
@@ -21,7 +22,7 @@ function List({
         name,
         amount,
       }))
-    const columns = [
+    let columns = [
       {
         title: 'Дата',
         dataIndex: 'committed',
@@ -38,12 +39,12 @@ function List({
         key: 'amount',
       },
     ]
-    return <Table size="small" dataSource={dataSource} columns={columns} />;
+    if(type !== 'cost') columns = columns.filter(column => column.dataIndex !== 'name')
+    return <Table loading={isFetching} size="small" dataSource={dataSource} columns={columns} />;
   }
 
   const renderCategories = () => {
     if (items.length === 0) return <Empty />
-    
     return categories.map(category => {
       const catigoryItems = items.filter(item => String(category.id) === String(item.category.id))
       if (catigoryItems.length === 0) return null 
