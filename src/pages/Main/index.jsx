@@ -1,5 +1,5 @@
 import React from "react";
-import HeaderBlock from "../../components/Blocks/Header";
+import HeaderBlock from "../../containers/parameters/HeaderContainer";
 import Accounts from "../../containers/accounts/AccountsContainer";
 import Costs from "../../containers/costs/CostsContainer";
 import Incomes from "../../containers/incomes/IncomesContainer";

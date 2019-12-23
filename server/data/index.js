@@ -123,6 +123,24 @@ module.exports = {
         account: 0,
         plan: 0 //Относится к запланированному
       },
+      1: {
+        id: 1,
+        category: 3,
+        name: "Не бензин",
+        amount: 7.0,
+        committed: '2019-12-05T19:41:05.221Z',
+        account: 0,
+        plan: 0 //Относится к запланированному
+      },
+      2: {
+        id: 2,
+        category: 3,
+        name: "Паравоз",
+        amount: 25000.0,
+        committed: '2019-11-25T19:41:05.221Z',
+        account: 0,
+        plan: 0 //Относится к запланированному
+      },
     }
   },
   incomes: {

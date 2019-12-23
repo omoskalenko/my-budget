@@ -2,9 +2,10 @@ import API from '../../API';
 import { Record } from 'immutable'
 import * as yup from 'yup'
 import moment from 'moment'
-import { take, spawn, call, put, takeEvery } from  'redux-saga/effects'
+import { take, spawn, call, put, takeEvery } from 'redux-saga/effects'
 import { createSelector } from 'reselect'
 import { COMPUTED_ACCOUNTS_BALANCE } from '../accounts'
+import { getPeriod } from '../parameters'
 /** Constants */
 
 export const moduleName = 'costs'
@@ -41,7 +42,7 @@ const initialState = Record({
 
 /** Reducer */
 
-export const reducer = ( state = new initialState(), action) => {
+export const reducer = (state = new initialState(), action) => {
   const { type, payload } = action
   switch (type) {
     case FETCH_COSTS_SUCCESS: {
@@ -100,30 +101,40 @@ export const stateSelector = state => state[moduleName]
 export const costs = createSelector(stateSelector, state => state.list)
 
 export const getCosts = createSelector(
-  [costs],
-  costs => costs.map(cost => {
-    cost.committed = moment(cost.committed).format('DD.MM.YYYY')
-    return cost
-  } )
+  [costs, getPeriod],
+  (costs, getPeriod) => {
+    if (getPeriod.length < 2) return costs.map(cost => {
+      cost.displayDate = moment(cost.committed).format('DD.MM.YYYY')
+      return cost
+    })
+
+    return costs
+    .filter(cost => {
+      return moment(cost.committed).isBetween(getPeriod[0], getPeriod[1], 'day', [])
+    }).map(cost => {
+      cost.displayDate = moment(cost.committed).format('DD.MM.YYYY')
+      return cost
+    })
+  }
 )
 
 
 /** Actions Creators */
 
-export const fetchCosts = () =>  ({ type: FETCH_COSTS_REQUEST })
-export const addCost = (cost) =>  ({ type: ADD_COST_REQUEST, payload: cost })
-export const deleteCost = (id) =>  ({ type: DELETE_COST_REQUEST, payload: id })
+export const fetchCosts = () => ({ type: FETCH_COSTS_REQUEST })
+export const addCost = (cost) => ({ type: ADD_COST_REQUEST, payload: cost })
+export const deleteCost = (id) => ({ type: DELETE_COST_REQUEST, payload: id })
 /** Sagas */
 
 export const fetchCostsSaga = function* () {
-  while(yield take(FETCH_COSTS_REQUEST)) {
+  while (yield take(FETCH_COSTS_REQUEST)) {
     try {
       const payload = yield call([API, API.fetchCosts])
       yield put({
         type: FETCH_COSTS_SUCCESS,
         payload
       })
-    } catch(error) {
+    } catch (error) {
       yield put({
         type: FETCH_COSTS_ERROR,
         error
@@ -133,7 +144,7 @@ export const fetchCostsSaga = function* () {
 }
 
 export const addCostSaga = function* (action) {
-   try {
+  try {
     Schema.validate(action.payload)
     const data = yield call([API, API.addCost], action.payload)
     console.log(data);
@@ -145,27 +156,27 @@ export const addCostSaga = function* (action) {
     yield put({
       type: COMPUTED_ACCOUNTS_BALANCE,
     })
-   } catch(error) {
+  } catch (error) {
     yield put({
       type: ADD_COST_ERROR,
     })
-   }
+  }
 }
 
 export const deleteCostSaga = function* (action) {
   try {
-   const data = yield call([API, API.deleteCost], action.payload)
-   yield put({
-     type: DELETE_COST_SUCCESS,
-     payload: data,
-   })
-   yield put({
-     type: COMPUTED_ACCOUNTS_BALANCE,
-   })
-  } catch(error) {
-   yield put({
-     type: DELETE_COST_ERROR,
-   })
+    const data = yield call([API, API.deleteCost], action.payload)
+    yield put({
+      type: DELETE_COST_SUCCESS,
+      payload: data,
+    })
+    yield put({
+      type: COMPUTED_ACCOUNTS_BALANCE,
+    })
+  } catch (error) {
+    yield put({
+      type: DELETE_COST_ERROR,
+    })
   }
 }
 

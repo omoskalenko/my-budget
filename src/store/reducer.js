@@ -4,13 +4,15 @@ import { reducer as accountsReducer, moduleName as accountsModule } from '../con
 import { reducer as costsReducer, moduleName as costsModule } from '../containers/costs'
 import { reducer as incomesReducer, moduleName as incomesModule } from '../containers/incomes'
 import { reducer as directoriesReducer, moduleName as directoriesModule } from '../containers/directores'
+import { reducer as parametersReducer, moduleName as  parametersModule } from '../containers/parameters'
 
 const  createRootReducer = history => combineReducers({
   router: connectRouter(history),
   [accountsModule]: accountsReducer,
   [costsModule]: costsReducer,
   [incomesModule]: incomesReducer,
-  [directoriesModule]: directoriesReducer
+  [directoriesModule]: directoriesReducer,
+  [parametersModule]: parametersReducer,
 })
 
 export default createRootReducer

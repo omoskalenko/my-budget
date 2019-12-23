@@ -21,10 +21,10 @@ export default function HeaderBlock({
         <Col offset={1} span={15}>
             <RangePicker
               defaultValue={dates}
-              defaultPickerValue={dates}
+              // defaultPickerValue={dates}
               size="large"
               format="DD.MM.YYYY"
-              onCalendarChange={dates => handleChange(dates)}
+              onCalendarChange={handleChange}
             />
         </Col>
         <Col offset={7} span={1}>

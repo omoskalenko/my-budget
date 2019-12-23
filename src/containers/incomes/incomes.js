@@ -5,13 +5,14 @@ import moment from 'moment'
 import { take, spawn, call, put, takeEvery } from  'redux-saga/effects'
 import { createSelector } from 'reselect'
 import { COMPUTED_ACCOUNTS_BALANCE } from '../accounts'
+import { getPeriod } from '../parameters'
 /** Constants */
 
 export const moduleName = 'incomes'
 
 const Schema = yup.object().shape({
   category: yup.string().required(),
-  name: yup.string().required(),
+  name: yup.string(),
   amount: yup.number().required(),
   committed: yup.date().required(),
   account: yup.string().required(),
@@ -100,11 +101,21 @@ export const stateSelector = state => state[moduleName]
 export const incomes = createSelector(stateSelector, state => state.list)
 
 export const getIncomes = createSelector(
-  [incomes],
-  incomes => incomes.map(cost => {
-    cost.committed = moment(cost.committed).format('DD.MM.YYYY')
-    return cost
-  } )
+  [incomes, getPeriod],
+  (incomes, getPeriod)=> {
+    if (getPeriod.length < 2) return incomes.map(income => {
+      income.displayDate = moment(income.committed).format('DD.MM.YYYY')
+      return income
+    })
+
+    return incomes
+    .filter(income => {
+      return moment(income.committed).isBetween(getPeriod[0], getPeriod[1], 'day', [])
+    }).map(income => {
+      income.displayDate = moment(income.committed).format('DD.MM.YYYY')
+      return income
+    })
+  }
 )
 
 
