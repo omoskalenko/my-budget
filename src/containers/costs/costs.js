@@ -25,6 +25,7 @@ export const FETCH_COSTS_SUCCESS = `${moduleName}/FETCH_COSTS_SUCCESS`
 export const FETCH_COSTS_ERROR = `${moduleName}/FETCH_COSTS_ERROR`
 export const ADD_COST_REQUEST = `${moduleName}/ADD_COST_REQUEST`
 export const ADD_COST_SUCCESS = `${moduleName}/ADD_COST_SUCCESS`
+export const ADD_COST_ERROR = `${moduleName}/ADD_COST_ERROR`
 
 /** Initial State */
 
@@ -128,15 +129,15 @@ export const addCostSaga = function* (action) {
       type: COMPUTED_ACCOUNTS_BALANCE,
     })
    } catch(error) {
-
+    yield put({
+      type: ADD_COST_ERROR
+    })
    }
 }
 
 export const saga = function* () {
-
   yield spawn(fetchCostsSaga)
   yield takeEvery(ADD_COST_REQUEST, addCostSaga)
-
 }
 
 

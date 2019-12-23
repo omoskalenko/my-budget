@@ -36,7 +36,7 @@ export async function fetchIncomes() {
   }
 }
 
-export async function addIncomes(cost) {
+export async function addIncome(cost) {
   try {
     const response = await axios.post('/api/incomes/add', cost)
     return response.data.incomes
@@ -61,6 +61,6 @@ export default {
   fetchCosts,
   addCost,
   fetchIncomes,
-  addIncomes,
+  addIncome,
   fetchDirectories,
 }

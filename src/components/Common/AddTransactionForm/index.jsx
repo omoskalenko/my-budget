@@ -7,17 +7,77 @@ import Rub from '../../../images/rub.svg'
 
 const { Option } = Select;
 
-function AddForm({
+function AddTransactionForm({
   isFetching,
   handleAdd,
   categories,
   accounts,
   form,
   isSubmit,
+  type,
 }) {
   const [show, setShow] = useState(false)
   const [category, setCategory] = useState(null)
   const { getFieldDecorator } = form
+
+  const types = {
+    income: {
+      title: 'Добавить доход',
+      name: {
+        label: '',
+        message: '',
+        placeholder: '',
+      },
+      account: {
+        label: '',
+        message: '',
+        placeholder: '',
+      },
+      amount: {
+        label: '',
+        message: '',
+        placeholder: '',
+      },
+      committed: {
+        label: '',
+        message: '',
+        placeholder: '',
+      },
+      category: {
+        label: '',
+        message: '',
+        placeholder: '',
+      },
+    },
+    cost: {
+      title: 'Добавить расход',
+      name: {
+        label: '',
+        message: '',
+        placeholder: '',
+      },
+      account: {
+        label: '',
+        message: '',
+        placeholder: '',
+      },
+      amount: {
+        label: '',
+        message: '',
+        placeholder: '',
+      },
+      committed: {
+        label: '',
+        message: '',
+        placeholder: '',
+      },
+      category: {
+        label: '',
+        message: '',
+        placeholder: '',
+      },
+    }
+  }
 
   useEffect(() => {
     if (isSubmit) {
@@ -34,7 +94,7 @@ function AddForm({
     e.preventDefault()
     form.validateFields((err, values) => {
       if (!err) {
-        handleAdd({ category, ...values })
+        handleAdd({ ...values })
       }
     })
 
@@ -55,46 +115,46 @@ function AddForm({
     <div>
       <Button type="primary" shape="circle" icon="plus" onClick={() => setShow(true)} />
       <Modal
-        title="Добавить расход"
+        title={types[type].title}
         visible={show}
         onOk={handleSubmit}
         confirmLoading={isFetching}
         onCancel={() => setShow(false)}
       >
         <Form labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} onSubmit={handleSubmit}>
-        <Form.Item label="Счет списания">
+        <Form.Item label={types[type].account.label}>
             {getFieldDecorator('account', {
-              rules: [{ required: true, message: 'Выберите счет списания!' }],
+              rules: [{ required: true, message: types[type].account.message }],
               initialValue: "0",
             })(<Select
-              placeholder="Выберите счет списания"
+              placeholder={types[type].account.placeholder}
             >
               {renderAccounts()}
             </Select>)}
           </Form.Item>
-          <Form.Item label="Категория">
+          <Form.Item label={types[type].category.label}>
             {getFieldDecorator('category', {
-              rules: [{ required: true, message: 'Выберите категорию' }],
+              rules: [{ required: true, message: types[type].category.message }],
             })(<Select
-              placeholder="Выберите категорию"
-              onChange={handleSelectChange}
+              placeholder={types[type].category.placeholder}
+              // onChange={handleSelectChange}
             >
               {renderCategories()}
             </Select>)}
           </Form.Item>
-          <Form.Item label="Расход">
+          <Form.Item label={types[type].name.label}>
             {getFieldDecorator('name', {
-              rules: [{ required: true, message: 'Введите имя расхода', type: 'string' }],
-            })(<Input placeholder="Наименование" />)}
+              rules: [{ required: true, message: types[type].name.message, type: 'string' }],
+            })(<Input placeholder={types[type].name.placeholder} />)}
           </Form.Item>
-          <Form.Item label="Сумма">
+          <Form.Item label={types[type].amount.label}>
             {getFieldDecorator('amount', {
-              rules: [{ required: true, message: 'Введите сумму расхода!', type: 'string' }],
+              rules: [{ required: true, message: types[type].amount.message, type: 'string' }],
             })(<Input suffix={<img src={Rub} width="10" alt="Рубль"/>} />)}
           </Form.Item>
-          <Form.Item label="Дата">
+          <Form.Item label={types[type].committed.label}>
             {getFieldDecorator('committed', {
-              rules: [{ required: true, message: 'ВЫберите дату!', type: 'object' }],
+              rules: [{ required: true, message: types[type].committed.message, type: 'object' }],
               initialValue: moment(),
             })(<DatePicker format="DD.MM.YYYY" />)}
           </Form.Item>
@@ -104,7 +164,7 @@ function AddForm({
   )
 }
 
-export default Form.create({ name: moduleName })(AddForm)
+export default Form.create({ name: moduleName })(AddTransactionForm)
 
 // withFormik({
 //   mapPropsToValues: () => ({}),

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card } from 'antd'
-import AddForm from '../Common/AddForm'
+import AddForm from '../Common/AddTransactionForm'
 
 import styles from './costs.module.sass'
 import List from '../Common/List'
@@ -25,8 +25,9 @@ function Costs({
           isSubmit={isSubmit}
           categories={categories}
           accounts={accounts}
-          addCost={addCost}
+          handleAdd={addCost}
           isFetching={isFetching}
+          type="cost"
         />
       }
       className={styles.costs}

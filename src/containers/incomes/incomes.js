@@ -25,6 +25,7 @@ export const FETCH_INCOMES_SUCCESS = `${moduleName}/FETCH_INCOMES_SUCCESS`
 export const FETCH_INCOMES_ERROR = `${moduleName}/FETCH_INCOMES_ERROR`
 export const ADD_INCOME_REQUEST = `${moduleName}/ADD_INCOME_REQUEST`
 export const ADD_INCOME_SUCCESS = `${moduleName}/ADD_INCOME_SUCCESS`
+export const ADD_INCOME_ERROR = `${moduleName}/ADD_INCOME_ERROR`
 
 /** Initial State */
 
@@ -128,7 +129,9 @@ export const addIncomeSaga = function* (action) {
       type: COMPUTED_ACCOUNTS_BALANCE,
     })
    } catch(error) {
-
+    yield put({
+      type: ADD_INCOME_ERROR
+    })
    }
 }
 

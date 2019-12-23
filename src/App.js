@@ -16,7 +16,7 @@ function App({
 }) {
   useEffect(() => {
     fetchDirectories()
-  })
+  }, [fetchDirectories])
 
   if (isFetching) return <h1>Загрузка...</h1>
 

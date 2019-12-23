@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card } from 'antd'
-import AddForm from '../Common/AddForm'
+import AddTransactionForm from '../Common/AddTransactionForm'
 
 import styles from './incomes.module.sass'
 import List from '../Common/List'
@@ -18,12 +18,13 @@ function Incomes({
       loading={isFetching}
       title="Доходы"
       extra={
-        <AddForm
+        <AddTransactionForm
           isSubmit={isSubmit}
           categories={categories}
           accounts={accounts}
-          addIncome={addIncome}
+          handleAdd={addIncome}
           isFetching={isFetching}
+          type="income"
         />
       }
       className={styles.incomes}
