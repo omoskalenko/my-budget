@@ -30,8 +30,8 @@ export default function HeaderBlock({ handleChange, dates }) {
       <Row>
         <Col offset={1} span={8}>
           <RangePicker
-            defaultValue={dates}
-            // defaultPickerValue={dates}
+            value={dates}
+            allowClear={false}
             size="large"
             format="DD.MM.YYYY"
             onCalendarChange={handleChange}
@@ -40,7 +40,7 @@ export default function HeaderBlock({ handleChange, dates }) {
         </Col>
         <Col span={8}>
         <div style={{ marginLeft: '20px' }}>
-            <Radio.Group onChange={onChange} defaultValue={periods[period]}>
+            <Radio.Group onChange={onChange} defaultValue={period}>
               <Radio.Button value={'day'}>День</Radio.Button>
               <Radio.Button value={'month'}>Месяц</Radio.Button>
               <Radio.Button value={'years'}>Год</Radio.Button>
