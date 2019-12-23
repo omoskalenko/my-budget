@@ -50,7 +50,5 @@ export const getCoastsAmount = (accountId, costs) => {
 
 // Получить баланс счета по id счета
 export const getBalance = (accountId, incomes, costs) => {
-  console.log(getIncomingAmount(accountId, incomes), getCoastsAmount(accountId, costs));
-
   return getIncomingAmount(accountId, incomes) - getCoastsAmount(accountId, costs)
 }

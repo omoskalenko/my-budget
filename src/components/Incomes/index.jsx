@@ -2,12 +2,12 @@ import React from 'react'
 import { Card } from 'antd'
 import AddTransactionForm from '../Common/AddTransactionForm'
 
-import styles from './incomes.module.sass'
 import List from '../Common/List'
 
 function Incomes({
   isFetching,
   addIncome,
+  deleteIncome,
   incomes,
   categories,
   accounts,
@@ -16,6 +16,7 @@ function Incomes({
   return (
     <Card
       className="incomes"
+      size="small"
       loading={isFetching}
       title="Доходы"
       extra={
@@ -29,9 +30,8 @@ function Incomes({
           type="income"
         />
       }
-      className={styles.incomes}
     >
-      <List isFetching={isFetching} items={incomes} categories={categories} type="income"/>
+      <List isFetching={isFetching} handleDelete={deleteIncome} items={incomes} categories={categories} type="income"/>
     </Card>
   )
 }

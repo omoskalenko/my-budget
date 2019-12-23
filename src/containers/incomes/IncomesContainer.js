@@ -4,7 +4,7 @@ import withError from '../../HOC/withError'
 import Incomes from '../../components/Incomes'
 import { connect } from 'react-redux'
 
-import { fetchIncomes, addIncome, getIncomes, moduleName } from './incomes'
+import { fetchIncomes, addIncome, deleteIncome, getIncomes, moduleName } from './incomes'
 import { getIncomeCategories } from '../directores'
 import { getAccounts } from '../accounts'
 
@@ -12,6 +12,7 @@ function IncomesContainer({
   isFetching,
   fetchIncomes,
   addIncome,
+  deleteIncome,
   incomes,
   categories,
   accounts,
@@ -24,6 +25,7 @@ function IncomesContainer({
     <Incomes
       isFetching={isFetching}
       addIncome={addIncome}
+      deleteIncome={deleteIncome}
       incomes={incomes}
       categories={categories}
       accounts={accounts}
@@ -42,7 +44,8 @@ export default compose(
     }),
     dispatch => ({
       fetchIncomes: () => dispatch(fetchIncomes()),
-      addIncome: income => dispatch(addIncome(income))
+      addIncome: income => dispatch(addIncome(income)),
+      deleteIncome: id => dispatch(deleteIncome(id)),
     })
   ),
    withError,

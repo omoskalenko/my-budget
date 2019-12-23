@@ -26,7 +26,9 @@ export const FETCH_COSTS_ERROR = `${moduleName}/FETCH_COSTS_ERROR`
 export const ADD_COST_REQUEST = `${moduleName}/ADD_COST_REQUEST`
 export const ADD_COST_SUCCESS = `${moduleName}/ADD_COST_SUCCESS`
 export const ADD_COST_ERROR = `${moduleName}/ADD_COST_ERROR`
-
+export const DELETE_COST_REQUEST = `${moduleName}/DELETE_COST_REQUEST`
+export const DELETE_COST_SUCCESS = `${moduleName}/DELETE_COST_SUCCESS`
+export const DELETE_COST_ERROR = `${moduleName}/DELETE_COST_ERROR`
 /** Initial State */
 
 
@@ -49,6 +51,8 @@ export const reducer = ( state = new initialState(), action) => {
         isFetching: false
       }
     }
+    case DELETE_COST_ERROR:
+    case ADD_COST_ERROR:
     case FETCH_COSTS_ERROR: {
       return {
         ...state,
@@ -67,8 +71,21 @@ export const reducer = ( state = new initialState(), action) => {
       return {
         ...state,
         list: payload,
-        isFetching: true,
+        isFetching: false,
         isSubmit: true
+      }
+    }
+    case DELETE_COST_REQUEST: {
+      return {
+        ...state,
+        isFetching: true,
+      }
+    }
+    case DELETE_COST_SUCCESS: {
+      return {
+        ...state,
+        list: payload,
+        isFetching: false,
       }
     }
     default:
@@ -95,7 +112,7 @@ export const getCosts = createSelector(
 
 export const fetchCosts = () =>  ({ type: FETCH_COSTS_REQUEST })
 export const addCost = (cost) =>  ({ type: ADD_COST_REQUEST, payload: cost })
-
+export const deleteCost = (id) =>  ({ type: DELETE_COST_REQUEST, payload: id })
 /** Sagas */
 
 export const fetchCostsSaga = function* () {
@@ -119,6 +136,8 @@ export const addCostSaga = function* (action) {
    try {
     Schema.validate(action.payload)
     const data = yield call([API, API.addCost], action.payload)
+    console.log(data);
+
     yield put({
       type: ADD_COST_SUCCESS,
       payload: data,
@@ -133,9 +152,27 @@ export const addCostSaga = function* (action) {
    }
 }
 
+export const deleteCostSaga = function* (action) {
+  try {
+   const data = yield call([API, API.deleteCost], action.payload)
+   yield put({
+     type: DELETE_COST_SUCCESS,
+     payload: data,
+   })
+   yield put({
+     type: COMPUTED_ACCOUNTS_BALANCE,
+   })
+  } catch(error) {
+   yield put({
+     type: DELETE_COST_ERROR,
+   })
+  }
+}
+
 export const saga = function* () {
   yield spawn(fetchCostsSaga)
   yield takeEvery(ADD_COST_REQUEST, addCostSaga)
+  yield takeEvery(DELETE_COST_REQUEST, deleteCostSaga)
 }
 
 

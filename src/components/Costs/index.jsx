@@ -8,17 +8,16 @@ import List from '../Common/List'
 function Costs({
   isFetching,
   addCost,
+  deleteCost,
   costs,
   categories,
   accounts,
-  isSubmit
+  isSubmit,
 }) {
-
- 
-
   return (
     <Card
       className="costs"
+      size="small"
       loading={isFetching}
       title="Расходы"
       extra={
@@ -32,9 +31,8 @@ function Costs({
           type="cost"
         />
       }
-      className={styles.costs}
     >
-      <List isFetching={isFetching} items={costs} categories={categories}  type="cost"/>
+      <List isFetching={isFetching} handleDelete={deleteCost} items={costs} categories={categories}  type="cost"/>
     </Card>
   )
 }

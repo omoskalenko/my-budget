@@ -24,6 +24,22 @@ const withCategory = (data, list) => {
   })
 }
 
+const addItem = (item, type) => {
+  try {
+    const id = Date.now()
+    data[type].committed[id] = item
+    return { status: 'ok', [type]: withCategory(data, type) }
+  } catch(err) {
+    return { status: 'error', message: err }
+  }
+}
+
+const deleteItem = (id, type) => {
+  if(!data[type].committed[id]) return { status: 'error', message: 'Запись не найдена' }
+  delete data[type].committed[id]
+  return { status: 'ok', [type]: withCategory(data, type) }
+}
+
 router.get('/directories', (req, res, next) => {
   const categories = {
     costs: normalize(data.categories.costs),
@@ -53,9 +69,13 @@ router.get('/costs/committed', (req, res, next) => {
 })
 
 router.post('/costs/add', (req, res) => {
-   const id = Date.now()
-  data.costs.committed[id] = req.body
-  reply(res, { status: 'ok', cost: withCategory(data, 'costs') })
+  const data = addItem(req.body, 'costs')
+  reply(res, data)
+})
+
+router.post('/costs/delete/', (req, res) => {
+  const data = deleteItem(req.body.id, 'costs')
+  reply(res, data)
 })
 
 
@@ -65,9 +85,13 @@ router.get('/incomes/committed', (req, res, next) => {
 })
 
 router.post('/incomes/add', (req, res) => {
-   const id = Date.now()
-  data.incomes.committed[id] = req.body
-  reply(res, { status: 'ok', incomes: withCategory(data, 'incomes') })
+  const data = addItem(req.body, 'incomes')
+  reply(res, data)
+})
+
+router.post('/incomes/delete/', (req, res) => {
+  const data = deleteItem(req.body.id, 'incomes')
+  reply(res, data)
 })
 
 module.exports = router

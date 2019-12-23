@@ -4,7 +4,7 @@ import withError from '../../HOC/withError'
 import Costs from '../../components/Costs'
 import { connect } from 'react-redux'
 
-import { fetchCosts, addCost, getCosts, moduleName } from './costs'
+import { fetchCosts, addCost, deleteCost, getCosts, moduleName } from './costs'
 import { getCostCategories } from '../directores'
 import { getAccounts } from '../accounts'
 
@@ -12,6 +12,7 @@ function CostsContainer({
   isFetching,
   fetchCosts,
   addCost,
+  deleteCost,
   costs,
   categories,
   accounts,
@@ -24,6 +25,7 @@ function CostsContainer({
     <Costs
       isFetching={isFetching}
       addCost={addCost}
+      deleteCost={deleteCost}
       costs={costs}
       categories={categories}
       accounts={accounts}
@@ -42,7 +44,8 @@ export default compose(
     }),
     dispatch => ({
       fetchCosts: () => dispatch(fetchCosts()),
-      addCost: cost => dispatch(addCost(cost))
+      addCost: cost => dispatch(addCost(cost)),
+      deleteCost: id => dispatch(deleteCost(id))
     })
   ),
    withError,

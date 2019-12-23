@@ -7,6 +7,7 @@ function Accounts({ isFetching, accounts }) {
     <Card
       loading={isFetching}
       title="Счета"
+      size="small"
       actions={[
         <Icon type="setting" key="setting" />,
         <Icon type="edit" key="edit" />,
@@ -14,18 +15,17 @@ function Accounts({ isFetching, accounts }) {
       ]}
       className="accounts"
     >
-      <Row gutter={16}>
+      <Row type="flex" justify="space-around" gutter={16}>
         {!isFetching && accounts.map(({ id, title, balance }) => (
-          <Col span={8} key={id}>
-            <Statistic
-              title={title}
-              value={balance}
-              precision={2}
-              valueStyle={{ color: "#3f8600" }}
-              prefix={<Icon type="wallet" />}
-              suffix="₽"
-            />
-          </Col>
+           <Statistic
+           key={id}
+           title={title}
+           value={balance}
+           precision={2}
+           valueStyle={{ color: "#3f8600" }}
+           prefix={<Icon type="wallet" />}
+           suffix="₽"
+         />
         ))}
       </Row>
     </Card>

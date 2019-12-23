@@ -14,14 +14,14 @@ export default function Main() {
     <Layout id="main">
       <HeaderBlock />
 
-      <Content style={{ margin: "20px 16px", overflowY: "scroll" }}>
-        <Row type="flex" gutter={[10, 20]}>
+      <Content style={{ margin: "20px 16px", overflowY: "scroll", overflowX: "hidden" }}>
+        <Row type="flex" gutter={[5, 20]}>
           <Col span={12}>
             <Accounts />
           </Col>
         </Row>
 
-        <Row type="flex" justify="space-between" gutter={[10, 20]}>
+        <Row type="flex" justify="space-between" gutter={[5, 20]}>
           <Col span={12}>
             <Costs />
           </Col>
