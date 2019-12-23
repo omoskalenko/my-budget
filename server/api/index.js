@@ -11,6 +11,8 @@ const reply = (res, body, timeout = 1000, status = 200) =>
   }, timeout)
 
 const withCategory = (data, list) => {
+  console.log(data[list], list);
+
   const items = normalize(data[list].committed)
   const categories = data.categories[list]
   const accounts = data.accounts
@@ -53,7 +55,7 @@ router.get('/costs/committed', (req, res, next) => {
 router.post('/costs/add', (req, res) => {
    const id = Date.now()
   data.costs.committed[id] = req.body
-  reply(res, { status: 'ok', cost: withCategory(data) })
+  reply(res, { status: 'ok', cost: withCategory(data, 'costs') })
 })
 
 
@@ -65,7 +67,7 @@ router.get('/incomes/committed', (req, res, next) => {
 router.post('/incomes/add', (req, res) => {
    const id = Date.now()
   data.incomes.committed[id] = req.body
-  reply(res, { status: 'ok', cost: withCategory(data) })
+  reply(res, { status: 'ok', incomes: withCategory(data, 'incomes') })
 })
 
 module.exports = router
