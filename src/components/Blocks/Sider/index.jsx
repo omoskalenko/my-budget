@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { Menu, Layout, Icon } from 'antd'
+import { NavLink } from 'react-router-dom'
 
 import './styles.sass'
+
 
 const { SubMenu } = Menu
 const { Sider } = Layout
@@ -22,27 +24,53 @@ export default function SiderBlock() {
     
     <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
       <Menu.Item key="1">
-        <Icon type="pie-chart" />
-        <span>Главная</span>
+      <NavLink to={'/'} activeClassName="active_link">
+        <Icon type="transaction" />
+        <span>Доходы и расходы</span>
+       </NavLink>
       </Menu.Item>
       <Menu.Item key="2">
-        <Icon type="desktop" />
-        <span>Отчет за период</span>
+      <NavLink to={'/budget'} activeClassName="active_link">
+        <Icon type="pie-chart" />
+        <span>Бюджет</span>
+        </NavLink>
       </Menu.Item>
       <SubMenu
         key="sub1"
         title={
           <span>
-            <Icon type="user" />
+           <Icon type="database" />
             <span>Справочники</span>
           </span>
         }
       >
-        <Menu.Item key="3">Tom</Menu.Item>
-        <Menu.Item key="4">Bill</Menu.Item>
-        <Menu.Item key="5">Alex</Menu.Item>
+        <Menu.Item key="3">
+        <NavLink to={'/directories/costs_categories'} activeClassName="active_link">
+          Категории расходов
+        </NavLink>
+        </Menu.Item>
+        <Menu.Item key="4">
+        <NavLink to={'/directories/incomes_categories'} activeClassName="active_link">
+          Категории доходов
+        </NavLink>
+        </Menu.Item>
+        <Menu.Item key="5">
+        <NavLink to={'/directories/expenditure'} activeClassName="active_link">
+          Статьи расходов
+        </NavLink>
+        </Menu.Item>
+        <Menu.Item key="6">
+        <NavLink to={'/directories/members'} activeClassName="active_link">
+          Владельцы счетов
+        </NavLink>
+        </Menu.Item>
+        <Menu.Item key="7">
+        <NavLink to={'/directories/members'} activeClassName="active_link">
+          Счета
+        </NavLink>
+        </Menu.Item>
       </SubMenu>
-      <SubMenu
+      {/* <SubMenu
         key="sub2"
         title={
           <span>
@@ -51,11 +79,11 @@ export default function SiderBlock() {
           </span>
         }
       >
-        <Menu.Item key="6">Team 1</Menu.Item>
-        <Menu.Item key="8">Team 2</Menu.Item>
-      </SubMenu>
-      <Menu.Item key="9">
-        <Icon type="file" />
+        <Menu.Item key="8">Team 1</Menu.Item>
+        <Menu.Item key="9">Team 2</Menu.Item>
+      </SubMenu> */}
+      <Menu.Item key="10">
+      <Icon type="setting" />
         <span>Настройки</span>
       </Menu.Item>
     </Menu>

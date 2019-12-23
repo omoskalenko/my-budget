@@ -11,8 +11,6 @@ const reply = (res, body, timeout = 1000, status = 200) =>
   }, timeout)
 
 const withCategory = (data, list) => {
-  console.log(data[list], list);
-
   const items = normalize(data[list].committed)
   const categories = data.categories[list]
   const accounts = data.accounts
