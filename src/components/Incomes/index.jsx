@@ -19,6 +19,9 @@ function Incomes({
       size="small"
       loading={isFetching}
       title="Доходы"
+      style={{
+        height: '100%'
+      }}
       extra={
         <AddTransactionForm
           className="income"

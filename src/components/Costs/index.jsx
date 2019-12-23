@@ -18,6 +18,9 @@ function Costs({
     <Card
       className="costs"
       size="small"
+      style={{
+        height: '100%'
+      }}
       loading={isFetching}
       title="Расходы"
       extra={
