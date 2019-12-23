@@ -1,11 +1,11 @@
 import API from '../../API';
 import { Record } from 'immutable'
 import * as yup from 'yup'
-import moment from 'moment'
 import { take, spawn, call, put, takeEvery } from  'redux-saga/effects'
 import { createSelector } from 'reselect'
 import { COMPUTED_ACCOUNTS_BALANCE } from '../accounts'
 import { getPeriod } from '../parameters'
+import { getTransactionsForPeriod } from '../../utils'
 /** Constants */
 
 export const moduleName = 'incomes'
@@ -103,18 +103,7 @@ export const incomes = createSelector(stateSelector, state => state.list)
 export const getIncomes = createSelector(
   [incomes, getPeriod],
   (incomes, getPeriod)=> {
-    if (getPeriod.length < 2) return incomes.map(income => {
-      income.displayDate = moment(income.committed).format('DD.MM.YYYY')
-      return income
-    })
-
-    return incomes
-    .filter(income => {
-      return moment(income.committed).isBetween(getPeriod[0], getPeriod[1], 'day', [])
-    }).map(income => {
-      income.displayDate = moment(income.committed).format('DD.MM.YYYY')
-      return income
-    })
+    return getTransactionsForPeriod(incomes, getPeriod)
   }
 )
 

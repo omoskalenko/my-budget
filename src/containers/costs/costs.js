@@ -6,6 +6,7 @@ import { take, spawn, call, put, takeEvery } from 'redux-saga/effects'
 import { createSelector } from 'reselect'
 import { COMPUTED_ACCOUNTS_BALANCE } from '../accounts'
 import { getPeriod } from '../parameters'
+import { getTransactionsForPeriod } from '../../utils'
 /** Constants */
 
 export const moduleName = 'costs'
@@ -103,18 +104,7 @@ export const costs = createSelector(stateSelector, state => state.list)
 export const getCosts = createSelector(
   [costs, getPeriod],
   (costs, getPeriod) => {
-    if (getPeriod.length < 2) return costs.map(cost => {
-      cost.displayDate = moment(cost.committed).format('DD.MM.YYYY')
-      return cost
-    })
-
-    return costs
-    .filter(cost => {
-      return moment(cost.committed).isBetween(getPeriod[0], getPeriod[1], 'day', [])
-    }).map(cost => {
-      cost.displayDate = moment(cost.committed).format('DD.MM.YYYY')
-      return cost
-    })
+   return getTransactionsForPeriod(costs, getPeriod)
   }
 )
 

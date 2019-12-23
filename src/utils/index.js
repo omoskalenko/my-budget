@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 /**
 * Преобразование объекта с данными по id в массив объектов с свойством id
 *
@@ -51,4 +53,19 @@ export const getCoastsAmount = (accountId, costs) => {
 // Получить баланс счета по id счета
 export const getBalance = (accountId, incomes, costs) => {
   return getIncomingAmount(accountId, incomes) - getCoastsAmount(accountId, costs)
+}
+
+export const getTransactionsForPeriod = (transactions, period) => {
+  if (period.length < 2) return transactions.map(transaction => {
+    transaction.displayDate = moment(transaction.committed).format('DD.MM.YYYY')
+    return transaction
+  })
+
+  return transactions
+  .filter(transaction => {
+    return moment(transaction.committed).isBetween(period[0], period[1], 'day', [])
+  }).map(transaction => {
+    transaction.displayDate = moment(transaction.committed).format('DD.MM.YYYY')
+    return transaction
+  })
 }
