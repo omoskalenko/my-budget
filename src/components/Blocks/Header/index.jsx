@@ -15,7 +15,7 @@ export default function HeaderBlock({ handleChange, dates }) {
   const periods = {
     day: [moment(), moment()],
     month: [moment().date(1), moment().date(31)],
-    years: [moment().month(0).date(1), moment().month(12).date(31)]
+    years: [moment().month(0).date(1), moment().month(11).date(31)]
   }
   const onChange = (e) => {
     const value = e.target.value
