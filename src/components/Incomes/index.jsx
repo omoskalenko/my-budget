@@ -8,6 +8,7 @@ function Incomes({
   isFetching,
   addIncome,
   deleteIncome,
+  deleting,
   incomes,
   categories,
   accounts,
@@ -34,7 +35,7 @@ function Incomes({
         />
       }
     >
-      <List isFetching={isFetching} handleDelete={deleteIncome} items={incomes} categories={categories} type="income"/>
+      <List deleting={deleting} isFetching={isFetching} handleDelete={deleteIncome} items={incomes} categories={categories} type="income"/>
     </Card>
   )
 }

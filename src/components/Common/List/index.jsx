@@ -10,6 +10,7 @@ function List({
   isFetching,
   items,
   handleDelete,
+  deleting,
   categories,
   type,
 }) {
@@ -48,7 +49,7 @@ function List({
       {
         dataIndex: 'delete',
         key: 'delete',
-        render: (_, record) => <Icon type="delete" onClick={() => handleDelete(record.id) }/>,
+        render: (_, record) => <Icon type={deleting ? "loading" : "delete"} onClick={() => handleDelete(record.id) }/>,
         width: '50px',
         className: styles.delete
       }

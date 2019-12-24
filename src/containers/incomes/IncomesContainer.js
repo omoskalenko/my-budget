@@ -13,6 +13,7 @@ function IncomesContainer({
   fetchIncomes,
   addIncome,
   deleteIncome,
+  deleting,
   incomes,
   categories,
   accounts,
@@ -26,6 +27,7 @@ function IncomesContainer({
       isFetching={isFetching}
       addIncome={addIncome}
       deleteIncome={deleteIncome}
+      deleting={deleting}
       incomes={incomes}
       categories={categories}
       accounts={accounts}
@@ -37,6 +39,7 @@ export default compose(
   connect(
     state => ({
       isFetching: state[moduleName].isFetching,
+      deleting: state[moduleName].deleting,
       incomes: getIncomes(state),
       categories: getIncomeCategories(state),
       accounts: getAccounts(state),

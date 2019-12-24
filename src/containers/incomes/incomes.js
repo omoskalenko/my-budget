@@ -36,6 +36,7 @@ export const DELETE_INCOME_ERROR = `${moduleName}/DELETE_INCOME_ERROR`
 const initialState = Record({
   list: [],
   isFetching: true,
+  deleting: false,
   error: false,
   isSubmit: false,
 })
@@ -58,7 +59,8 @@ export const reducer = ( state = new initialState(), action) => {
       return {
         ...state,
         error: true,
-        isFetching: false
+        isFetching: false,
+        deleting: false,
       }
     }
     case ADD_INCOME_REQUEST: {
@@ -71,7 +73,7 @@ export const reducer = ( state = new initialState(), action) => {
     case DELETE_INCOME_REQUEST: {
       return {
         ...state,
-        isFetching: true,
+        deleting: true,
       }
     }
     case ADD_INCOME_SUCCESS: {
@@ -86,7 +88,7 @@ export const reducer = ( state = new initialState(), action) => {
       return {
         ...state,
         list: payload,
-        isFetching: false,
+        deleting: false,
       }
     }
     default:

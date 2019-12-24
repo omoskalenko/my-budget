@@ -9,6 +9,7 @@ function Costs({
   isFetching,
   addCost,
   deleteCost,
+  deleting,
   costs,
   categories,
   accounts,
@@ -35,7 +36,7 @@ function Costs({
         />
       }
     >
-      <List isFetching={isFetching} handleDelete={deleteCost} items={costs} categories={categories}  type="cost"/>
+      <List deleting={deleting} isFetching={isFetching} handleDelete={deleteCost} items={costs} categories={categories}  type="cost"/>
     </Card>
   )
 }

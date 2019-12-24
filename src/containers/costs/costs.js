@@ -37,6 +37,7 @@ export const DELETE_COST_ERROR = `${moduleName}/DELETE_COST_ERROR`
 const initialState = Record({
   list: [],
   isFetching: true,
+  deleting: false,
   error: false,
   isSubmit: false,
 })
@@ -53,7 +54,13 @@ export const reducer = (state = new initialState(), action) => {
         isFetching: false
       }
     }
-    case DELETE_COST_ERROR:
+    case DELETE_COST_ERROR: {
+      return {
+        ...state,
+        error: true,
+        deleting: false,
+      }
+    }
     case ADD_COST_ERROR:
     case FETCH_COSTS_ERROR: {
       return {
@@ -80,14 +87,14 @@ export const reducer = (state = new initialState(), action) => {
     case DELETE_COST_REQUEST: {
       return {
         ...state,
-        isFetching: true,
+        deleting: true,
       }
     }
     case DELETE_COST_SUCCESS: {
       return {
         ...state,
         list: payload,
-        isFetching: false,
+        deleting: false,
       }
     }
     default:

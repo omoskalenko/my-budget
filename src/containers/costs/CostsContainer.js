@@ -13,6 +13,7 @@ function CostsContainer({
   fetchCosts,
   addCost,
   deleteCost,
+  deleting,
   costs,
   categories,
   accounts,
@@ -26,6 +27,7 @@ function CostsContainer({
       isFetching={isFetching}
       addCost={addCost}
       deleteCost={deleteCost}
+      deleting={deleting}
       costs={costs}
       categories={categories}
       accounts={accounts}
@@ -38,6 +40,7 @@ export default compose(
     state => ({
       isFetching: state[moduleName].isFetching,
       costs: getCosts(state),
+      deleting: state[moduleName].deleting,
       categories: getCostCategories(state),
       accounts: getAccounts(state),
       isSubmit: state[moduleName].isSubmit
