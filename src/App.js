@@ -5,6 +5,7 @@ import { Layout } from 'antd'
 
 import Sider from './components/Blocks/Sider'
 import Main from './pages/Main'
+import Budget from './pages/Budget'
 import HeaderBlock from "./containers/parameters/HeaderContainer";
 import { fetchDirectories, moduleName } from './containers/directores'
 
@@ -29,6 +30,7 @@ function App({
         <HeaderBlock />
         <Switch>
           <Route exact path='/' component={Main} />
+          <Route exact path='/budget' component={Budget} />
         </Switch>
         <Footer style={{ textAlign: "center" }}>©2019 Created by Oleg Moskalenko</Footer>
       </Layout>

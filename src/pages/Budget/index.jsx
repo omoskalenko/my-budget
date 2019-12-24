@@ -1,11 +1,9 @@
 import React from "react";
 
 import Accounts from "../../containers/accounts/AccountsContainer";
-import Costs from "../../containers/costs/CostsContainer";
-import Incomes from "../../containers/incomes/IncomesContainer";
+import Costs from "../../containers/costs/PlannedCosts";
+import Incomes from "../../containers/incomes/PlannedIncomes";
 import { Layout, Row, Col } from "antd";
-
-import "./styles.sass";
 
 const { Content } = Layout;
 

@@ -5,7 +5,7 @@ import { createReducer } from '@reduxjs/toolkit'
 import * as yup from 'yup'
 import { take, spawn, call, put, takeEvery, race } from 'redux-saga/effects'
 import { createSelector } from 'reselect'
-import { COMPUTED_ACCOUNTS_BALANCE } from '../accounts'
+import { COMPUTED_ACCOUNTS_BALANCE, COMPUTED_PLANNED_BALANCE } from '../accounts'
 import { getPeriod } from '../parameters'
 import { getTransactionsForPeriod } from '../../utils'
 import {
@@ -109,7 +109,7 @@ export const getCommittedIncomes = createSelector(
 )
 export const getPlannedIncomes = createSelector(
   [plannedIncomes, getPeriod],
-  (committedIncomes, getPeriod) => {
+  (plannedIncomes, getPeriod) => {
     return getTransactionsForPeriod(plannedIncomes, getPeriod)
   }
 )
@@ -135,6 +135,9 @@ export const fetchIncomesSaga = function* (action) {
       yield put({
         type: FETCH_PLAN_SUCCESS,
         payload,
+      })
+      yield put({
+        type: COMPUTED_PLANNED_BALANCE,
       })
     }
     } catch (error) {
@@ -163,6 +166,9 @@ export const addIncomeSaga = function* (action) {
         type: ADD_PLAN_SUCCESS,
         payload: data,
       })
+      yield put({
+        type: COMPUTED_PLANNED_BALANCE,
+      })
     }
   } catch (error) {
     yield put({
@@ -189,6 +195,9 @@ export const deleteIncomeSaga = function* (action) {
       type: DELETE_PLAN_SUCCESS,
       payload: data,
       id: payload
+    })
+    yield put({
+      type: COMPUTED_PLANNED_BALANCE,
     })
   }
   } catch (error) {
