@@ -27,8 +27,8 @@ function CostsContainer({
   return (
     <Costs
       isFetching={isFetching}
-      addCost={addCost.bind(null, transactionsType)}
-      deleteCost={deleteCost.bind(null, transactionsType)}
+      addCost={addCost}
+      deleteCost={deleteCost}
       deleting={deleting}
       costs={costs}
       categories={categories}

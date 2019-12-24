@@ -49,7 +49,7 @@ function List({
       {
         dataIndex: 'delete',
         key: 'delete',
-        render: (_, record) => <Icon type={deleting ? "loading" : "delete"} onClick={() => handleDelete(record.id) }/>,
+        render: (_, record) => <Icon type={deleting ? "loading" : "delete"} onClick={() => handleDelete('committed', record.id) }/>,
         width: '50px',
         className: styles.delete
       }

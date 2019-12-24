@@ -27,8 +27,8 @@ function IncomesContainer({
   return (
     <Incomes
       isFetching={isFetching}
-      addIncome={addIncome.bind(null, transactionsType)}
-      deleteIncome={deleteIncome.bind(null, transactionsType)}
+      addIncome={addIncome}
+      deleteIncome={deleteIncome}
       deleting={deleting}
       incomes={incomes}
       categories={categories}
