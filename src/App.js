@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Route } from 'react-router'
+import { Route, Switch } from 'react-router'
 import { Layout } from 'antd'
 
 import Sider from './components/Blocks/Sider'
 import Main from './pages/Main'
-
+import HeaderBlock from "./containers/parameters/HeaderContainer";
 import { fetchDirectories, moduleName } from './containers/directores'
 
 import './styles/styles.sass'
+
+const { Footer } = Layout;
 
 function App({
   fetchDirectories,
@@ -22,8 +24,14 @@ function App({
 
   return (
     <Layout style={{ maxHeight: '100vh', minHeight: '100vh' }}>
-        <Sider />
-        <Route exact path='/' component={Main}/>
+      <Sider />
+      <Layout id="main">
+        <HeaderBlock />
+        <Switch>
+          <Route exact path='/' component={Main} />
+        </Switch>
+        <Footer style={{ textAlign: "center" }}>©2019 Created by Oleg Moskalenko</Footer>
+      </Layout>
     </Layout>
   )
 }
