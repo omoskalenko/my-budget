@@ -179,6 +179,7 @@ export const deleteCostSaga = function* (action) {
     yield put({
       type: DELETE_COMMITTED_SUCCESS,
       payload: data,
+      id: payload
     })
     yield put({
       type: COMPUTED_ACCOUNTS_BALANCE,
@@ -187,6 +188,7 @@ export const deleteCostSaga = function* (action) {
     yield put({
       type: DELETE_PLAN_SUCCESS,
       payload: data,
+      id: payload
     })
   }
   } catch (error) {

@@ -25,13 +25,19 @@ export const addTransactionSuccess = (state, { payload }) => ({
 
 export const deleteTransactionRequest = (state, { payload }) => ({
   ...state,
-  deleting: true,
+  deleting: {
+    ...state.deleting,
+    [payload]: true
+  },
 })
 
-export const deleteTransactionSuccess = (state, { payload }) => ({
+export const deleteTransactionSuccess = (state, { payload, id }) => ({
   ...state,
   list: payload,
-  deleting: false,
+  deleting: {
+    ...state.deleting,
+    [id]: false
+  },
 })
 
 export const error = (state, { payload }) => ({
