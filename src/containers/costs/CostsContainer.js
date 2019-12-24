@@ -4,9 +4,11 @@ import withError from '../../HOC/withError'
 import Costs from '../../components/Costs'
 import { connect } from 'react-redux'
 
-import { fetchCosts, addCost, deleteCost, getCosts, moduleName } from './costs'
+import { fetchCosts, addCost, deleteCost, getCommittedCosts, moduleName } from './costs'
 import { getCostCategories } from '../directores'
 import { getAccounts } from '../accounts'
+
+const transactionsType = 'committed'
 
 function CostsContainer({
   isFetching,
@@ -20,13 +22,13 @@ function CostsContainer({
   isSubmit
 }) {
   useEffect(() => {
-    fetchCosts()
+    fetchCosts(transactionsType)
   }, [fetchCosts])
   return (
     <Costs
       isFetching={isFetching}
-      addCost={addCost}
-      deleteCost={deleteCost}
+      addCost={addCost.bind(null, transactionsType)}
+      deleteCost={deleteCost.bind(null, transactionsType)}
       deleting={deleting}
       costs={costs}
       categories={categories}
@@ -38,17 +40,17 @@ function CostsContainer({
 export default compose(
   connect(
     state => ({
-      isFetching: state[moduleName].isFetching,
-      costs: getCosts(state),
-      deleting: state[moduleName].deleting,
+      isFetching: state[moduleName][transactionsType].isFetching,
+      costs: getCommittedCosts(state),
+      deleting: state[moduleName][transactionsType].deleting,
       categories: getCostCategories(state),
       accounts: getAccounts(state),
-      isSubmit: state[moduleName].isSubmit
+      isSubmit: state[moduleName][transactionsType].isSubmit
     }),
     dispatch => ({
-      fetchCosts: () => dispatch(fetchCosts()),
-      addCost: cost => dispatch(addCost(cost)),
-      deleteCost: id => dispatch(deleteCost(id))
+      fetchCosts: (part) => dispatch(fetchCosts(part)),
+      addCost: (transactionsType, cost) => dispatch(addCost(transactionsType, cost)),
+      deleteCost: (transactionsType, id) => dispatch(deleteCost(transactionsType, id))
     })
   ),
    withError,

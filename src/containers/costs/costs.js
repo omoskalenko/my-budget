@@ -1,12 +1,21 @@
 import API from '../../API';
 import { Record } from 'immutable'
+import { combineReducers } from 'redux'
+import { createReducer } from '@reduxjs/toolkit'
 import * as yup from 'yup'
-import moment from 'moment'
-import { take, spawn, call, put, takeEvery } from 'redux-saga/effects'
+import { take, spawn, call, put, takeEvery, race } from 'redux-saga/effects'
 import { createSelector } from 'reselect'
 import { COMPUTED_ACCOUNTS_BALANCE } from '../accounts'
 import { getPeriod } from '../parameters'
 import { getTransactionsForPeriod } from '../../utils'
+import {
+  fetchTransactionsRequest,
+  fetchTransactionsSuccess,
+  addTransactionRequest,
+  addTransactionSuccess,
+  deleteTransactionRequest,
+  deleteTransactionSuccess,
+  error } from '../../utils/transactionsState'
 /** Constants */
 
 export const moduleName = 'costs'
@@ -22,19 +31,27 @@ const Schema = yup.object().shape({
 
 /** Actions */
 
-export const FETCH_COSTS_REQUEST = `${moduleName}/FETCH_COSTS_REQUEST`
-export const FETCH_COSTS_SUCCESS = `${moduleName}/FETCH_COSTS_SUCCESS`
-export const FETCH_COSTS_ERROR = `${moduleName}/FETCH_COSTS_ERROR`
-export const ADD_COST_REQUEST = `${moduleName}/ADD_COST_REQUEST`
-export const ADD_COST_SUCCESS = `${moduleName}/ADD_COST_SUCCESS`
-export const ADD_COST_ERROR = `${moduleName}/ADD_COST_ERROR`
-export const DELETE_COST_REQUEST = `${moduleName}/DELETE_COST_REQUEST`
-export const DELETE_COST_SUCCESS = `${moduleName}/DELETE_COST_SUCCESS`
-export const DELETE_COST_ERROR = `${moduleName}/DELETE_COST_ERROR`
+export const FETCH_REQUEST = `${moduleName}/FETCH_REQUEST`
+export const FETCH_COMMITTED_SUCCESS = `${moduleName}/FETCH_COMMITTED_SUCCESS`
+export const FETCH_COMMITTED_ERROR = `${moduleName}/FETCH_COMMITTED_ERROR`
+export const ADD_COMMITTED_REQUEST = `${moduleName}/ADD_COMMITTED_REQUEST`
+export const ADD_COMMITTED_SUCCESS = `${moduleName}/ADD_COMMITTED_SUCCESS`
+export const ADD_COMMITTED_ERROR = `${moduleName}/ADD_COMMITTED_ERROR`
+export const DELETE_COMMITTED_REQUEST = `${moduleName}/DELETE_COMMITTED_REQUEST`
+export const DELETE_COMMITTED_SUCCESS = `${moduleName}/DELETE_COMMITTED_SUCCESS`
+export const DELETE_COMMITTED_ERROR = `${moduleName}/DELETE_COMMITTED_ERROR`
+export const FETCH_PLAN_SUCCESS = `${moduleName}/FETCH_PLAN_SUCCESS`
+export const FETCH_PLAN_ERROR = `${moduleName}/FETCH_PLAN_ERROR`
+export const ADD_PLAN_REQUEST = `${moduleName}/ADD_PLAN_REQUEST`
+export const ADD_PLAN_SUCCESS = `${moduleName}/ADD_PLAN_SUCCESS`
+export const ADD_PLAN_ERROR = `${moduleName}/ADD_PLAN_ERROR`
+export const DELETE_PLAN_REQUEST = `${moduleName}/DELETE_PLAN_REQUEST`
+export const DELETE_PLAN_SUCCESS = `${moduleName}/DELETE_PLAN_SUCCESS`
+export const DELETE_PLAN_ERROR = `${moduleName}/DELETE_PLAN_ERROR`
+
 /** Initial State */
 
-
-const initialState = Record({
+const initialState = () => ({
   list: [],
   isFetching: true,
   deleting: false,
@@ -42,146 +59,150 @@ const initialState = Record({
   isSubmit: false,
 })
 
+const commitedState = initialState()
+const plannedState = initialState()
+
 /** Reducer */
 
-export const reducer = (state = new initialState(), action) => {
-  const { type, payload } = action
-  switch (type) {
-    case FETCH_COSTS_SUCCESS: {
-      return {
-        ...state,
-        list: payload,
-        isFetching: false
-      }
-    }
-    case DELETE_COST_ERROR: {
-      return {
-        ...state,
-        error: true,
-        deleting: false,
-      }
-    }
-    case ADD_COST_ERROR:
-    case FETCH_COSTS_ERROR: {
-      return {
-        ...state,
-        error: true,
-        isFetching: false
-      }
-    }
-    case ADD_COST_REQUEST: {
-      return {
-        ...state,
-        isFetching: true,
-        isSubmit: false,
-      }
-    }
-    case ADD_COST_SUCCESS: {
-      return {
-        ...state,
-        list: payload,
-        isFetching: false,
-        isSubmit: true
-      }
-    }
-    case DELETE_COST_REQUEST: {
-      return {
-        ...state,
-        deleting: true,
-      }
-    }
-    case DELETE_COST_SUCCESS: {
-      return {
-        ...state,
-        list: payload,
-        deleting: false,
-      }
-    }
-    default:
-      return state
-  }
-}
+
+export const committedReducer = createReducer(commitedState, {
+  [FETCH_REQUEST]: (state, action) => fetchTransactionsRequest(state, action),
+  [FETCH_COMMITTED_SUCCESS]: (state, action) => fetchTransactionsSuccess(state, action),
+  [ADD_COMMITTED_REQUEST]: (state, action) => addTransactionRequest(state, action),
+  [ADD_COMMITTED_SUCCESS]: (state, action) => addTransactionSuccess(state, action),
+  [DELETE_COMMITTED_REQUEST]: (state, action) => deleteTransactionRequest(state, action),
+  [DELETE_COMMITTED_SUCCESS]: (state, action) => deleteTransactionSuccess(state, action),
+  [DELETE_COMMITTED_ERROR]: (state, action) => error(state, action),
+  [ADD_COMMITTED_ERROR]: (state, action) => error(state, action),
+  [FETCH_COMMITTED_ERROR]: (state, action) => error(state, action),
+})
+
+export const planReducer = createReducer(plannedState, {
+  [FETCH_REQUEST]: (state, action) => fetchTransactionsRequest(state, action),
+  [FETCH_PLAN_SUCCESS]: (state, action) => fetchTransactionsSuccess(state, action),
+  [ADD_PLAN_REQUEST]: (state, action) => addTransactionRequest(state, action),
+  [ADD_PLAN_SUCCESS]: (state, action) => addTransactionSuccess(state, action),
+  [DELETE_PLAN_REQUEST]: (state, action) => deleteTransactionRequest(state, action),
+  [DELETE_PLAN_SUCCESS]: (state, action) => deleteTransactionSuccess(state, action),
+  [DELETE_PLAN_ERROR]: (state, action) => error(state, action),
+  [ADD_PLAN_ERROR]: (state, action) => error(state, action),
+  [FETCH_PLAN_ERROR]: (state, action) => error(state, action),
+})
+
+export const reducer = combineReducers({
+  committed: committedReducer,
+  planned: planReducer,
+})
 
 /** Selectors */
 
 export const stateSelector = state => state[moduleName]
 
-export const costs = createSelector(stateSelector, state => state.list)
+export const committedCosts = createSelector(stateSelector, state => state.committed.list)
+export const plannedCosts = createSelector(stateSelector, state => state.planned.list)
 
-export const getCosts = createSelector(
-  [costs, getPeriod],
-  (costs, getPeriod) => {
-   return getTransactionsForPeriod(costs, getPeriod)
+export const getCommittedCosts = createSelector(
+  [committedCosts, getPeriod],
+  (committedCosts, getPeriod) => {
+    return getTransactionsForPeriod(committedCosts, getPeriod)
+  }
+)
+export const getPlannedCosts = createSelector(
+  [plannedCosts, getPeriod],
+  (committedCosts, getPeriod) => {
+    return getTransactionsForPeriod(plannedCosts, getPeriod)
   }
 )
 
-
 /** Actions Creators */
 
-export const fetchCosts = () => ({ type: FETCH_COSTS_REQUEST })
-export const addCost = (cost) => ({ type: ADD_COST_REQUEST, payload: cost })
-export const deleteCost = (id) => ({ type: DELETE_COST_REQUEST, payload: id })
+export const fetchCosts = (transactionType) => ({ type: FETCH_REQUEST, transactionType })
+export const addCost = (transactionType, cost) => ({ type: ADD_COMMITTED_REQUEST, payload: cost, transactionType })
+export const deleteCost = (transactionType, id ) => ({ type: DELETE_COMMITTED_REQUEST, payload: id, transactionType })
+
 /** Sagas */
 
-export const fetchCostsSaga = function* () {
-  while (yield take(FETCH_COSTS_REQUEST)) {
+export const fetchCostsSaga = function* (action) {
     try {
-      const payload = yield call([API, API.fetchCosts])
+    const { transactionType } = action
+    const payload = yield call([API, API.fetchCosts], transactionType)
+    if (transactionType === 'committed') {
       yield put({
-        type: FETCH_COSTS_SUCCESS,
-        payload
+        type: FETCH_COMMITTED_SUCCESS,
+        payload,
       })
-    } catch (error) {
+    } else if (transactionType === 'planned') {
       yield put({
-        type: FETCH_COSTS_ERROR,
-        error
+        type: FETCH_PLAN_SUCCESS,
+        payload,
       })
     }
-  }
+    } catch (error) {
+      yield put({
+        type: FETCH_COMMITTED_ERROR,
+        error,
+      })
+    }
 }
 
 export const addCostSaga = function* (action) {
   try {
     Schema.validate(action.payload)
-    const data = yield call([API, API.addCost], action.payload)
-    console.log(data);
-
-    yield put({
-      type: ADD_COST_SUCCESS,
-      payload: data,
-    })
-    yield put({
-      type: COMPUTED_ACCOUNTS_BALANCE,
-    })
+    const { payload, transactionType } = action
+    const data = yield call([API, API.addCost], payload, transactionType)
+    if (transactionType === 'committed') {
+      yield put({
+        type: ADD_COMMITTED_SUCCESS,
+        payload: data,
+      })
+      yield put({
+        type: COMPUTED_ACCOUNTS_BALANCE,
+      })
+    } else if (transactionType === 'planned') {
+      yield put({
+        type: ADD_PLAN_SUCCESS,
+        payload: data,
+      })
+    }
   } catch (error) {
     yield put({
-      type: ADD_COST_ERROR,
+      type: ADD_COMMITTED_ERROR,
     })
   }
 }
 
 export const deleteCostSaga = function* (action) {
   try {
-    const data = yield call([API, API.deleteCost], action.payload)
+    const { payload, transactionType } = action
+    const data = yield call([API, API.deleteCost], payload, transactionType)
+    if (transactionType === 'committed') {
     yield put({
-      type: DELETE_COST_SUCCESS,
+      type: DELETE_COMMITTED_SUCCESS,
       payload: data,
     })
     yield put({
       type: COMPUTED_ACCOUNTS_BALANCE,
     })
+  } else if (transactionType === 'planned') {
+    yield put({
+      type: DELETE_PLAN_SUCCESS,
+      payload: data,
+    })
+  }
   } catch (error) {
     yield put({
-      type: DELETE_COST_ERROR,
+      type: DELETE_COMMITTED_ERROR,
     })
   }
 }
 
 export const saga = function* () {
   yield spawn(fetchCostsSaga)
-  yield takeEvery(ADD_COST_REQUEST, addCostSaga)
-  yield takeEvery(DELETE_COST_REQUEST, deleteCostSaga)
+  yield takeEvery(FETCH_REQUEST, fetchCostsSaga)
+  yield takeEvery(ADD_COMMITTED_REQUEST, addCostSaga)
+  yield takeEvery(DELETE_COMMITTED_REQUEST, deleteCostSaga)
 }
+
 
 
 

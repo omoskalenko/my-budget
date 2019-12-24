@@ -56,16 +56,20 @@ export const getBalance = (accountId, incomes, costs) => {
 }
 
 export const getTransactionsForPeriod = (transactions, period) => {
-  if (period.length < 2) return transactions.map(transaction => {
-    transaction.displayDate = moment(transaction.committed).format('DD.MM.YYYY')
-    return transaction
+  const addDisplayDate = (transaction) => {
+    const newTransaction = {...transaction}
+    newTransaction.displayDate = moment(transaction.committed).format('DD.MM.YYYY')
+    return newTransaction
+  }
+  const copyTransactions = [...transactions]
+  if (period.length < 2) return copyTransactions.map(transaction => {
+    return addDisplayDate(transaction)
   })
 
-  return transactions
+  return copyTransactions
   .filter(transaction => {
     return moment(transaction.committed).isBetween(period[0], period[1], 'day', [])
   }).map(transaction => {
-    transaction.displayDate = moment(transaction.committed).format('DD.MM.YYYY')
-    return transaction
+    return addDisplayDate(transaction)
   })
 }

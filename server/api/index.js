@@ -10,9 +10,9 @@ const reply = (res, body, timeout = 1000, status = 200) =>
     res.status(status).json(body)
   }, timeout)
 
-const withCategory = (data, list) => {
-  const items = normalize(data[list].committed)
-  const categories = data.categories[list]
+const withCategory = (data, type, subType) => {
+  const items = normalize(data[type][subType])
+  const categories = data.categories[type]
   const accounts = data.accounts
 
   return  items.map(item => {
@@ -22,20 +22,20 @@ const withCategory = (data, list) => {
   })
 }
 
-const addItem = (item, type) => {
+const addItem = (item, type, subType) => {
   try {
     const id = Date.now()
-    data[type].committed[id] = item
-    return { status: 'ok', [type]: withCategory(data, type) }
+    data[type][subType][id] = item
+    return { status: 'ok', [type]: withCategory(data, type, subType) }
   } catch(err) {
     return { status: 'error', message: err }
   }
 }
 
-const deleteItem = (id, type) => {
-  if(!data[type].committed[id]) return { status: 'error', message: 'Запись не найдена' }
-  delete data[type].committed[id]
-  return { status: 'ok', [type]: withCategory(data, type) }
+const deleteItem = (id, type, subType) => {
+  if(!data[type][subType][id]) return { status: 'error', message: 'Запись не найдена' }
+  delete data[type][subType][id]
+  return { status: 'ok', [type]: withCategory(data, type, subType) }
 }
 
 router.get('/directories', (req, res, next) => {
@@ -61,34 +61,60 @@ router.get('/accounts', (req, res, next) => {
 })
 
 
-
 router.get('/costs/committed', (req, res, next) => {
-  reply(res, withCategory(data, 'costs'))
+  reply(res, withCategory(data, 'costs', 'committed'))
 })
 
-router.post('/costs/add', (req, res) => {
-  const data = addItem(req.body, 'costs')
+router.post('/costs/committed/add', (req, res) => {
+  const data = addItem(req.body, 'costs', 'committed')
   reply(res, data)
 })
 
-router.post('/costs/delete/', (req, res) => {
-  const data = deleteItem(req.body.id, 'costs')
+router.post('/costs/committed/delete/', (req, res) => {
+  const data = deleteItem(req.body.id, 'costs', 'committed')
   reply(res, data)
 })
 
 
+router.get('/costs/planned', (req, res, next) => {
+  reply(res, withCategory(data, 'costs', 'planned'))
+})
+
+router.post('/costs/planned/add', (req, res) => {
+  const data = addItem(req.body, 'costs', 'planned')
+  reply(res, data)
+})
+
+router.post('/costs/planned/delete/', (req, res) => {
+  const data = deleteItem(req.body.id, 'costs', 'planned')
+  reply(res, data)
+})
 
 router.get('/incomes/committed', (req, res, next) => {
-  reply(res, withCategory(data, 'incomes'))
+  reply(res, withCategory(data, 'incomes', 'committed'))
 })
 
-router.post('/incomes/add', (req, res) => {
-  const data = addItem(req.body, 'incomes')
+router.post('/incomes/committed/add', (req, res) => {
+  const data = addItem(req.body, 'incomes', 'committed')
   reply(res, data)
 })
 
-router.post('/incomes/delete/', (req, res) => {
-  const data = deleteItem(req.body.id, 'incomes')
+router.post('/incomes/committed/delete/', (req, res) => {
+  const data = deleteItem(req.body.id, 'incomes', 'committed')
+  reply(res, data)
+})
+
+router.get('/incomes/planned', (req, res, next) => {
+  reply(res, withCategory(data, 'incomes', 'planned'))
+})
+
+router.post('/incomes/planned/add', (req, res) => {
+  const data = addItem(req.body, 'incomes', 'planned')
+  reply(res, data)
+})
+
+router.post('/incomes/planned/delete/', (req, res) => {
+  const data = deleteItem(req.body.id, 'incomes', 'planned')
   reply(res, data)
 })
 

@@ -4,9 +4,11 @@ import withError from '../../HOC/withError'
 import Incomes from '../../components/Incomes'
 import { connect } from 'react-redux'
 
-import { fetchIncomes, addIncome, deleteIncome, getIncomes, moduleName } from './incomes'
+import { fetchIncomes, addIncome, deleteIncome, getCommittedIncomes, moduleName } from './incomes'
 import { getIncomeCategories } from '../directores'
 import { getAccounts } from '../accounts'
+
+const transactionsType = 'committed'
 
 function IncomesContainer({
   isFetching,
@@ -20,13 +22,13 @@ function IncomesContainer({
   isSubmit
 }) {
   useEffect(() => {
-    fetchIncomes()
+    fetchIncomes(transactionsType)
   }, [fetchIncomes])
   return (
     <Incomes
       isFetching={isFetching}
-      addIncome={addIncome}
-      deleteIncome={deleteIncome}
+      addIncome={addIncome.bind(null, transactionsType)}
+      deleteIncome={deleteIncome.bind(null, transactionsType)}
       deleting={deleting}
       incomes={incomes}
       categories={categories}
@@ -38,17 +40,17 @@ function IncomesContainer({
 export default compose(
   connect(
     state => ({
-      isFetching: state[moduleName].isFetching,
-      deleting: state[moduleName].deleting,
-      incomes: getIncomes(state),
+      isFetching: state[moduleName][transactionsType].isFetching,
+      deleting: state[moduleName][transactionsType].deleting,
+      incomes: getCommittedIncomes(state),
       categories: getIncomeCategories(state),
       accounts: getAccounts(state),
-      isSubmit: state[moduleName].isSubmit
+      isSubmit: state[moduleName][transactionsType].isSubmit
     }),
     dispatch => ({
-      fetchIncomes: () => dispatch(fetchIncomes()),
-      addIncome: income => dispatch(addIncome(income)),
-      deleteIncome: id => dispatch(deleteIncome(id)),
+      fetchIncomes: type => dispatch(fetchIncomes(type)),
+      addIncome: (type, income) => dispatch(addIncome(type, income)),
+      deleteIncome: (type, id) => dispatch(deleteIncome(type, id)),
     })
   ),
    withError,
