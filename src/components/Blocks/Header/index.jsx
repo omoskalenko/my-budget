@@ -16,12 +16,8 @@ export default function HeaderBlock({ handleChange, dates }) {
     day: [moment(), moment()],
     month: [moment().date(1), moment().date(31)],
     years: [
-      moment()
-        .month(0)
-        .date(1),
-      moment()
-        .month(11)
-        .date(31)
+      moment().startOf('year'),
+      moment().endOf("year")
     ]
   };
 
