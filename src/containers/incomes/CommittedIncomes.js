@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { compose } from 'redux'
 import withError from '../../HOC/withError'
 import Incomes from '../../components/Incomes'
@@ -7,10 +7,11 @@ import { connect } from 'react-redux'
 import { fetchIncomes, addIncome, deleteIncome, getCommittedIncomes, moduleName } from './incomes'
 import { getIncomeCategories } from '../directores'
 import { getAccounts } from '../accounts'
+import { TRANSACTIONS_STATUSES } from '../../config'
 
-const transactionsType = 'committed'
+const transactionsStatus = TRANSACTIONS_STATUSES.COMMITTED
 
-function IncomesContainer({
+function CommittedIncomes({
   isFetching,
   fetchIncomes,
   addIncome,
@@ -19,39 +20,46 @@ function IncomesContainer({
   incomes,
   categories,
   accounts,
-  isSubmit
+  isSubmit,
+  config,
 }) {
   useEffect(() => {
-    fetchIncomes(transactionsType)
+    fetchIncomes(transactionsStatus)
   }, [fetchIncomes])
+
+  const addIncomeCB = useCallback(addIncome.bind(null, transactionsStatus), [addIncome])
+  const deleteIncomeCB = useCallback(deleteIncome.bind(null, transactionsStatus), [deleteIncome])
+
   return (
     <Incomes
       isFetching={isFetching}
-      addIncome={addIncome}
-      deleteIncome={deleteIncome}
+      addIncome={addIncomeCB}
+      deleteIncome={deleteIncomeCB}
       deleting={deleting}
       incomes={incomes}
       categories={categories}
       accounts={accounts}
       isSubmit={isSubmit}
+      config={config}
     />
   )
 }
 export default compose(
   connect(
     state => ({
-      isFetching: state[moduleName][transactionsType].isFetching,
-      deleting: state[moduleName][transactionsType].deleting,
+      isFetching: state[moduleName][transactionsStatus].isFetching,
+      deleting: state[moduleName][transactionsStatus].deleting,
       incomes: getCommittedIncomes(state),
       categories: getIncomeCategories(state),
       accounts: getAccounts(state),
-      isSubmit: state[moduleName][transactionsType].isSubmit
+      isSubmit: state[moduleName][transactionsStatus].isSubmit,
+      config: state[moduleName][transactionsStatus].config,
     }),
     dispatch => ({
-      fetchIncomes: type => dispatch(fetchIncomes(type)),
-      addIncome: (type, income) => dispatch(addIncome(type, income)),
-      deleteIncome: (type, id) => dispatch(deleteIncome(type, id)),
+      fetchIncomes: transactionsStatus => dispatch(fetchIncomes(transactionsStatus)),
+      addIncome: (transactionsStatus, income) => dispatch(addIncome(transactionsStatus, income)),
+      deleteIncome: (transactionsStatus, id) => dispatch(deleteIncome(transactionsStatus, id)),
     })
   ),
    withError,
-)(IncomesContainer)
+)(CommittedIncomes)

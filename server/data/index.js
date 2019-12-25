@@ -81,8 +81,8 @@ module.exports = {
     }
   },
   costs: {
-    planned: [
-      {
+    planned: {
+      0: {
         id: 0,
         category: 3,
         name: "Бензин",
@@ -92,7 +92,7 @@ module.exports = {
         paid: ["7.01.2020", "7.02.2020"], // Когда был проведен ??
         account: 0 // С какого счета по умолчанию списывать
       },
-      {
+      1: {
         id: 1,
         category: 3,
         name: "Бензин",
@@ -102,7 +102,7 @@ module.exports = {
         paid: ["23.01.2020", "23.02.2020"],
         account: 0
       },
-      {
+      3: {
         id: 3,
         category: 0,
         name: "Ипотека",
@@ -112,14 +112,14 @@ module.exports = {
         paid: ["20.01.2020", "20.02.2020"],
         account: 0
       }
-    ],
+  },
     committed: {
       0: {
         id: 0,
         category: 3,
         name: "Бензин",
         amount: 1500.0,
-        committed: '2019-12-22T19:41:05.221Z',
+        commit: '2019-12-22T19:41:05.221Z',
         account: 0,
         plan: 0 //Относится к запланированному
       },
@@ -128,7 +128,7 @@ module.exports = {
         category: 3,
         name: "Не бензин",
         amount: 7.0,
-        committed: '2019-12-05T19:41:05.221Z',
+        commit: '2019-12-05T19:41:05.221Z',
         account: 0,
         plan: 0 //Относится к запланированному
       },
@@ -137,15 +137,15 @@ module.exports = {
         category: 3,
         name: "Паравоз",
         amount: 25000.0,
-        committed: '2019-11-25T19:41:05.221Z',
+        commit: '2019-11-25T19:41:05.221Z',
         account: 0,
         plan: 0 //Относится к запланированному
       },
     }
   },
   incomes: {
-    planned: [
-      {
+    planned: {
+      0: {
         id: 0,
         name: "Зарплата",
         category: 0,
@@ -154,7 +154,7 @@ module.exports = {
         member: 0,
         factAvailable: ["07.12.2019"]
       },
-      {
+      1: {
         id: 1,
         name: "Аванс",
         category: 0,
@@ -163,7 +163,7 @@ module.exports = {
         member: 0,
         dates: ["23.12.2019"]
       }
-    ],
+    },
     committed: {
       0: {
         id: 0,
@@ -171,7 +171,7 @@ module.exports = {
         category: 0,
         planAvailableDay: "7",
         amount: 100000.0,
-        committed: '2019-12-07T19:41:05.221Z',
+        commit: '2019-12-07T19:41:05.221Z',
         member: 0,
         account: 0
       },
@@ -180,7 +180,7 @@ module.exports = {
         title: "Подарок",
         category: 2,
         amount: 10000.0,
-        committed: '2019-12-19T19:41:05.221Z',
+        commit: '2019-12-19T19:41:05.221Z',
         member: 0,
         account: 0
       },
@@ -188,7 +188,7 @@ module.exports = {
         id: 1,
         title: "Аванс",
         category: 1,
-        committed: '2019-12-23T19:41:05.221Z',
+        commit: '2019-12-23T19:41:05.221Z',
         amount: 50000.0,
         member: 0,
         account: 0
@@ -198,7 +198,7 @@ module.exports = {
         title: "Перевод",
         category: 10,
         amount: 500,
-        committed: '2019-12-10T19:41:05.221Z',
+        commit: '2019-12-10T19:41:05.221Z',
         account: 10,
         from: 0
       }

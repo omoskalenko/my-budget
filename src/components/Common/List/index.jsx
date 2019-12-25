@@ -12,7 +12,7 @@ function List({
   handleDelete,
   deleting,
   categories,
-  type,
+  config,
 }) {
 
   const renderItems = (id) => {
@@ -43,18 +43,18 @@ function List({
         title: 'Сумма',
         dataIndex: 'amount',
         key: 'amount',
-        className: type === 'costs' ? styles.amountCostCol : styles.amountCol,
+        className: config.type === 'costs' ? styles.amountCostCol : styles.amountCol,
         width: '100px',
       },
       {
         dataIndex: 'delete',
         key: 'delete',
-        render: (_, record) => <Icon type={deleting[record.id] ? "loading" : "delete"} onClick={() => handleDelete('committed', record.id) }/>,
+        render: (_, record) => <Icon type={deleting[record.id] ? "loading" : "delete"} onClick={() => handleDelete(record.id) }/>,
         width: '50px',
         className: styles.delete
       }
     ]
-    if(type !== 'cost') columns = columns.filter(column => column.dataIndex !== 'name')
+    if((config.type === 'costs') !== 'cost') columns = columns.filter(column => column.dataIndex !== 'name')
     return (
       <Table
         loading={isFetching}
@@ -98,6 +98,13 @@ function List({
       {!isFetching && renderCategories()}
     </div>
   )
+}
+
+List.defaultProps = {
+  config: {
+    type: '',
+    status: '',
+  }
 }
 
 List.propTypes = {

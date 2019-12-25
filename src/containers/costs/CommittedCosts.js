@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { compose } from 'redux'
 import withError from '../../HOC/withError'
 import Costs from '../../components/Costs'
@@ -7,10 +7,11 @@ import { connect } from 'react-redux'
 import { fetchCosts, addCost, deleteCost, getCommittedCosts, moduleName } from './costs'
 import { getCostCategories } from '../directores'
 import { getAccounts } from '../accounts'
+import { TRANSACTIONS_STATUSES } from '../../config'
 
-const transactionsType = 'committed'
+const transactionsStatus = TRANSACTIONS_STATUSES.COMMITTED
 
-function CostsContainer({
+function CommittedCosts({
   isFetching,
   fetchCosts,
   addCost,
@@ -19,39 +20,46 @@ function CostsContainer({
   costs,
   categories,
   accounts,
-  isSubmit
+  isSubmit,
+  config,
 }) {
   useEffect(() => {
-    fetchCosts(transactionsType)
+    fetchCosts(transactionsStatus)
   }, [fetchCosts])
+
+  const addCostCB = useCallback(addCost.bind(null, transactionsStatus), [addCost])
+  const deleteCostCB = useCallback(deleteCost.bind(null, transactionsStatus), [deleteCost])
+
   return (
     <Costs
       isFetching={isFetching}
-      addCost={addCost}
-      deleteCost={deleteCost}
+      addCost={addCostCB}
+      isSubmit={isSubmit}
+      deleteCost={deleteCostCB}
       deleting={deleting}
       costs={costs}
       categories={categories}
       accounts={accounts}
-      isSubmit={isSubmit}
+      config={config}
     />
   )
 }
 export default compose(
   connect(
     state => ({
-      isFetching: state[moduleName][transactionsType].isFetching,
+      isFetching: state[moduleName][transactionsStatus].isFetching,
       costs: getCommittedCosts(state),
-      deleting: state[moduleName][transactionsType].deleting,
+      deleting: state[moduleName][transactionsStatus].deleting,
       categories: getCostCategories(state),
       accounts: getAccounts(state),
-      isSubmit: state[moduleName][transactionsType].isSubmit
+      isSubmit: state[moduleName][transactionsStatus].isSubmit,
+      config: state[moduleName][transactionsStatus].config,
     }),
     dispatch => ({
       fetchCosts: (part) => dispatch(fetchCosts(part)),
-      addCost: (transactionsType, cost) => dispatch(addCost(transactionsType, cost)),
-      deleteCost: (transactionsType, id) => dispatch(deleteCost(transactionsType, id))
+      addCost: (transactionsStatus, cost) => dispatch(addCost(transactionsStatus, cost)),
+      deleteCost: (transactionsStatus, id) => dispatch(deleteCost(transactionsStatus, id))
     })
   ),
    withError,
-)(CostsContainer)
+)(CommittedCosts)

@@ -16,9 +16,10 @@ import {
   deleteTransactionRequest,
   deleteTransactionSuccess,
   error } from '../../utils/transactionsState'
+import { TRANSACTIONS_STATUSES, TRANSACTIONS_TYPES, TRANSACTIONS_TITLES} from '../../config'
 /** Constants */
 
-export const moduleName = 'incomes'
+export const moduleName = TRANSACTIONS_TYPES.INCOMES
 
 const Schema = yup.object().shape({
   category: yup.string().required(),
@@ -31,7 +32,7 @@ const Schema = yup.object().shape({
 
 /** Actions */
 
-export const FETCH_REQUEST = `${moduleName}/FETCH_REQUEST`
+export const FETCH_COMMITTED_REQUEST = `${moduleName}/FETCH_COMMITTED_REQUEST`
 export const FETCH_COMMITTED_SUCCESS = `${moduleName}/FETCH_COMMITTED_SUCCESS`
 export const FETCH_COMMITTED_ERROR = `${moduleName}/FETCH_COMMITTED_ERROR`
 export const ADD_COMMITTED_REQUEST = `${moduleName}/ADD_COMMITTED_REQUEST`
@@ -40,33 +41,39 @@ export const ADD_COMMITTED_ERROR = `${moduleName}/ADD_COMMITTED_ERROR`
 export const DELETE_COMMITTED_REQUEST = `${moduleName}/DELETE_COMMITTED_REQUEST`
 export const DELETE_COMMITTED_SUCCESS = `${moduleName}/DELETE_COMMITTED_SUCCESS`
 export const DELETE_COMMITTED_ERROR = `${moduleName}/DELETE_COMMITTED_ERROR`
-export const FETCH_PLAN_SUCCESS = `${moduleName}/FETCH_PLAN_SUCCESS`
-export const FETCH_PLAN_ERROR = `${moduleName}/FETCH_PLAN_ERROR`
-export const ADD_PLAN_REQUEST = `${moduleName}/ADD_PLAN_REQUEST`
-export const ADD_PLAN_SUCCESS = `${moduleName}/ADD_PLAN_SUCCESS`
-export const ADD_PLAN_ERROR = `${moduleName}/ADD_PLAN_ERROR`
-export const DELETE_PLAN_REQUEST = `${moduleName}/DELETE_PLAN_REQUEST`
-export const DELETE_PLAN_SUCCESS = `${moduleName}/DELETE_PLAN_SUCCESS`
-export const DELETE_PLAN_ERROR = `${moduleName}/DELETE_PLAN_ERROR`
+export const FETCH_PLANNED_REQUEST = `${moduleName}/FETCH_PLANNED_REQUEST`
+export const FETCH_PLANNED_SUCCESS = `${moduleName}/FETCH_PLANNED_SUCCESS`
+export const FETCH_PLANNED_ERROR = `${moduleName}/FETCH_PLANNED_ERROR`
+export const ADD_PLANNED_REQUEST = `${moduleName}/ADD_PLANNED_REQUEST`
+export const ADD_PLANNED_SUCCESS = `${moduleName}/ADD_PLANNED_SUCCESS`
+export const ADD_PLANNED_ERROR = `${moduleName}/ADD_PLANNED_ERROR`
+export const DELETE_PLANNED_REQUEST = `${moduleName}/DELETE_PLANNED_REQUEST`
+export const DELETE_PLANNED_SUCCESS = `${moduleName}/DELETE_PLANNED_SUCCESS`
+export const DELETE_PLANNED_ERROR = `${moduleName}/DELETE_PLANNED_ERROR`
 
 /** Initial State */
 
-const initialState = () => ({
+const initialState = (status) => ({
   list: [],
   isFetching: true,
   deleting: false,
   error: false,
   isSubmit: false,
+  config: {
+    type: moduleName,
+    status,
+  }
 })
 
-const commitedState = initialState()
-const plannedState = initialState()
+
+const commitedState = initialState(TRANSACTIONS_STATUSES.COMMITTED)
+const plannedState = initialState(TRANSACTIONS_STATUSES.PLANNED)
 
 /** Reducer */
 
 
 export const committedReducer = createReducer(commitedState, {
-  [FETCH_REQUEST]: (state, action) => fetchTransactionsRequest(state, action),
+  [FETCH_COMMITTED_REQUEST]: (state, action) => fetchTransactionsRequest(state, action),
   [FETCH_COMMITTED_SUCCESS]: (state, action) => fetchTransactionsSuccess(state, action),
   [ADD_COMMITTED_REQUEST]: (state, action) => addTransactionRequest(state, action),
   [ADD_COMMITTED_SUCCESS]: (state, action) => addTransactionSuccess(state, action),
@@ -78,15 +85,15 @@ export const committedReducer = createReducer(commitedState, {
 })
 
 export const planReducer = createReducer(plannedState, {
-  [FETCH_REQUEST]: (state, action) => fetchTransactionsRequest(state, action),
-  [FETCH_PLAN_SUCCESS]: (state, action) => fetchTransactionsSuccess(state, action),
-  [ADD_PLAN_REQUEST]: (state, action) => addTransactionRequest(state, action),
-  [ADD_PLAN_SUCCESS]: (state, action) => addTransactionSuccess(state, action),
-  [DELETE_PLAN_REQUEST]: (state, action) => deleteTransactionRequest(state, action),
-  [DELETE_PLAN_SUCCESS]: (state, action) => deleteTransactionSuccess(state, action),
-  [DELETE_PLAN_ERROR]: (state, action) => error(state, action),
-  [ADD_PLAN_ERROR]: (state, action) => error(state, action),
-  [FETCH_PLAN_ERROR]: (state, action) => error(state, action),
+  [FETCH_PLANNED_REQUEST]: (state, action) => fetchTransactionsRequest(state, action),
+  [FETCH_PLANNED_SUCCESS]: (state, action) => fetchTransactionsSuccess(state, action),
+  [ADD_PLANNED_REQUEST]: (state, action) => addTransactionRequest(state, action),
+  [ADD_PLANNED_SUCCESS]: (state, action) => addTransactionSuccess(state, action),
+  [DELETE_PLANNED_REQUEST]: (state, action) => deleteTransactionRequest(state, action),
+  [DELETE_PLANNED_SUCCESS]: (state, action) => deleteTransactionSuccess(state, action),
+  [DELETE_PLANNED_ERROR]: (state, action) => error(state, action),
+  [ADD_PLANNED_ERROR]: (state, action) => error(state, action),
+  [FETCH_PLANNED_ERROR]: (state, action) => error(state, action),
 })
 
 export const reducer = combineReducers({
@@ -116,24 +123,43 @@ export const getPlannedIncomes = createSelector(
 
 /** Actions Creators */
 
-export const fetchIncomes = (transactionType) => ({ type: FETCH_REQUEST, transactionType })
-export const addIncome = (transactionType, income) => ({ type: ADD_COMMITTED_REQUEST, payload: income, transactionType })
-export const deleteIncome = (transactionType, id) => ({ type: DELETE_COMMITTED_REQUEST, payload: id, transactionType })
+export const fetchIncomes = (transactionsStatus) => {
+  const actions = {
+    'committed': FETCH_COMMITTED_REQUEST,
+    'planned':  FETCH_PLANNED_REQUEST,
+  }
+  return { type: actions[transactionsStatus], transactionsStatus }
+}
+export const addIncome = (transactionsStatus, income) => {
+  const actions = {
+    'committed': ADD_COMMITTED_REQUEST,
+    'planned': ADD_PLANNED_REQUEST,
+  }
+  return { type: actions[transactionsStatus], payload: income, transactionsStatus }
+}
+
+export const deleteIncome = (transactionsStatus, income ) => {
+  const actions = {
+    'committed': DELETE_COMMITTED_REQUEST,
+    'planned': DELETE_PLANNED_REQUEST,
+  }
+  return { type: actions[transactionsStatus], payload: income, transactionsStatus }
+}
 
 /** Sagas */
 
 export const fetchIncomesSaga = function* (action) {
     try {
-    const { transactionType } = action
-    const payload = yield call([API, API.fetchIncomes], transactionType)
-    if (transactionType === 'committed') {
+    const { transactionsStatus } = action
+    const payload = yield call([API, API.fetchIncomes], transactionsStatus)
+    if (transactionsStatus === 'committed') {
       yield put({
         type: FETCH_COMMITTED_SUCCESS,
         payload,
       })
-    } else if (transactionType === 'planned') {
+    } else if (transactionsStatus === 'planned') {
       yield put({
-        type: FETCH_PLAN_SUCCESS,
+        type: FETCH_PLANNED_SUCCESS,
         payload,
       })
       yield put({
@@ -151,9 +177,9 @@ export const fetchIncomesSaga = function* (action) {
 export const addIncomeSaga = function* (action) {
   try {
     Schema.validate(action.payload)
-    const { payload, transactionType } = action
-    const data = yield call([API, API.addIncome], payload, transactionType)
-    if (transactionType === 'committed') {
+    const { payload, transactionsStatus } = action
+    const data = yield call([API, API.addIncome], payload, transactionsStatus)
+    if (transactionsStatus === 'committed') {
       yield put({
         type: ADD_COMMITTED_SUCCESS,
         payload: data,
@@ -161,9 +187,9 @@ export const addIncomeSaga = function* (action) {
       yield put({
         type: COMPUTED_ACCOUNTS_BALANCE,
       })
-    } else if (transactionType === 'planned') {
+    } else if (transactionsStatus === 'planned') {
       yield put({
-        type: ADD_PLAN_SUCCESS,
+        type: ADD_PLANNED_SUCCESS,
         payload: data,
       })
       yield put({
@@ -179,9 +205,9 @@ export const addIncomeSaga = function* (action) {
 
 export const deleteIncomeSaga = function* (action) {
   try {
-    const { payload, transactionType } = action
-    const data = yield call([API, API.deleteIncome], payload, transactionType)
-    if (transactionType === 'committed') {
+    const { payload, transactionsStatus } = action
+    const data = yield call([API, API.deleteIncome], payload, transactionsStatus)
+    if (transactionsStatus === 'committed') {
     yield put({
       type: DELETE_COMMITTED_SUCCESS,
       payload: data,
@@ -190,9 +216,9 @@ export const deleteIncomeSaga = function* (action) {
     yield put({
       type: COMPUTED_ACCOUNTS_BALANCE,
     })
-  } else if (transactionType === 'planned') {
+  } else if (transactionsStatus === 'planned') {
     yield put({
-      type: DELETE_PLAN_SUCCESS,
+      type: DELETE_PLANNED_SUCCESS,
       payload: data,
       id: payload
     })
@@ -209,9 +235,12 @@ export const deleteIncomeSaga = function* (action) {
 
 export const saga = function* () {
   yield spawn(fetchIncomesSaga)
-  yield takeEvery(FETCH_REQUEST, fetchIncomesSaga)
+  yield takeEvery(FETCH_COMMITTED_REQUEST, fetchIncomesSaga)
+  yield takeEvery(FETCH_PLANNED_REQUEST, fetchIncomesSaga)
   yield takeEvery(ADD_COMMITTED_REQUEST, addIncomeSaga)
   yield takeEvery(DELETE_COMMITTED_REQUEST, deleteIncomeSaga)
+  yield takeEvery(ADD_PLANNED_REQUEST, addIncomeSaga)
+  yield takeEvery(DELETE_PLANNED_REQUEST, deleteIncomeSaga)
 }
 
 

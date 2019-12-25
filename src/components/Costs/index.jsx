@@ -14,6 +14,7 @@ function Costs({
   categories,
   accounts,
   isSubmit,
+  config,
 }) {
   return (
     <Card
@@ -32,11 +33,11 @@ function Costs({
           accounts={accounts}
           handleAdd={addCost}
           isFetching={isFetching}
-          type="cost"
+          config={config}
         />
       }
     >
-      <List deleting={deleting} isFetching={isFetching} handleDelete={deleteCost} items={costs} categories={categories}  type="cost"/>
+      <List deleting={deleting} isFetching={isFetching} handleDelete={deleteCost} items={costs} categories={categories}  config={config}/>
     </Card>
   )
 }

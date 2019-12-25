@@ -1,173 +1,143 @@
-import React, { useState, useEffect } from 'react'
-import { Button, Modal, Form, Input, DatePicker, Select, Icon } from 'antd'
-import moment from 'moment';
-import { moduleName } from '../../../containers/costs/costs'
+import React, { useState, useEffect } from "react";
+import { Button, Modal, Form, Input, DatePicker, Select, Icon } from "antd";
+import moment from "moment";
+import { TRANSACTIONS_TITLES } from "../../../config";
 
-import Rub from '../../../images/rub.svg'
+import Rub from "../../../images/rub.svg";
 
 const { Option } = Select;
 
-function AddTransactionForm({
-  isFetching,
-  handleAdd,
-  categories,
-  accounts,
-  form,
-  isSubmit,
-  type,
-  className,
-}) {
-  const [show, setShow] = useState(false)
-
-  const { getFieldDecorator } = form
-
-  const types = {
-    income: {
-      title: 'Добавить доход',
-      name: {
-        label: '',
-        message: '',
-        placeholder: 'Комментарий',
-      },
-      account: {
-        label: 'Счет',
-        message: 'Выберите счет зачисления!',
-        placeholder: 'Счет',
-      },
-      amount: {
-        label: '',
-        message: 'Введите сумму дохода!',
-        placeholder: 'Сумма',
-      },
-      committed: {
-        label: '',
-        message: 'Выберите дату!',
-        placeholder: '',
-      },
-      category: {
-        label: '',
-        message: 'Выберите категорию!',
-        placeholder: 'Категория',
-      },
-    },
-    cost: {
-      title: 'Добавить расход',
-      name: {
-        label: '',
-        message: '',
-        placeholder: 'На что совершен расход?',
-      },
-      account: {
-        label: 'Счет',
-        message: 'Выберите счет списания!',
-        placeholder: 'Счет',
-      },
-      amount: {
-        label: '',
-        message: 'Введите сумму расхода!',
-        placeholder: 'Сумма',
-      },
-      committed: {
-        label: '',
-        message: 'Выберите дату!',
-        placeholder: '',
-      },
-      category: {
-        label: '',
-        message: 'Выберите категорию!',
-        placeholder: 'Категория',
-      },
-    }
-  }
-
+function AddTransactionForm({ isFetching, handleAdd, categories, accounts, form, isSubmit, className, config }) {
+  const [show, setShow] = useState(false);
   useEffect(() => {
     if (isSubmit) {
-      setShow(false)
+      setShow(false);
     }
-  }, [isSubmit])
+  }, [isSubmit]);
 
+  const { getFieldDecorator } = form;
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    form.validateFields((err, values) => {
-      if (!err) {
-        handleAdd({ ...values })
-        console.log(form);
-      }
-    })
+  const { type, status } = config;
 
-  }
+  const titles = (type || status) && TRANSACTIONS_TITLES[type.toUpperCase()][status.toUpperCase()]["ADD"];
+
+  if (!titles) return null;
 
   const renderCategories = () => {
     return categories.map(category => {
-      return <Option value={category.id} key={category.id}>{category.title}</Option>
-    })
-  }
+      return (
+        <Option value={category.id} key={category.id}>
+          {category.title}
+        </Option>
+      );
+    });
+  };
   const renderAccounts = () => {
     return accounts.map(account => {
-      return <Option value={account.id} key={account.id}>{account.title}</Option>
-    })
-  }
+      return (
+        <Option value={account.id} key={account.id}>
+          {account.title}
+        </Option>
+      );
+    });
+  };
+
+  const selectField = (name, render, required) => (
+    <Form.Item key={name} label={titles[name].label}>
+      {getFieldDecorator(name, {
+        rules: [{ required: required, message: titles[name].message }]
+      })(
+        <Select placeholder={titles[name].placeholder} size="large">
+          {render()}
+        </Select>
+      )}
+    </Form.Item>
+  );
+
+  const inputField = (name, required) => (
+    <Form.Item key={name} label={titles.name.label}>
+      {getFieldDecorator(name, {
+        rules: [{ required: required, message: titles[name].message, type: "string" }]
+      })(<Input size="large" placeholder={titles[name].placeholder} />)}
+    </Form.Item>
+  );
+
+  const amountField = (
+    <Form.Item key={1} label={titles.amount.label}>
+      {getFieldDecorator("amount", {
+        rules: [{ required: true, message: titles.amount.message, type: "string" }]
+      })(<Input size="large" suffix={<img src={Rub} width="14" alt="Рубль" />} placeholder={titles.amount.placeholder} />)}
+    </Form.Item>
+  );
+
+  const dateField = name => (
+    <Form.Item key={name} label={titles[name].label}>
+      {getFieldDecorator(name, {
+        rules: [{ required: true, message: titles[name].message, type: "object" }],
+        initialValue: moment()
+      })(<DatePicker size="large" format="DD.MM.YYYY" />)}
+    </Form.Item>
+  );
+
+  const commonFields = () => ({
+    category: selectField('category', renderCategories, true),
+    amount: amountField,
+  })
+
+  const committedFields = () => ({
+    account: selectField('account', renderAccounts, true),
+    name: inputField('name', (config.type === 'costs')),
+    commit: dateField('commit'),
+  })
+
+  const plannedFields = () => ({
+    startDate: dateField('start'),
+    periodicity: selectField('periodicity', () => [], true),
+    committed: [],
+  })
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    form.validateFields((err, values) => {
+      console.log(values);
+
+      if (!err) {
+        handleAdd({ ...values });
+        console.log(form);
+      }
+    });
+  };
 
   return (
     <div>
       <Button type="primary" shape="circle" icon="plus" onClick={() => setShow(true)} />
       <Modal
         className={className}
-        title={types[type].title}
+        title={titles.title}
         visible={show}
         onOk={handleSubmit}
         confirmLoading={isFetching}
         onCancel={() => setShow(false)}
       >
         <Form onSubmit={handleSubmit}>
-        <Form.Item label={types[type].account.label}>
-            {getFieldDecorator('account', {
-              rules: [{ required: true, message: types[type].account.message }],
-              initialValue: "0",
-            })(<Select
-              placeholder={types[type].account.placeholder}
-              size="large"
-              style={{
-                width: '100%'
-              }}
-            >
-              {renderAccounts()}
-            </Select>)}
-          </Form.Item>
-          <Form.Item label={types[type].category.label}>
-            {getFieldDecorator('category', {
-              rules: [{ required: true, message: types[type].category.message }],
-            })(<Select
-              placeholder={types[type].category.placeholder}
-              size="large"
-            >
-              {renderCategories()}
-            </Select>)}
-          </Form.Item>
-          <Form.Item label={types[type].name.label}>
-            {getFieldDecorator('name', {
-              rules: [{ required: type === 'cost', message: types[type].name.message, type: 'string' }],
-            })(<Input size="large" placeholder={types[type].name.placeholder} />)}
-          </Form.Item>
-          <Form.Item label={types[type].amount.label}>
-            {getFieldDecorator('amount', {
-              rules: [{ required: true, message: types[type].amount.message, type: 'string' }],
-            })(<Input size="large" suffix={<img src={Rub} width="14" alt="Рубль" />} placeholder={types[type].amount.placeholder} />)}
-          </Form.Item>
-          <Form.Item label={types[type].committed.label}>
-            {getFieldDecorator('committed', {
-              rules: [{ required: true, message: types[type].committed.message, type: 'object' }],
-              initialValue: moment(),
-            })(<DatePicker size="large" format="DD.MM.YYYY" />)}
-          </Form.Item>
+          {(config.status === 'committed')
+          ? Object.values(committedFields())
+          : Object.values(plannedFields())}
+           {Object.values(commonFields())}
         </Form>
       </Modal>
     </div>
-  )
+  );
 }
 
-export default Form.create({ name: moduleName })(AddTransactionForm)
+AddTransactionForm.defaultProps = {
+  config: {
+    type: "",
+    status: ""
+  }
+};
+
+export default Form.create()(AddTransactionForm);
 
 // withFormik({
 //   mapPropsToValues: () => ({}),
@@ -177,3 +147,62 @@ export default Form.create({ name: moduleName })(AddTransactionForm)
 //       setSubmitting(false);
 //   },
 // })(AddCost)
+
+// const types = {
+//   incomes: {
+//     title: 'Добавить доход',
+//     name: {
+//       label: '',
+//       message: '',
+//       placeholder: 'Комментарий',
+//     },
+//     account: {
+//       label: 'Счет',
+//       message: 'Выберите счет зачисления!',
+//       placeholder: 'Счет',
+//     },
+//     amount: {
+//       label: '',
+//       message: 'Введите сумму дохода!',
+//       placeholder: 'Сумма',
+//     },
+//     committed: {
+//       label: '',
+//       message: 'Выберите дату!',
+//       placeholder: '',
+//     },
+//     category: {
+//       label: '',
+//       message: 'Выберите категорию!',
+//       placeholder: 'Категория',
+//     },
+//   },
+//   costs: {
+//     title: 'Добавить расход',
+//     name: {
+//       label: '',
+//       message: '',
+//       placeholder: 'На что совершен расход?',
+//     },
+//     account: {
+//       label: 'Счет',
+//       message: 'Выберите счет списания!',
+//       placeholder: 'Счет',
+//     },
+//     amount: {
+//       label: '',
+//       message: 'Введите сумму расхода!',
+//       placeholder: 'Сумма',
+//     },
+//     committed: {
+//       label: '',
+//       message: 'Выберите дату!',
+//       placeholder: '',
+//     },
+//     category: {
+//       label: '',
+//       message: 'Выберите категорию!',
+//       placeholder: 'Категория',
+//     },
+//   }
+// }

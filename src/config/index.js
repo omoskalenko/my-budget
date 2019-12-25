@@ -66,5 +66,163 @@ export const DATE_LOCAL = {
     timePatterns: ['k:mm:ss \'GMT\'Z', 'k:mm:ss', 'k:mm:ss', 'k:mm'],
     dateTimePattern: '{date} {time}',
   }
-  
 };
+
+export const TRANSACTIONS_TYPES = {
+  COSTS: 'costs',
+  INCOMES: 'incomes'
+}
+
+export const TRANSACTIONS_STATUSES = {
+  COMMITTED: 'committed',
+  PLANNED: 'planned'
+}
+
+export const TRANSACTIONS_TITLES = {
+  INCOMES: {
+    COMMITTED: {
+      ADD: {
+        title: 'Добавить доход',
+        name: {
+          label: '',
+          message: '',
+          placeholder: 'Комментарий',
+        },
+        account: {
+          label: 'Счет',
+          message: 'Выберите счет зачисления!',
+          placeholder: 'Счет',
+        },
+        amount: {
+          label: '',
+          message: 'Введите сумму дохода!',
+          placeholder: 'Сумма',
+        },
+        commit: {
+          label: 'Дата совершения платежа',
+          message: 'Выберите дату!',
+          placeholder: '',
+        },
+        category: {
+          label: '',
+          message: 'Выберите категорию!',
+          placeholder: 'Категория',
+        },
+      }
+    },
+    PLANNED: {
+      ADD: {
+        title: 'Добавить планируемый доход',
+        name: {
+          label: '',
+          message: '',
+          placeholder: 'Комментарий',
+        },
+        account: {
+          label: 'Счет',
+          message: 'Выберите счет зачисления!',
+          placeholder: 'Счет',
+        },
+        amount: {
+          label: '',
+          message: 'Введите сумму дохода!',
+          placeholder: 'Сумма',
+        },
+        committed: {
+          label: '',
+          message: '',
+          placeholder: '',
+        },
+        start: {
+          label: 'Дата начала',
+          message: 'Выберите дату!',
+          placeholder: '',
+        },
+        periodicity: {
+          label: '',
+          message: 'Выберите периодичность!',
+          placeholder: 'Периодичность',
+        },
+        category: {
+          label: '',
+          message: 'Выберите категорию!',
+          placeholder: 'Категория',
+        },
+      }
+    }
+  },
+  COSTS: {
+    COMMITTED: {
+      ADD: {
+        title: 'Добавить расход',
+        name: {
+          label: '',
+          message: '',
+          placeholder: 'На что совершен расход?',
+        },
+        account: {
+          label: 'Счет',
+          message: 'Выберите счет списания!',
+          placeholder: 'Счет',
+        },
+        amount: {
+          label: '',
+          message: 'Введите сумму расхода!',
+          placeholder: 'Сумма',
+        },
+        commit: {
+          label: 'Дата совершения платежа',
+          message: 'Выберите дату!',
+          placeholder: '',
+        },
+        category: {
+          label: '',
+          message: 'Выберите категорию!',
+          placeholder: 'Категория',
+        },
+      }
+    },
+    PLANNED: {
+      ADD: {
+        title: 'Добавить расход',
+        name: {
+          label: '',
+          message: '',
+          placeholder: 'На что совершен расход?',
+        },
+        account: {
+          label: 'Счет',
+          message: 'Выберите счет списания!',
+          placeholder: 'Счет',
+        },
+        amount: {
+          label: '',
+          message: 'Введите сумму расхода!',
+          placeholder: 'Сумма',
+        },
+        committed: {
+          label: '',
+          message: '',
+          placeholder: 'Исполненные платежи',
+        },
+        start: {
+          label: 'Дата начала',
+          message: 'Выберите дату!',
+          placeholder: 'Дата начала',
+        },
+        periodicity: {
+          label: '',
+          message: 'Выберите периодичность!',
+          placeholder: 'Периодичность',
+        },
+        category: {
+          label: '',
+          message: 'Выберите категорию!',
+          placeholder: 'Категория',
+        },
+      }
+    }
+  }
+}
+
+
