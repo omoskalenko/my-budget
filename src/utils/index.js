@@ -78,6 +78,29 @@ export const getTransactionsForPeriod = (transactions, period, type) => {
   })
 }
 
+export const getPlanedTransactionsForPeriod = (transactions, period) => {
+
+  const addDisplayDate = (transaction) => {
+    const newTransaction = {...transaction}
+    newTransaction.displayDate = moment(transaction.start).format('DD.MM.YYYY')
+    return newTransaction
+  }
+
+
+  const copyTransactions = [...transactions]
+  if (period.length < 2) return copyTransactions.map(transaction => {
+    return addDisplayDate(transaction)
+  })
+
+  const notCompletedTransaction = copyTransactions
+    .filter(transaction => moment(transaction.end).isSameOrAfter(period[0]) || !transaction.end)
+
+
+  return notCompletedTransaction.map(transaction => {
+    return addDisplayDate(transaction)
+  })
+}
+
 /**
  *
  * @param {object} data - {

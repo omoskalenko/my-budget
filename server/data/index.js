@@ -89,6 +89,7 @@ module.exports = {
         name: "Бензин",
         amount: 1500.0,
         start: '2019-12-07T11:00:09.296Z', // Крайний день оплаты/дата начала платежа
+        end: '', // Дата последнего платежа, если пусто то бесконечный
         committed: ["7.01.2020", "7.02.2020"], // Когда был проведен ??
         periodicity: 'monthly',
         create: "19.12.2019", // Дата создания - добавится бд
@@ -100,17 +101,19 @@ module.exports = {
         name: "Бензин",
         amount: 1500.0,
         start: '2019-12-23T11:00:09.296Z',
+        end: '2019-11-22T11:00:09.296Z',
         committed: ["23.01.2020", "23.02.2020"],
         periodicity: 'monthly',
         create: "19.12.2019",
       },
-      1: {
+      4: {
         id: 1,
         account: 0,
         category: 3,
         name: "Проезд",
         amount: 150,
         start: '2019-12-01T11:00:09.296Z',
+        end: '',
         committed: ["23.01.2020", "23.02.2020"],
         periodicity: 'daily',
         create: "19.12.2019",
@@ -122,6 +125,7 @@ module.exports = {
         name: "Ипотека",
         amount: 19000.0,
         start: '2019-12-20T11:00:09.296Z',
+        end: '',
         committed: ["20.01.2020", "20.02.2020"],
         periodicity: 'monthly',
         create: "19.12.2019",
@@ -164,6 +168,7 @@ module.exports = {
         name: "Зарплата",
         category: 0,
         start: '2019-12-07T11:00:09.296Z',
+        end: '',
         amount: 34000.0,
         committed: ["07.12.2019"],
         member: 0,
@@ -173,6 +178,7 @@ module.exports = {
         name: "Аванс",
         category: 0,
         start: '2019-12-23T11:00:09.296Z',
+        end: '',
         amount: 16000.0,
         committed: ["23.12.2019"],
         member: 0,
