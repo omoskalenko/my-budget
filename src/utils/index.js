@@ -95,6 +95,27 @@ export const getPlanedTransactionsForPeriod = (transactions, period) => {
   const notCompletedTransaction = copyTransactions
     .filter(transaction => moment(transaction.end).isSameOrAfter(period[0]) || !transaction.end)
 
+    const startPeriod = moment(period[1])
+
+  for(let i = 0; i <= moment(period[1]).diff(period[0], 'days'); i += 1) {
+    const pDay = startPeriod.get('date')
+    const pMonth = startPeriod.get('month')
+    notCompletedTransaction.filter(transaction => {
+      const tDay = moment(transaction.start).get('date')
+      const tMonth = moment(transaction.start).get('month')
+      if(transaction.periodicity === 'monthly') {
+        return tDay === pDay
+      }
+      if(transaction.periodicity === 'daily') {
+        return true
+      }
+      if(transaction.periodicity === 'everyyear') {
+        return (tDay === pDay) && ( tMonth === pMonth)
+      }
+    })
+    startPeriod.add(1, 'days')
+  }
+
 
   return notCompletedTransaction.map(transaction => {
     return addDisplayDate(transaction)
