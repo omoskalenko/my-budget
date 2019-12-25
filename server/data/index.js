@@ -84,33 +84,47 @@ module.exports = {
     planned: {
       0: {
         id: 0,
+        account: 0, // С какого счета по умолчанию списывать
         category: 3,
         name: "Бензин",
         amount: 1500.0,
         start: '2019-12-07T11:00:09.296Z', // Крайний день оплаты/дата начала платежа
-        create: "19.12.2019", // Дата создания
         committed: ["7.01.2020", "7.02.2020"], // Когда был проведен ??
-        account: 0 // С какого счета по умолчанию списывать
+        periodicity: 'monthly',
+        create: "19.12.2019", // Дата создания - добавится бд
       },
       1: {
         id: 1,
+        account: 0,
         category: 3,
         name: "Бензин",
         amount: 1500.0,
         start: '2019-12-23T11:00:09.296Z',
-        create: "19.12.2019",
         committed: ["23.01.2020", "23.02.2020"],
-        account: 0
+        periodicity: 'monthly',
+        create: "19.12.2019",
+      },
+      1: {
+        id: 1,
+        account: 0,
+        category: 3,
+        name: "Проезд",
+        amount: 150,
+        start: '2019-12-01T11:00:09.296Z',
+        committed: ["23.01.2020", "23.02.2020"],
+        periodicity: 'daily',
+        create: "19.12.2019",
       },
       3: {
         id: 3,
+        account: 0,
         category: 0,
         name: "Ипотека",
         amount: 19000.0,
         start: '2019-12-20T11:00:09.296Z',
-        create: "19.12.2019",
         committed: ["20.01.2020", "20.02.2020"],
-        account: 0
+        periodicity: 'monthly',
+        create: "19.12.2019",
       }
   },
     committed: {

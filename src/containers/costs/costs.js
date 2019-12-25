@@ -23,17 +23,19 @@ export const moduleName = TRANSACTIONS_TYPES.COSTS
 
 const schemas = {
   committed: yup.object().shape({
+    account: yup.string().required(),
     category: yup.string().required(),
     name: yup.string().required(),
     amount: yup.number().required(),
     commit: yup.date().required(),
-    account: yup.string().required(),
   }),
   planned: yup.object().shape({
-    category: yup.string().required(),
-    name: yup.string().required(),
-    amount: yup.number().required(),
     account: yup.string(),
+    category: yup.string().required(),
+    name: yup.string(),
+    amount: yup.number().required(),
+    start: yup.date().required(),
+    periodicity: yup.string(),
   })
 }
 

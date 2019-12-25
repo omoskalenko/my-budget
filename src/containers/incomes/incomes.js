@@ -23,12 +23,11 @@ export const moduleName = TRANSACTIONS_TYPES.INCOMES
 
 const schemas = {
   committed: yup.object().shape({
-    account: yup.string(),
+    account: yup.string().required(),
     category: yup.string().required(),
     name: yup.string().required(),
     amount: yup.number().required(),
-    start: yup.date().required(),
-    periodicity: yup.string(),
+    commit: yup.date().required(),
   }),
   planned: yup.object().shape({
     account: yup.string(),

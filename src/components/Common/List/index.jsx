@@ -54,7 +54,7 @@ function List({
         className: styles.delete
       }
     ]
-    if((config.type === 'costs') !== 'cost') columns = columns.filter(column => column.dataIndex !== 'name')
+    // if((config.type === 'costs') !== 'cost') columns = columns.filter(column => column.dataIndex !== 'name')
     return (
       <Table
         loading={isFetching}
