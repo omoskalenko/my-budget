@@ -80,9 +80,9 @@ export const getTransactionsForPeriod = (transactions, period, type) => {
 
 export const getPlanedTransactionsForPeriod = (transactions, period) => {
 
-  const addDisplayDate = (transaction) => {
+  const addDisplayDate = (transaction, date) => {
     const newTransaction = {...transaction}
-    newTransaction.displayDate = moment(transaction.start).format('DD.MM.YYYY')
+    newTransaction.displayDate = moment(date).format('DD.MM.YYYY')
     return newTransaction
   }
 
@@ -95,16 +95,21 @@ export const getPlanedTransactionsForPeriod = (transactions, period) => {
   const notCompletedTransaction = copyTransactions
     .filter(transaction => moment(transaction.end).isSameOrAfter(period[0]) || !transaction.end)
 
-    const startPeriod = moment(period[1])
+  const startPeriod = moment(period[1]) // необходимо скомпировать
+
+
+  let filteredTransaction = []
+
 
   for(let i = 0; i <= moment(period[1]).diff(period[0], 'days'); i += 1) {
     const pDay = startPeriod.get('date')
     const pMonth = startPeriod.get('month')
-    notCompletedTransaction.filter(transaction => {
+    notCompletedTransaction.forEach(transaction => {
       const tDay = moment(transaction.start).get('date')
       const tMonth = moment(transaction.start).get('month')
       if(transaction.periodicity === 'monthly') {
-        return tDay === pDay
+
+        return tDay === pDay && filteredTransaction.push(addDisplayDate(transaction, startPeriod))
       }
       if(transaction.periodicity === 'daily') {
         return true
@@ -117,9 +122,7 @@ export const getPlanedTransactionsForPeriod = (transactions, period) => {
   }
 
 
-  return notCompletedTransaction.map(transaction => {
-    return addDisplayDate(transaction)
-  })
+  return filteredTransaction
 }
 
 /**
