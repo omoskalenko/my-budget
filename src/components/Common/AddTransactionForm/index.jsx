@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Modal, Form, Input, DatePicker, Select, Icon } from "antd";
+import { Button, Modal, Form, Input, DatePicker, Select } from "antd";
 import moment from "moment";
 import { TRANSACTIONS_TITLES } from "../../../config";
 
@@ -76,7 +76,7 @@ function AddTransactionForm({ isFetching, handleAdd, categories, accounts, form,
     <Form.Item key={1} label={titles.amount.label}>
       {getFieldDecorator("amount", {
         rules: [{ required: true, message: titles.amount.message, type: "string" }]
-      })(<Input size="large" suffix={<img src={Rub} width="14" alt="Рубль" />} placeholder={titles.amount.placeholder} />)}
+      })(<Input type="number" size="large" suffix={<img src={Rub} width="14" alt="Рубль" />} placeholder={titles.amount.placeholder} />)}
     </Form.Item>
   );
 
