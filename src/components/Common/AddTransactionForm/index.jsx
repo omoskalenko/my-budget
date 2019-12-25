@@ -42,6 +42,16 @@ function AddTransactionForm({ isFetching, handleAdd, categories, accounts, form,
     });
   };
 
+  const renderPeriodicity = () => {
+    return ['everyyear', 'monthly','daily'].map(periodicity => {
+      return (
+        <Option value={periodicity} key={periodicity}>
+          {periodicity}
+        </Option>
+      );
+    });
+  };
+
   const selectField = (name, render, required) => (
     <Form.Item key={name} label={titles[name].label}>
       {getFieldDecorator(name, {
@@ -79,20 +89,20 @@ function AddTransactionForm({ isFetching, handleAdd, categories, accounts, form,
     </Form.Item>
   );
 
-  const commonFields = () => ({
-    category: selectField('category', renderCategories, true),
-    amount: amountField,
-  })
-
   const committedFields = () => ({
     account: selectField('account', renderAccounts, true),
+    category: selectField('category', renderCategories, true),
+    amount: amountField,
     name: inputField('name', (config.type === 'costs')),
     commit: dateField('commit'),
   })
 
   const plannedFields = () => ({
+    category: selectField('category', renderCategories, true),
+    name: inputField('name', (config.type === 'costs')),
+    amount: amountField,
     startDate: dateField('start'),
-    periodicity: selectField('periodicity', () => [], true),
+    periodicity: selectField('periodicity', renderPeriodicity, true),
     committed: [],
   })
 
@@ -123,7 +133,6 @@ function AddTransactionForm({ isFetching, handleAdd, categories, accounts, form,
           {(config.status === 'committed')
           ? Object.values(committedFields())
           : Object.values(plannedFields())}
-           {Object.values(commonFields())}
         </Form>
       </Modal>
     </div>

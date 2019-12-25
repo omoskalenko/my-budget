@@ -134,7 +134,7 @@ export const TRANSACTIONS_TITLES = {
           placeholder: '',
         },
         start: {
-          label: 'Дата начала',
+          label: 'Дата первого платежа',
           message: 'Выберите дату!',
           placeholder: '',
         },
@@ -184,7 +184,7 @@ export const TRANSACTIONS_TITLES = {
     },
     PLANNED: {
       ADD: {
-        title: 'Добавить расход',
+        title: 'Добавить планируемый расход',
         name: {
           label: '',
           message: '',
@@ -206,7 +206,7 @@ export const TRANSACTIONS_TITLES = {
           placeholder: 'Исполненные платежи',
         },
         start: {
-          label: 'Дата начала',
+          label: 'Дата первого платежа',
           message: 'Выберите дату!',
           placeholder: 'Дата начала',
         },

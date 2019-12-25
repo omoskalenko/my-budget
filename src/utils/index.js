@@ -55,21 +55,38 @@ export const getBalance = (accountId, incomes, costs) => {
   return getIncomingAmount(accountId, incomes) - getCoastsAmount(accountId, costs)
 }
 
-export const getTransactionsForPeriod = (transactions, period) => {
-  const addDisplayDate = (transaction) => {
+export const getTransactionsForPeriod = (transactions, period, type) => {
+  const dateProperty = {
+    committed: 'commit',
+    planned: 'start'
+  }
+  const addDisplayDate = (transaction, dateProperty) => {
     const newTransaction = {...transaction}
-    newTransaction.displayDate = moment(transaction.committed).format('DD.MM.YYYY')
+    newTransaction.displayDate = moment(transaction[dateProperty]).format('DD.MM.YYYY')
     return newTransaction
   }
   const copyTransactions = [...transactions]
   if (period.length < 2) return copyTransactions.map(transaction => {
-    return addDisplayDate(transaction)
+    return addDisplayDate(transaction, dateProperty[type])
   })
 
   return copyTransactions
   .filter(transaction => {
-    return moment(transaction.committed).isBetween(period[0], period[1], 'day', [])
+    return moment(transaction[dateProperty[type]]).isBetween(period[0], period[1], 'day', [])
   }).map(transaction => {
-    return addDisplayDate(transaction)
+    return addDisplayDate(transaction, dateProperty[type])
   })
+}
+
+/**
+ *
+ * @param {object} data - {
+ * type - тип
+ * payload - данные для валидации
+ * }
+ * @param {object} schemas объект с схемами, где ключ равен типу аргумента data
+ */
+export const validateTransaction = (data, schemas) => {
+  const {type, payload } = data
+    return schemas[type].validate(payload)
 }

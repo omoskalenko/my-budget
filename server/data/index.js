@@ -87,9 +87,9 @@ module.exports = {
         category: 3,
         name: "Бензин",
         amount: 1500.0,
-        paymentDeadline: "7", // Крайний день оплаты
+        start: '2019-12-07T11:00:09.296Z', // Крайний день оплаты/дата начала платежа
         create: "19.12.2019", // Дата создания
-        paid: ["7.01.2020", "7.02.2020"], // Когда был проведен ??
+        committed: ["7.01.2020", "7.02.2020"], // Когда был проведен ??
         account: 0 // С какого счета по умолчанию списывать
       },
       1: {
@@ -97,9 +97,9 @@ module.exports = {
         category: 3,
         name: "Бензин",
         amount: 1500.0,
-        paymentDeadline: "23",
+        start: '2019-12-23T11:00:09.296Z',
         create: "19.12.2019",
-        paid: ["23.01.2020", "23.02.2020"],
+        committed: ["23.01.2020", "23.02.2020"],
         account: 0
       },
       3: {
@@ -107,9 +107,9 @@ module.exports = {
         category: 0,
         name: "Ипотека",
         amount: 19000.0,
-        paymentDeadline: "20",
+        start: '2019-12-20T11:00:09.296Z',
         create: "19.12.2019",
-        paid: ["20.01.2020", "20.02.2020"],
+        committed: ["20.01.2020", "20.02.2020"],
         account: 0
       }
   },
@@ -149,19 +149,19 @@ module.exports = {
         id: 0,
         name: "Зарплата",
         category: 0,
-        planAvailableDay: "7",
+        start: '2019-12-07T11:00:09.296Z',
         amount: 34000.0,
+        committed: ["07.12.2019"],
         member: 0,
-        factAvailable: ["07.12.2019"]
       },
       1: {
         id: 1,
         name: "Аванс",
         category: 0,
-        planAvailableDay: "23",
+        start: '2019-12-23T11:00:09.296Z',
         amount: 16000.0,
+        committed: ["23.12.2019"],
         member: 0,
-        dates: ["23.12.2019"]
       }
     },
     committed: {

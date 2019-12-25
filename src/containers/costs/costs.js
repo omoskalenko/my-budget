@@ -7,7 +7,7 @@ import { take, spawn, call, put, takeEvery, race } from 'redux-saga/effects'
 import { createSelector } from 'reselect'
 import { COMPUTED_ACCOUNTS_BALANCE, COMPUTED_PLANNED_BALANCE } from '../accounts'
 import { getPeriod } from '../parameters'
-import { getTransactionsForPeriod } from '../../utils'
+import { getTransactionsForPeriod, validateTransaction} from '../../utils'
 import {
   fetchTransactionsRequest,
   fetchTransactionsSuccess,
@@ -21,14 +21,21 @@ import { TRANSACTIONS_STATUSES, TRANSACTIONS_TYPES, TRANSACTIONS_TITLES} from '.
 
 export const moduleName = TRANSACTIONS_TYPES.COSTS
 
-const Schema = yup.object().shape({
-  category: yup.string().required(),
-  name: yup.string().required(),
-  amount: yup.number().required(),
-  committed: yup.date().required(),
-  account: yup.string().required(),
-  plan: yup.boolean()
-})
+const schemas = {
+  committed: yup.object().shape({
+    category: yup.string().required(),
+    name: yup.string().required(),
+    amount: yup.number().required(),
+    commit: yup.date().required(),
+    account: yup.string().required(),
+  }),
+  planned: yup.object().shape({
+    category: yup.string().required(),
+    name: yup.string().required(),
+    amount: yup.number().required(),
+    account: yup.string(),
+  })
+}
 
 /** Actions */
 
@@ -111,13 +118,13 @@ export const plannedCosts = createSelector(stateSelector, state => state.planned
 export const getCommittedCosts = createSelector(
   [committedCosts, getPeriod],
   (committedCosts, getPeriod) => {
-    return getTransactionsForPeriod(committedCosts, getPeriod)
+    return getTransactionsForPeriod(committedCosts, getPeriod, TRANSACTIONS_STATUSES.COMMITTED)
   }
 )
 export const getPlannedCosts = createSelector(
   [plannedCosts, getPeriod],
   (plannedCosts, getPeriod) => {
-    return getTransactionsForPeriod(plannedCosts, getPeriod)
+    return getTransactionsForPeriod(plannedCosts, getPeriod, TRANSACTIONS_STATUSES.PLANNED)
   }
 )
 
@@ -176,8 +183,8 @@ export const fetchCostsSaga = function* (action) {
 
 export const addCostSaga = function* (action) {
   try {
-    Schema.validate(action.payload)
     const { payload, transactionsStatus } = action
+    validateTransaction({ type: transactionsStatus, payload}, schemas)
     const data = yield call([API, API.addCost], payload, transactionsStatus)
     if (transactionsStatus === 'committed') {
       yield put({

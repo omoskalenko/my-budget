@@ -7,7 +7,7 @@ import { take, spawn, call, put, takeEvery, race } from 'redux-saga/effects'
 import { createSelector } from 'reselect'
 import { COMPUTED_ACCOUNTS_BALANCE, COMPUTED_PLANNED_BALANCE } from '../accounts'
 import { getPeriod } from '../parameters'
-import { getTransactionsForPeriod } from '../../utils'
+import { getTransactionsForPeriod, validateTransaction } from '../../utils'
 import {
   fetchTransactionsRequest,
   fetchTransactionsSuccess,
@@ -21,14 +21,24 @@ import { TRANSACTIONS_STATUSES, TRANSACTIONS_TYPES, TRANSACTIONS_TITLES} from '.
 
 export const moduleName = TRANSACTIONS_TYPES.INCOMES
 
-const Schema = yup.object().shape({
-  category: yup.string().required(),
-  name: yup.string(),
-  amount: yup.number().required(),
-  committed: yup.date().required(),
-  account: yup.string().required(),
-  plan: yup.boolean()
-})
+const schemas = {
+  committed: yup.object().shape({
+    account: yup.string(),
+    category: yup.string().required(),
+    name: yup.string().required(),
+    amount: yup.number().required(),
+    start: yup.date().required(),
+    periodicity: yup.string(),
+  }),
+  planned: yup.object().shape({
+    account: yup.string(),
+    category: yup.string().required(),
+    name: yup.string(),
+    amount: yup.number().required(),
+    start: yup.date().required(),
+    periodicity: yup.string(),
+  })
+}
 
 /** Actions */
 
@@ -111,13 +121,13 @@ export const plannedIncomes = createSelector(stateSelector, state => state.plann
 export const getCommittedIncomes = createSelector(
   [committedIncomes, getPeriod],
   (committedIncomes, getPeriod) => {
-    return getTransactionsForPeriod(committedIncomes, getPeriod)
+    return getTransactionsForPeriod(committedIncomes, getPeriod, TRANSACTIONS_STATUSES.COMMITTED)
   }
 )
 export const getPlannedIncomes = createSelector(
   [plannedIncomes, getPeriod],
   (plannedIncomes, getPeriod) => {
-    return getTransactionsForPeriod(plannedIncomes, getPeriod)
+    return getTransactionsForPeriod(plannedIncomes, getPeriod, TRANSACTIONS_STATUSES.PLANNED)
   }
 )
 
@@ -176,8 +186,8 @@ export const fetchIncomesSaga = function* (action) {
 
 export const addIncomeSaga = function* (action) {
   try {
-    Schema.validate(action.payload)
     const { payload, transactionsStatus } = action
+    validateTransaction({ type: transactionsStatus, payload}, schemas)
     const data = yield call([API, API.addIncome], payload, transactionsStatus)
     if (transactionsStatus === 'committed') {
       yield put({
