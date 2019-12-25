@@ -7,7 +7,7 @@ import { take, spawn, call, put, takeEvery, race } from 'redux-saga/effects'
 import { createSelector } from 'reselect'
 import { COMPUTED_ACCOUNTS_BALANCE, COMPUTED_PLANNED_BALANCE } from '../accounts'
 import { getPeriod } from '../parameters'
-import { getTransactionsForPeriod, validateTransaction, getPlanedTransactionsForPeriod} from '../../utils'
+import { getTransactionsForPeriod, validateTransaction, getPlannedTransactionsForPeriod} from '../../utils'
 import {
   fetchTransactionsRequest,
   fetchTransactionsSuccess,
@@ -126,7 +126,7 @@ export const getCommittedCosts = createSelector(
 export const getPlannedCosts = createSelector(
   [plannedCosts, getPeriod],
   (plannedCosts, getPeriod) => {
-    return getPlanedTransactionsForPeriod(plannedCosts, getPeriod)
+    return getPlannedTransactionsForPeriod(plannedCosts, getPeriod)
   }
 )
 
