@@ -19,10 +19,10 @@ function List({
     const dataSource = items
       .filter(item => String(item.category.id) === String(id))
       .map(({
-        id, displayDate, name, amount
+        id, displayDate, name, amount, key
       }) => ({
         id,
-        key: id,
+        key,
         committed: displayDate,
         name,
         amount,

@@ -1,5 +1,5 @@
 import moment from 'moment'
-
+import uuid from 'uuid/v4'
 /**
 * Преобразование объекта с данными по id в массив объектов с свойством id
 *
@@ -25,14 +25,14 @@ export function getAmountByIdAccount(account, transactions) {
     .reduce((res, transaction) => res + +transaction.amount, 0))
 }
 
-  /**
-  * Получить входящие зачисления на счет
-  *
-  * @param {number} - accountId - id счета
-  * @param {object} - income - Коллекция транзакции доходов
-  * @returns {number} - сумму зачислений за все время
-  */
- export const getIncomingAmount = (accountId, income) => {
+/**
+* Получить входящие зачисления на счет
+*
+* @param {number} - accountId - id счета
+* @param {object} - income - Коллекция транзакции доходов
+* @returns {number} - сумму зачислений за все время
+*/
+export const getIncomingAmount = (accountId, income) => {
   // return  getAmountByIdsTransactions(accounts[accountId].transactions.income, income)
   return getAmountByIdAccount(accountId, income)
 }
@@ -61,8 +61,9 @@ export const getTransactionsForPeriod = (transactions, period, type) => {
     planned: 'start'
   }
   const addDisplayDate = (transaction, dateProperty) => {
-    const newTransaction = {...transaction}
+    const newTransaction = { ...transaction }
     newTransaction.displayDate = moment(transaction[dateProperty]).format('DD.MM.YYYY')
+    newTransaction.key = uuid()
     return newTransaction
   }
   const copyTransactions = [...transactions]
@@ -71,57 +72,69 @@ export const getTransactionsForPeriod = (transactions, period, type) => {
   })
 
   return copyTransactions
-  .filter(transaction => {
-    return moment(transaction[dateProperty[type]]).isBetween(period[0], period[1], 'day', [])
-  }).map(transaction => {
-    return addDisplayDate(transaction, dateProperty[type])
-  })
+    .filter(transaction => {
+      return moment(transaction[dateProperty[type]]).isBetween(period[0], period[1], 'day', [])
+    }).map(transaction => {
+      return addDisplayDate(transaction, dateProperty[type])
+    })
 }
 
-export const getPlanedTransactionsForPeriod = (transactions, period) => {
+export const getPlannedTransactionsForPeriod = (transactions, period) => {
 
-  const addDisplayDate = (transaction, date) => {
-    const newTransaction = {...transaction}
-    newTransaction.displayDate = moment(date).format('DD.MM.YYYY')
+  const addDisplayDate = (transaction, date, key) => {
+    const newTransaction = { ...transaction }
+    newTransaction.displayDate = date.format('DD.MM.YYYY')
+    newTransaction.key = uuid()
     return newTransaction
   }
 
-
+  // создаем копию коллекции транзакций для работы
   const copyTransactions = [...transactions]
+  // если в периоде не определен или определено только начала - возвращаем все запланированные транзакции с текущим днем
   if (period.length < 2) return copyTransactions.map(transaction => {
-    return addDisplayDate(transaction)
+    return addDisplayDate(transaction, moment())
   })
 
+  // Получаем действующие транзакции
   const notCompletedTransaction = copyTransactions
     .filter(transaction => moment(transaction.end).isSameOrAfter(period[0]) || !transaction.end)
 
-  const startPeriod = moment(period[1]) // необходимо скомпировать
+  // Получаем первый день периода
+  const startPeriod = moment(period[0]) // необходимо скопировать
 
-
+  // Массив для сбора транзакций входящих в период
   let filteredTransaction = []
+  const count = period[1].diff(period[0], 'days')
 
-
-  for(let i = 0; i <= moment(period[1]).diff(period[0], 'days'); i += 1) {
+  // Проходимся по всем датам периода
+  for (let i = 0; i <= count; i += 1) {
+    // Получаем дату и месяц дня периода
     const pDay = startPeriod.get('date')
     const pMonth = startPeriod.get('month')
-    notCompletedTransaction.forEach(transaction => {
+    notCompletedTransaction.forEach((transaction, y) => {
+      // Получаем дату и месяц стартового дня транзакции
       const tDay = moment(transaction.start).get('date')
       const tMonth = moment(transaction.start).get('month')
-      if(transaction.periodicity === 'monthly') {
+      // сравниваем день
+      if (tDay === pDay) {
 
-        return tDay === pDay && filteredTransaction.push(addDisplayDate(transaction, startPeriod))
+        // Если транзакция ежемесячная возвращаем транзакцию с датой дня периода для отображения
+        if (transaction.periodicity === 'monthly') {
+          filteredTransaction.push(addDisplayDate(transaction, startPeriod))
+        }
+        // Если транзакция ежедгодная сравниваем месяц и возвращаем транзакцию с датой дня периода для отображения
+        if (transaction.periodicity === 'everyyear') {
+          if (tMonth === pMonth) filteredTransaction.push(addDisplayDate(transaction, startPeriod))
+        }
       }
-      if(transaction.periodicity === 'daily') {
-        return true
-      }
-      if(transaction.periodicity === 'everyyear') {
-        return (tDay === pDay) && ( tMonth === pMonth)
+      // Если транзакция ежедневная возвращаем транзакцию с датой дня периода для отображения
+      if (transaction.periodicity === 'daily') {
+        filteredTransaction.push(addDisplayDate(transaction, startPeriod))
       }
     })
+    // берем следующую дату периода
     startPeriod.add(1, 'days')
   }
-
-
   return filteredTransaction
 }
 
@@ -134,6 +147,6 @@ export const getPlanedTransactionsForPeriod = (transactions, period) => {
  * @param {object} schemas объект с схемами, где ключ равен типу аргумента data
  */
 export const validateTransaction = (data, schemas) => {
-  const {type, payload } = data
-    return schemas[type].validate(payload)
+  const { type, payload } = data
+  return schemas[type].validate(payload)
 }
