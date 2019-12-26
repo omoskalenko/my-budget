@@ -1,3 +1,11 @@
+export const PATHS = {
+  MAIN: '/operations',
+  BUDGET: '/budget',
+  DIRECTORIES: '/directories',
+  PROFILE: '/profile',
+  SETTINGS: '/settings'
+}
+
 export const DATE_LOCAL = {
   lang: {
     placeholder: "Выберите Дату",

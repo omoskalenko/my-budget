@@ -29,7 +29,7 @@ function App({
       <Layout id="main">
         <HeaderBlock />
         <Switch>
-          <Route exact path='/' component={Main} />
+          <Route exact path='/operations' component={Main} />
           <Route exact path='/budget' component={Budget} />
         </Switch>
         <Footer style={{ textAlign: "center" }}>©2019 Created by Oleg Moskalenko</Footer>

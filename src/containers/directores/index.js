@@ -2,6 +2,8 @@ import API from '../../API';
 import { Record } from 'immutable'
 import { take, spawn, call, put, takeEvery } from  'redux-saga/effects'
 import { createSelector } from 'reselect'
+import { push } from 'connected-react-router';
+import { PATHS } from '../../config';
 
 /** Constants */
 
@@ -80,6 +82,9 @@ export const fetchDirectoriesSaga = function* () {
         type: FETCH_DIRECTORIES_SUCCESS,
         payload
       })
+      if(window.location.pathname === '/') {
+        yield put(push(PATHS.MAIN))
+      }
     } catch(error) {
       yield put({
         type: FETCH_DIRECTORIES_ERROR,

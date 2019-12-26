@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Menu, Layout, Icon } from 'antd'
-import { NavLink } from 'react-router-dom'
+import { NavLink, withRouter } from 'react-router-dom'
+import { PATHS } from '../../../config'
 
 import './styles.sass'
 
@@ -8,13 +9,18 @@ import './styles.sass'
 const { SubMenu } = Menu
 const { Sider } = Layout
 
-export default function SiderBlock() {
+function SiderBlock({
+  location,
+}) {
 
-  const [collapsed, setCollapsed] = useState([])
+  const [collapsed, setCollapsed] = useState(false)
 
   const toggle = () => {
     setCollapsed(!collapsed)
   }
+
+  console.log(location.pathname, PATHS.BUDGET);
+  
 
   return (
     <Sider id="side" onCollapse={toggle} collapsible collapsed={collapsed}>
@@ -22,21 +28,21 @@ export default function SiderBlock() {
     <Icon type="wallet" size="large"/><span>My Budget</span>
     </div>
     
-    <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-      <Menu.Item key="1">
-      <NavLink to={'/'} activeClassName="active_link">
+    <Menu theme="dark" selectedKeys={location.pathname} selectable mode="inline">
+      <Menu.Item key={PATHS.MAIN}>
+      <NavLink to={PATHS.MAIN} activeClassName="active_link">
         <Icon type="transaction" />
         <span>Доходы и расходы</span>
        </NavLink>
       </Menu.Item>
-      <Menu.Item key="2">
-      <NavLink to={'/budget'} activeClassName="active_link">
+      <Menu.Item key={PATHS.BUDGET}>
+      <NavLink to={PATHS.BUDGET} activeClassName="active_link">
         <Icon type="pie-chart" />
         <span>Бюджет</span>
         </NavLink>
       </Menu.Item>
       <SubMenu
-        key="sub1"
+        key={PATHS.DIRECTORIES}
         title={
           <span>
            <Icon type="database" />
@@ -44,8 +50,8 @@ export default function SiderBlock() {
           </span>
         }
       >
-        <Menu.Item key="3">
-        <NavLink to={'/directories/costs_categories'} activeClassName="active_link">
+        <Menu.Item key={PATHS.DIRECTORIES}>
+        <NavLink to={PATHS.DIRECTORIES} activeClassName="active_link">
           Категории расходов
         </NavLink>
         </Menu.Item>
@@ -82,7 +88,7 @@ export default function SiderBlock() {
         <Menu.Item key="8">Team 1</Menu.Item>
         <Menu.Item key="9">Team 2</Menu.Item>
       </SubMenu> */}
-      <Menu.Item key="10">
+      <Menu.Item key={PATHS.SETTINGS}>
       <Icon type="setting" />
         <span>Настройки</span>
       </Menu.Item>
@@ -90,3 +96,5 @@ export default function SiderBlock() {
   </Sider>
   )
 }
+
+export default withRouter(SiderBlock)
