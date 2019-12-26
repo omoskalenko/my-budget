@@ -5,9 +5,9 @@ import { createReducer } from '@reduxjs/toolkit'
 import * as yup from 'yup'
 import { spawn, call, put, takeEvery } from 'redux-saga/effects'
 import { createSelector } from 'reselect'
-import { COMPUTED_ACCOUNTS_BALANCE, COMPUTED_PLANNED_BALANCE } from '../accounts'
+import { CALC_BALANCE, CALC_PLANNED_BALANCE } from '../balance'
 import { getPeriod } from '../parameters'
-import { getTransactionsForPeriod, validateTransaction } from '../../utils'
+import { getTransactionsForPeriod, validateTransaction, getPlannedTransactionsForPeriod } from '../../utils'
 import {
   fetchTransactionsRequest,
   fetchTransactionsSuccess,
@@ -17,6 +17,7 @@ import {
   deleteTransactionSuccess,
   error } from '../../utils/transactionsState'
 import { TRANSACTIONS_STATUSES, TRANSACTIONS_TYPES } from '../../config'
+import moment from 'moment';
 /** Constants */
 
 export const moduleName = TRANSACTIONS_TYPES.INCOMES
@@ -126,7 +127,14 @@ export const getCommittedIncomes = createSelector(
 export const getPlannedIncomes = createSelector(
   [plannedIncomes, getPeriod],
   (plannedIncomes, getPeriod) => {
-    return getTransactionsForPeriod(plannedIncomes, getPeriod, TRANSACTIONS_STATUSES.PLANNED)
+    return getPlannedTransactionsForPeriod(plannedIncomes, getPeriod)
+  }
+)
+
+export const getPlannedIncomesForCalcBalance = createSelector(
+  [plannedIncomes, getPeriod],
+  (plannedIncomes, getPeriod) => {
+    return getPlannedTransactionsForPeriod(plannedIncomes, [moment(), getPeriod[1]])
   }
 )
 
@@ -172,7 +180,7 @@ export const fetchIncomesSaga = function* (action) {
         payload,
       })
       yield put({
-        type: COMPUTED_PLANNED_BALANCE,
+        type: CALC_PLANNED_BALANCE,
       })
     }
     } catch (error) {
@@ -194,7 +202,7 @@ export const addIncomeSaga = function* (action) {
         payload: data,
       })
       yield put({
-        type: COMPUTED_ACCOUNTS_BALANCE,
+        type: CALC_BALANCE,
       })
     } else if (transactionsStatus === 'planned') {
       yield put({
@@ -202,7 +210,7 @@ export const addIncomeSaga = function* (action) {
         payload: data,
       })
       yield put({
-        type: COMPUTED_PLANNED_BALANCE,
+        type: CALC_PLANNED_BALANCE,
       })
     }
   } catch (error) {
@@ -223,7 +231,7 @@ export const deleteIncomeSaga = function* (action) {
       id: payload
     })
     yield put({
-      type: COMPUTED_ACCOUNTS_BALANCE,
+      type: CALC_BALANCE,
     })
   } else if (transactionsStatus === 'planned') {
     yield put({
@@ -232,7 +240,7 @@ export const deleteIncomeSaga = function* (action) {
       id: payload
     })
     yield put({
-      type: COMPUTED_PLANNED_BALANCE,
+      type: CALC_PLANNED_BALANCE,
     })
   }
   } catch (error) {

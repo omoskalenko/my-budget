@@ -5,7 +5,7 @@ import { createReducer } from '@reduxjs/toolkit'
 import * as yup from 'yup'
 import { spawn, call, put, takeEvery } from 'redux-saga/effects'
 import { createSelector } from 'reselect'
-import { COMPUTED_ACCOUNTS_BALANCE, COMPUTED_PLANNED_BALANCE } from '../accounts'
+import { CALC_BALANCE, CALC_PLANNED_BALANCE } from '../balance'
 import { getPeriod } from '../parameters'
 import { getTransactionsForPeriod, validateTransaction, getPlannedTransactionsForPeriod} from '../../utils'
 import {
@@ -17,6 +17,7 @@ import {
   deleteTransactionSuccess,
   error } from '../../utils/transactionsState'
 import { TRANSACTIONS_STATUSES, TRANSACTIONS_TYPES } from '../../config'
+import moment from 'moment';
 /** Constants */
 
 export const moduleName = TRANSACTIONS_TYPES.COSTS
@@ -129,6 +130,14 @@ export const getPlannedCosts = createSelector(
     return getPlannedTransactionsForPeriod(plannedCosts, getPeriod)
   }
 )
+export const getPlannedCostsForCalcBalance = createSelector(
+  [plannedCosts, getPeriod],
+  (plannedCosts, getPeriod) => {
+    return getPlannedTransactionsForPeriod(plannedCosts, [moment(),getPeriod[1]])
+  }
+)
+
+
 
 /** Actions Creators */
 
@@ -172,7 +181,7 @@ export const fetchCostsSaga = function* (action) {
         payload,
       })
       yield put({
-        type: COMPUTED_PLANNED_BALANCE,
+        type: CALC_PLANNED_BALANCE,
       })
     }
     } catch (error) {
@@ -194,7 +203,7 @@ export const addCostSaga = function* (action) {
         payload: data,
       })
       yield put({
-        type: COMPUTED_ACCOUNTS_BALANCE,
+        type: CALC_BALANCE,
       })
     } else if (transactionsStatus === 'planned') {
       yield put({
@@ -202,7 +211,7 @@ export const addCostSaga = function* (action) {
         payload: data,
       })
       yield put({
-        type: COMPUTED_PLANNED_BALANCE,
+        type: CALC_PLANNED_BALANCE,
       })
     }
   } catch (error) {
@@ -223,7 +232,7 @@ export const deleteCostSaga = function* (action) {
       id: payload
     })
     yield put({
-      type: COMPUTED_ACCOUNTS_BALANCE,
+      type: CALC_BALANCE,
     })
   } else if (transactionsStatus === 'planned') {
     yield put({
@@ -232,7 +241,7 @@ export const deleteCostSaga = function* (action) {
       id: payload
     })
     yield put({
-      type: COMPUTED_PLANNED_BALANCE,
+      type: CALC_PLANNED_BALANCE,
     })
   }
   } catch (error) {

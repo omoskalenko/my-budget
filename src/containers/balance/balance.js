@@ -2,13 +2,13 @@ import API from '../../API'
 import { Record } from 'immutable'
 import { take, spawn, call, put, select } from  'redux-saga/effects'
 import { createSelector } from 'reselect'
-import { committedCosts, getPlannedCosts } from '../costs/costs'
-import { committedIncomes, getPlannedIncomes } from '../incomes/incomes'
+import { committedCosts, getPlannedCostsForCalcBalance } from '../costs/costs'
+import { committedIncomes, getPlannedIncomesForCalcBalance } from '../incomes/incomes'
 import { getBalance } from '../../utils/index'
 
 /** Constants */
 
-export const moduleName = 'accounts'
+export const moduleName = 'balance'
 
 
 /** Actions */
@@ -19,13 +19,17 @@ export const FETCH_ACCOUNTS_ERROR = `${moduleName}/FETCH_ACCOUNTS_ERROR`
 export const FETCH_COSTS_REQUEST = `${moduleName}/FETCH_COSTS_REQUEST`
 export const FETCH_COSTS_SUCCESS = `${moduleName}/FETCH_COSTS_SUCCESS`
 export const FETCH_COSTS_ERROR = `${moduleName}/FETCH_COSTS_ERROR`
-export const COMPUTED_ACCOUNTS_BALANCE = `${moduleName}/COMPUTED_ACCOUNTS_BALANCE`
-export const COMPUTED_PLANNED_BALANCE = `${moduleName}/COMPUTED_PLANNED_BALANCE`
+export const CALC_BALANCE = `${moduleName}/CALC_BALANCE`
+export const SET_ACTUL_BALANCE = `${moduleName}/SET_ACTUL_BALANCE`
+export const CALC_PLANNED_BALANCE = `${moduleName}/CALC_PLANNED_BALANCE`
+export const SET_PANNED_BALANCE = `${moduleName}/SET_PANNED_BALANCE`
 /** Initial State */
 
 
 const initialState = Record({
   list: [],
+  actulBalance: [],
+  plannedBalance: [],
   isFetching: true,
   error: false,
 })
@@ -49,6 +53,13 @@ export const reducer = ( state = new initialState(), action) => {
         isFetching: false
       }
     }
+    case SET_ACTUL_BALANCE: {
+      return {
+        ...state,
+        actulBalance: payload,
+        isFetching: false
+      }
+    }
 
     default:
       return state
@@ -61,17 +72,25 @@ export const stateSelector = state => state[moduleName]
 
 export const accounts = createSelector(stateSelector, state => state.list)
 
-export const getAccounts = createSelector(
+export const balance = createSelector(stateSelector, state => state.list)
+
+export const getAccountsWhithActulBalance = createSelector(
   [accounts],
   accounts => accounts
 )
+
+export const getPlannedBalance = createSelector(
+  [getAccountsWhithActulBalance],
+  balance => balance
+)
+
 
 
 /** Actions Creators */
 
 export const fetchAccounts = () => ({ type: FETCH_ACCOUNTS_REQUEST })
 export const fetchCosts = () =>  ({ type: FETCH_COSTS_REQUEST })
-export const computedPlannedBalance = () => ({ type: COMPUTED_PLANNED_BALANCE })
+export const calcPlannedBalance = () => ({ type: CALC_PLANNED_BALANCE })
 
 /** Sagas */
 
@@ -93,14 +112,14 @@ export const fetchAccountsSaga = function* () {
   }
 }
 
-export const computedBalanceSaga = function* () {
+export const calcActulBalanceSaga = function* () {
   while(true) {
-    yield take(COMPUTED_ACCOUNTS_BALANCE)
-    const accounts = yield select(state => getAccounts(state))
+    yield take(CALC_BALANCE)
+    const balance = yield select(state => getAccountsWhithActulBalance(state))
     const selectCosts = yield select(state => committedCosts(state))
     const selectIncomes = yield select(state => committedIncomes(state))
 
-    const payload = accounts.map(account => {
+    const payload = balance.map(account => {
       account.balance = getBalance(account.id, selectIncomes, selectCosts)
       return account
     })
@@ -110,19 +129,18 @@ export const computedBalanceSaga = function* () {
       payload
     })
 
-
   }
 }
 
-export const computedPlannedBalanceSaga = function* () {
+export const calcPlannedBalanceSaga = function* () {
   while(true) {
-    yield take(COMPUTED_PLANNED_BALANCE)
-    const accounts = yield select(state => getAccounts(state))
-    const selectCosts = yield select(state => getPlannedCosts(state))
-    const selectIncomes = yield select(state => getPlannedIncomes(state))
+    yield take(CALC_PLANNED_BALANCE)
+    const actulBalance = yield select(state => getAccountsWhithActulBalance(state))
+    const selectCosts = yield select(state => getPlannedCostsForCalcBalance(state))
+    const selectIncomes = yield select(state => getPlannedIncomesForCalcBalance(state))
 
-    const payload = accounts.map(account => {
-      account.balance = getBalance(account.id, selectIncomes, selectCosts)
+    const payload = actulBalance.map(account => {
+      account.balance = account.balance + getBalance(account.id, selectIncomes, selectCosts)
       return account
     })
 
@@ -156,8 +174,8 @@ export const fetchCostsSaga = function* () {
 
 export const saga = function* () {
   yield spawn(fetchAccountsSaga)
-  yield spawn(computedBalanceSaga)
-  yield spawn(computedPlannedBalanceSaga)
+  yield spawn(calcActulBalanceSaga)
+  yield spawn(calcPlannedBalanceSaga)
 }
 
 

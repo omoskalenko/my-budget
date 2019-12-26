@@ -2,11 +2,11 @@ import React from "react";
 import { Card, Icon, Statistic, Row } from "antd";
 
 
-function Accounts({ isFetching, accounts }) {
+export function BalanceFact({ isFetching, accounts }) {
   return (
     <Card
       loading={isFetching}
-      title="Счета"
+      title="Остаток"
       size="small"
       actions={[
         <Icon type="setting" key="setting" />,
@@ -31,5 +31,3 @@ function Accounts({ isFetching, accounts }) {
     </Card>
   );
 }
-
-export default Accounts
