@@ -181,9 +181,6 @@ export const fetchCostsSaga = function* (action) {
         payload,
       })
       yield put({
-        type: CALC_BALANCE,
-      });
-      yield put({
         type: CALC_PLANNED_BALANCE,
       })
     }
@@ -213,6 +210,9 @@ export const addCostSaga = function* (action) {
         type: ADD_PLANNED_SUCCESS,
         payload: data,
       })
+      yield put({
+        type: CALC_PLANNED_BALANCE,
+      })
     }
   } catch (error) {
     yield put({
@@ -239,6 +239,9 @@ export const deleteCostSaga = function* (action) {
       type: DELETE_PLANNED_SUCCESS,
       payload: data,
       id: payload
+    })
+    yield put({
+      type: CALC_PLANNED_BALANCE,
     })
   }
   } catch (error) {
