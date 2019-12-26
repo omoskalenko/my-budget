@@ -50,7 +50,7 @@ export const getCoastsAmount = (accountId, costs) => {
 
 // Получить баланс счета по id счета
 export const getBalance = (accountId, incomes, costs) => {
-  return getIncomingAmount(accountId, incomes) - getCoastsAmount(accountId, costs);
+  return Math.abs(getIncomingAmount(accountId, incomes) - getCoastsAmount(accountId, costs))
 };
 
 export const getTransactionsForPeriod = (transactions, period, type) => {
