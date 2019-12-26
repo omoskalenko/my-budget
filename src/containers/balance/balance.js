@@ -158,11 +158,7 @@ export const calcPlanedBalanceSaga = function* () {
       // Получаем плановые транзакции с настоящего дня до конечного дня выбранного в периоде, что бы получить сумму только будующих запланированных платежей
       // Если дата начала больше дата конца то вернется пустой массив, соответственно баланс счета останется реальным
       const costsForPeriod = getPlannedTransactionsForPeriod(selectCosts, [moment(), moment(period[1]).add(1, 'days')]);
-      console.log("TCL: selectCosts", selectCosts)
-
       const incomesForPeriod = getPlannedTransactionsForPeriod(selectIncomes, [moment(), moment(period[1]).add(1, 'days')]);
-      console.log("TCL: incomesForPeriod", incomesForPeriod)
-
       // Фильтр для отфильтровывания плановых транзакции по которым уже были совершены расходы/приходы, что бы повторно их не учитывать
       const filter = transations => transations.filter(transation => !transation.isCommit)
       // Добавляем свойство balance в счета с суммой реального остатка с планируемым

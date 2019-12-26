@@ -80,6 +80,7 @@ export const getTransactionsForPeriod = (transactions, period, type) => {
 };
 
 export const getPlannedTransactionsForPeriod = (transactions, period) => {
+  // Добавляем свойства для отображения даты, существет ли в эту дату платеж по этой транзакции, ключ
   const addDetailProps = (transaction, date) => {
     const newTransaction = { ...transaction };
     newTransaction.displayDate = date.format("DD.MM.YYYY");
