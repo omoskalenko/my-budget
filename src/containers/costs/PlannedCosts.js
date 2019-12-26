@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 
 import { fetchCosts, addCost, deleteCost, getPlannedCosts, moduleName } from './costs'
 import { getCostCategories } from '../directores'
-import { getPlannedBalance } from '../balance'
+import { getAccountsWhithPlannedBalance } from '../balance'
 import { TRANSACTIONS_STATUSES } from '../../config'
 
 const transactionsStatus = TRANSACTIONS_STATUSES.PLANNED
@@ -51,7 +51,7 @@ export default compose(
       costs: getPlannedCosts(state),
       deleting: state[moduleName][transactionsStatus].deleting,
       categories: getCostCategories(state),
-      accounts: getPlannedBalance(state),
+      accounts: getAccountsWhithPlannedBalance(state),
       isSubmit: state[moduleName][transactionsStatus].isSubmit,
       config: state[moduleName][transactionsStatus].config,
     }),

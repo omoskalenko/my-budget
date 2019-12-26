@@ -81,7 +81,7 @@ export const getTransactionsForPeriod = (transactions, period, type) => {
 
 export const getPlannedTransactionsForPeriod = (transactions, period) => {
 
-  const addDisplayDate = (transaction, date, key) => {
+  const addDisplayDate = (transaction, date) => {
     const newTransaction = { ...transaction }
     newTransaction.displayDate = date.format('DD.MM.YYYY')
     newTransaction.key = uuid()

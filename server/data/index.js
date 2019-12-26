@@ -141,6 +141,30 @@ module.exports = {
         committed: [],
         periodicity: 'monthly',
         create: "19.12.2019",
+      },
+      6: {
+        id: 5,
+        account: 0,
+        category: 1,
+        name: 'ЖКУ',
+        amount: 2500.0,
+        start: '2018-01-07T11:00:09.296Z',
+        end: '',
+        committed: [],
+        periodicity: 'monthly',
+        create: "19.12.2019",
+      },
+      7: {
+        id: 5,
+        account: 0,
+        category: 1,
+        name: 'Телефон',
+        amount: 400.0,
+        start: '2018-01-23T11:00:09.296Z',
+        end: '',
+        committed: [],
+        periodicity: 'monthly',
+        create: "19.12.2019",
       }
   },
     committed: {
@@ -183,6 +207,7 @@ module.exports = {
       0: {
         id: 0,
         name: "Зарплата",
+        account: 0,
         category: 0,
         start: '2019-12-07T11:00:09.296Z',
         end: '',
@@ -194,6 +219,7 @@ module.exports = {
       1: {
         id: 1,
         name: "Аванс",
+        account: 0,
         category: 0,
         start: '2019-12-23T11:00:09.296Z',
         end: '',

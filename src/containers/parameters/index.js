@@ -1,7 +1,8 @@
 import { Record } from 'immutable'
-import { take, spawn, put } from  'redux-saga/effects'
+import { takeEvery, put } from  'redux-saga/effects'
 import { createSelector } from 'reselect'
 import moment from 'moment'
+import { CALC_PLANNED_BALANCE } from '../balance'
 
 /** Constants */
 
@@ -55,19 +56,12 @@ export const changePeriod = (dates) =>  ({ type: CHANGE_PERIOD, payload: dates }
 /** Sagas */
 
 export const changePeriodSaga = function* () {
-  while(true) {
-    yield take(CHANGE_PERIOD)
-    try {
-
-    } catch(error) {
-
-    }
-  }
+  yield put({ type: CALC_PLANNED_BALANCE })
 }
 
 
 export const saga = function* () {
-  yield spawn(changePeriodSaga)
+  yield takeEvery(CHANGE_PERIOD, changePeriodSaga)
 }
 
 

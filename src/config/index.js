@@ -127,7 +127,7 @@ export const TRANSACTIONS_TITLES = {
           placeholder: 'Комментарий',
         },
         account: {
-          label: 'Счет',
+          label: 'Счет на который планируется зачисление',
           message: 'Выберите счет зачисления!',
           placeholder: 'Счет',
         },
@@ -199,7 +199,7 @@ export const TRANSACTIONS_TITLES = {
           placeholder: 'На что совершен расход?',
         },
         account: {
-          label: 'Счет',
+          label: 'Счет с которго планируется расход',
           message: 'Выберите счет списания!',
           placeholder: 'Счет',
         },

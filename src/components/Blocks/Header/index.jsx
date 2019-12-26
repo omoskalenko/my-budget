@@ -18,14 +18,15 @@ export default function HeaderBlock({ handleChange, dates }) {
     years: [moment().startOf("year"), moment().endOf("year")]
   };
 
-  useEffect(() => {
-    handleChange(periods[period]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [period]);
+  // useEffect(() => {
+  //   handleChange(periods[period]);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [period]);
 
   const onChange = e => {
     const value = e.target.value;
     setPeriod(value);
+    handleChange(periods[value]);
   };
 
   const handleClick = e => {

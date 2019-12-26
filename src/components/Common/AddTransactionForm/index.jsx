@@ -103,6 +103,7 @@ function AddTransactionForm({ isFetching, handleAdd, categories, accounts, form,
     amount: amountField,
     startDate: dateField('start'),
     periodicity: selectField('periodicity', renderPeriodicity, true),
+    account: selectField('account', renderAccounts, true),
     committed: [],
   })
 

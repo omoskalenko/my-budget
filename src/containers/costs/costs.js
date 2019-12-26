@@ -5,7 +5,7 @@ import { createReducer } from '@reduxjs/toolkit'
 import * as yup from 'yup'
 import { spawn, call, put, takeEvery } from 'redux-saga/effects'
 import { createSelector } from 'reselect'
-import { CALC_BALANCE } from '../balance'
+import { CALC_BALANCE, CALC_PLANNED_BALANCE } from '../balance'
 import { getPeriod } from '../parameters'
 import { getTransactionsForPeriod, validateTransaction, getPlannedTransactionsForPeriod} from '../../utils'
 import {
@@ -31,7 +31,7 @@ const schemas = {
     commit: yup.date().required(),
   }),
   planned: yup.object().shape({
-    account: yup.string(),
+    account: yup.string().required(),
     category: yup.string().required(),
     name: yup.string(),
     amount: yup.number().required(),
@@ -171,12 +171,20 @@ export const fetchCostsSaga = function* (action) {
       })
       yield put({
         type: CALC_BALANCE,
-        payload
       })
+      yield put({
+        type: CALC_PLANNED_BALANCE,
+      });
     } else if (transactionsStatus === 'planned') {
       yield put({
         type: FETCH_PLANNED_SUCCESS,
         payload,
+      })
+      yield put({
+        type: CALC_BALANCE,
+      });
+      yield put({
+        type: CALC_PLANNED_BALANCE,
       })
     }
     } catch (error) {
