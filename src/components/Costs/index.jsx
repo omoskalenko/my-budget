@@ -2,7 +2,6 @@ import React from 'react'
 import { Card } from 'antd'
 import AddForm from '../Common/AddTransactionForm'
 
-import styles from './costs.module.sass'
 import List from '../Common/List'
 
 function Costs({

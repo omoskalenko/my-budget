@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Icon, Statistic, Row, Col } from "antd";
+import { Card, Icon, Statistic, Row } from "antd";
 
 
 function Accounts({ isFetching, accounts }) {

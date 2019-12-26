@@ -7,7 +7,6 @@ import store, { history } from './store'
 import { ConnectedRouter } from 'connected-react-router'
 import moment from 'moment'
 
-import {DATE_LOCAL} from './config'
 import * as serviceWorker from './serviceWorker';
 
 import App from './App';

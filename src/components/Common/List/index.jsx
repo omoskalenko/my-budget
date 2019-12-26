@@ -1,10 +1,8 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
-import { Empty, Table, Typography, Icon  } from 'antd'
+import { Empty, Table, Icon  } from 'antd'
 
 import styles from './list.module.sass'
-
-const { Title } = Typography
 
 function List({
   isFetching,

@@ -1,6 +1,5 @@
-import API from '../../API';
 import { Record } from 'immutable'
-import { take, spawn, call, put, takeEvery } from  'redux-saga/effects'
+import { take, spawn } from  'redux-saga/effects'
 import { createSelector } from 'reselect'
 import moment from 'moment'
 /** Constants */

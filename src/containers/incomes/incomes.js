@@ -1,9 +1,9 @@
 import API from '../../API';
-import { Record } from 'immutable'
+// import { Record } from 'immutable'
 import { combineReducers } from 'redux'
 import { createReducer } from '@reduxjs/toolkit'
 import * as yup from 'yup'
-import { take, spawn, call, put, takeEvery, race } from 'redux-saga/effects'
+import { spawn, call, put, takeEvery } from 'redux-saga/effects'
 import { createSelector } from 'reselect'
 import { COMPUTED_ACCOUNTS_BALANCE, COMPUTED_PLANNED_BALANCE } from '../accounts'
 import { getPeriod } from '../parameters'
@@ -16,7 +16,7 @@ import {
   deleteTransactionRequest,
   deleteTransactionSuccess,
   error } from '../../utils/transactionsState'
-import { TRANSACTIONS_STATUSES, TRANSACTIONS_TYPES, TRANSACTIONS_TITLES} from '../../config'
+import { TRANSACTIONS_STATUSES, TRANSACTIONS_TYPES } from '../../config'
 /** Constants */
 
 export const moduleName = TRANSACTIONS_TYPES.INCOMES

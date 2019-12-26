@@ -1,4 +1,4 @@
-import { Layout, Avatar, DatePicker, Row, Col, Radio, Button, Icon } from "antd";
+import { Layout, Avatar, DatePicker, Row, Radio, Button, Icon } from "antd";
 import React, { useState, useEffect } from "react";
 import moment from "moment";
 
@@ -15,10 +15,7 @@ export default function HeaderBlock({ handleChange, dates }) {
   const periods = {
     day: [moment(), moment()],
     month: [moment().date(1), moment().date(31)],
-    years: [
-      moment().startOf('year'),
-      moment().endOf("year")
-    ]
+    years: [moment().startOf("year"), moment().endOf("year")]
   };
 
   useEffect(() => {
@@ -32,22 +29,20 @@ export default function HeaderBlock({ handleChange, dates }) {
   };
 
   const handleClick = e => {
-    const direction = e.currentTarget.dataset.direction
+    const direction = e.currentTarget.dataset.direction;
     const manipulate = {
-      'years': date => date[direction](1, 'year'),
-      'month': date => date[direction](1, 'month'),
-      'day': date => date[direction](1, 'days')
-    }
-    const newPeriod = dates.map(manipulate[period])
+      years: date => date[direction](1, "year"),
+      month: date => date[direction](1, "month"),
+      day: date => date[direction](1, "days")
+    };
+    const newPeriod = dates.map(manipulate[period]);
 
     handleChange(newPeriod);
-
-  }
+  };
   return (
     <Header id="header">
-      <Row type="flex" >
-
-      <div style={{ marginLeft: "20px" }}>
+      <Row type="flex">
+        <div style={{ marginLeft: "20px" }}>
           <Button size="large" data-direction="subtract" onClick={handleClick}>
             <Icon type="left" />
           </Button>
@@ -57,19 +52,19 @@ export default function HeaderBlock({ handleChange, dates }) {
           <Button size="large" data-direction="add" onClick={handleClick}>
             <Icon type="right" />
           </Button>
-          </div>
-        
-          <div style={{ marginLeft: "20px" }}>
-            <Radio.Group onChange={onChange} defaultValue={period}>
-              <Radio.Button value={"day"}>День</Radio.Button>
-              <Radio.Button value={"month"}>Месяц</Radio.Button>
-              <Radio.Button value={"years"}>Год</Radio.Button>
-            </Radio.Group>
-          </div>
+        </div>
 
-          <div style={{marginLeft: 'auto', marginRight: "20px"}}>
+        <div style={{ marginLeft: "20px" }}>
+          <Radio.Group onChange={onChange} defaultValue={period}>
+            <Radio.Button value={"day"}>День</Radio.Button>
+            <Radio.Button value={"month"}>Месяц</Radio.Button>
+            <Radio.Button value={"years"}>Год</Radio.Button>
+          </Radio.Group>
+        </div>
+
+        <div style={{ marginLeft: "auto", marginRight: "20px" }}>
           <Avatar className="header_user__avatar" icon="user" />
-          </div>
+        </div>
       </Row>
     </Header>
   );

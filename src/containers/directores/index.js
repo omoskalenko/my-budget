@@ -1,6 +1,6 @@
 import API from '../../API';
 import { Record } from 'immutable'
-import { take, spawn, call, put, takeEvery } from  'redux-saga/effects'
+import { take, spawn, call, put } from  'redux-saga/effects'
 import { createSelector } from 'reselect'
 import { push } from 'connected-react-router';
 import { PATHS } from '../../config';
