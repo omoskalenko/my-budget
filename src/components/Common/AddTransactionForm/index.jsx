@@ -120,7 +120,7 @@ function AddTransactionForm({ isFetching, handleAdd, categories, accounts, form,
 
   return (
     <div>
-      <Button type="primary" shape="circle" icon="plus" onClick={() => setShow(true)} />
+      <Button shape="circle" icon="plus" onClick={() => setShow(true)} />
       <Modal
         className={className}
         title={titles.title}
