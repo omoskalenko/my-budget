@@ -194,7 +194,7 @@ export const addIncomeSaga = function* (action) {
   try {
     const { payload, transactionsStatus } = action
     validateTransaction({ type: transactionsStatus, payload}, schemas)
-    const data = yield call([API, API.addIncome], payload, transactionsStatus)
+    const data = yield call([API, API.addIncome], {...payload, committed: []}, transactionsStatus)
     if (transactionsStatus === 'committed') {
       yield put({
         type: ADD_COMMITTED_SUCCESS,

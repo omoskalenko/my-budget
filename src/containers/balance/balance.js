@@ -156,13 +156,13 @@ export const calcPlanedBalanceSaga = function* () {
       const selectIncomes = yield select(state => plannedIncomes(state));
       const period = yield select(state => getPeriod(state));
 
-      const costsForPeriod = getPlannedTransactionsForPeriod(selectCosts, [moment().add(1, "days"), period[1]]);
-      const incomesForPeriod = getPlannedTransactionsForPeriod(selectIncomes, [moment().add(1, "days"), period[1]]);
-
+      const costsForPeriod = getPlannedTransactionsForPeriod(selectCosts, [moment(), period[1]]);
+      const incomesForPeriod = getPlannedTransactionsForPeriod(selectIncomes, [moment(), period[1]]);
+      const filter = transations => transations.filter(transation => !transation.isCommit)
       const payload = accounts
         .map(account => ({
           accountId: account.id,
-          value: getBalance(account.id, incomesForPeriod, costsForPeriod) + balance[account.id]
+          value: getBalance(account.id, filter(incomesForPeriod), filter(costsForPeriod), account.commit) + balance[account.id]
         }))
         .reduce((res, balance) => {
           res[balance.accountId] = balance.value;
