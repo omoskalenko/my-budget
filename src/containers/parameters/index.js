@@ -1,7 +1,8 @@
 import { Record } from 'immutable'
-import { take, spawn } from  'redux-saga/effects'
+import { take, spawn, put } from  'redux-saga/effects'
 import { createSelector } from 'reselect'
 import moment from 'moment'
+
 /** Constants */
 
 export const moduleName = 'parameters'
@@ -54,7 +55,8 @@ export const changePeriod = (dates) =>  ({ type: CHANGE_PERIOD, payload: dates }
 /** Sagas */
 
 export const changePeriodSaga = function* () {
-  while(yield take(CHANGE_PERIOD)) {
+  while(true) {
+    yield take(CHANGE_PERIOD)
     try {
 
     } catch(error) {

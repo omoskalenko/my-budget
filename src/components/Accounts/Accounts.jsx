@@ -2,7 +2,7 @@ import React from "react";
 import { Card, Icon, Statistic, Row } from "antd";
 
 
-export function BalanceFact({ isFetching, accounts }) {
+export function Accounts({ isFetching, accounts }) {
   return (
     <Card
       loading={isFetching}

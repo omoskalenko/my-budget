@@ -2,8 +2,8 @@ import API from '../../API'
 import { Record } from 'immutable'
 import { take, spawn, call, put, select } from  'redux-saga/effects'
 import { createSelector } from 'reselect'
-import { committedCosts, getPlannedCostsForCalcBalance } from '../costs/costs'
-import { committedIncomes, getPlannedIncomesForCalcBalance } from '../incomes/incomes'
+import { committedCosts } from '../costs/costs'
+import { committedIncomes } from '../incomes/incomes'
 import { getBalance } from '../../utils/index'
 
 /** Constants */
@@ -21,8 +21,7 @@ export const FETCH_COSTS_SUCCESS = `${moduleName}/FETCH_COSTS_SUCCESS`
 export const FETCH_COSTS_ERROR = `${moduleName}/FETCH_COSTS_ERROR`
 export const CALC_BALANCE = `${moduleName}/CALC_BALANCE`
 export const SET_ACTUL_BALANCE = `${moduleName}/SET_ACTUL_BALANCE`
-export const CALC_PLANNED_BALANCE = `${moduleName}/CALC_PLANNED_BALANCE`
-export const SET_PANNED_BALANCE = `${moduleName}/SET_PANNED_BALANCE`
+
 /** Initial State */
 
 
@@ -57,7 +56,6 @@ export const reducer = ( state = new initialState(), action) => {
       return {
         ...state,
         actulBalance: payload,
-        isFetching: false
       }
     }
 
@@ -72,11 +70,14 @@ export const stateSelector = state => state[moduleName]
 
 export const accounts = createSelector(stateSelector, state => state.list)
 
-export const balance = createSelector(stateSelector, state => state.list)
+export const balance = createSelector(stateSelector, state => state.actulBalance)
 
 export const getAccountsWhithActulBalance = createSelector(
-  [accounts],
-  accounts => accounts
+  [accounts, balance],
+  (accounts, balance) => accounts.map(account => {
+    account.balance = balance && balance[account.id]
+    return account
+  })
 )
 
 export const getPlannedBalance = createSelector(
@@ -90,7 +91,6 @@ export const getPlannedBalance = createSelector(
 
 export const fetchAccounts = () => ({ type: FETCH_ACCOUNTS_REQUEST })
 export const fetchCosts = () =>  ({ type: FETCH_COSTS_REQUEST })
-export const calcPlannedBalance = () => ({ type: CALC_PLANNED_BALANCE })
 
 /** Sagas */
 
@@ -101,6 +101,10 @@ export const fetchAccountsSaga = function* () {
 
       yield put({
         type: FETCH_ACCOUNTS_SUCCESS,
+        payload
+      })
+      yield put({
+        type: CALC_BALANCE,
         payload
       })
     } catch(error) {
@@ -115,43 +119,26 @@ export const fetchAccountsSaga = function* () {
 export const calcActulBalanceSaga = function* () {
   while(true) {
     yield take(CALC_BALANCE)
-    const balance = yield select(state => getAccountsWhithActulBalance(state))
+    const accounts = yield select(state => getAccountsWhithActulBalance(state))
     const selectCosts = yield select(state => committedCosts(state))
     const selectIncomes = yield select(state => committedIncomes(state))
 
-    const payload = balance.map(account => {
-      account.balance = getBalance(account.id, selectIncomes, selectCosts)
-      return account
-    })
+    const payload = accounts.map(account => ({
+      accountId: account.id,
+      value: getBalance(account.id, selectIncomes, selectCosts)
+    })).reduce((res, balance) => {
+      res[balance.accountId] = balance.value
+      return res
+    }, {})
 
     yield put({
-      type: FETCH_ACCOUNTS_SUCCESS,
+      type: SET_ACTUL_BALANCE,
       payload
     })
 
   }
 }
 
-export const calcPlannedBalanceSaga = function* () {
-  while(true) {
-    yield take(CALC_PLANNED_BALANCE)
-    const actulBalance = yield select(state => getAccountsWhithActulBalance(state))
-    const selectCosts = yield select(state => getPlannedCostsForCalcBalance(state))
-    const selectIncomes = yield select(state => getPlannedIncomesForCalcBalance(state))
-
-    const payload = actulBalance.map(account => {
-      account.balance = account.balance + getBalance(account.id, selectIncomes, selectCosts)
-      return account
-    })
-
-    yield put({
-      type: FETCH_ACCOUNTS_SUCCESS,
-      payload
-    })
-
-
-  }
-}
 
 export const fetchCostsSaga = function* () {
   while(true) {
@@ -175,7 +162,6 @@ export const fetchCostsSaga = function* () {
 export const saga = function* () {
   yield spawn(fetchAccountsSaga)
   yield spawn(calcActulBalanceSaga)
-  yield spawn(calcPlannedBalanceSaga)
 }
 
 

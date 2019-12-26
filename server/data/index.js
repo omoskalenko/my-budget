@@ -106,18 +106,18 @@ module.exports = {
         periodicity: 'monthly',
         create: "19.12.2019",
       },
-      4: {
-        id: 4,
-        account: 0,
-        category: 3,
-        name: "Проезд",
-        amount: 150,
-        start: '2019-01-01T11:00:09.296Z',
-        end: '',
-        committed: [],
-        periodicity: 'daily',
-        create: "19.12.2019",
-      },
+      // 4: {
+      //   id: 4,
+      //   account: 0,
+      //   category: 3,
+      //   name: "Проезд",
+      //   amount: 150,
+      //   start: '2019-01-01T11:00:09.296Z',
+      //   end: '',
+      //   committed: [],
+      //   periodicity: 'daily',
+      //   create: "19.12.2019",
+      // },
       3: {
         id: 3,
         account: 0,
@@ -147,30 +147,35 @@ module.exports = {
       0: {
         id: 0,
         category: 3,
-        name: "Бензин",
-        amount: 1500.0,
-        commit: '2019-12-22T19:41:05.221Z',
+        name: "Бензин 1",
+        amount: 2000.0,
+        commit: '2019-12-08T19:41:05.221Z',
         account: 0,
-        plan: 0 //Относится к запланированному
       },
       1: {
         id: 1,
         category: 3,
-        name: "Не бензин",
+        name: "Бензин 2",
         amount: 7.0,
-        commit: '2019-12-05T19:41:05.221Z',
+        commit: '2019-12-23T19:41:05.221Z',
         account: 0,
-        plan: 0 //Относится к запланированному
       },
-      2: {
-        id: 2,
-        category: 3,
-        name: "Паравоз",
-        amount: 25000.0,
-        commit: '2019-11-25T19:41:05.221Z',
+      1: {
+        id: 1,
+        category: 0,
+        name: "Ипотека",
+        amount: 7000,
+        commit: '2019-12-23T19:41:05.221Z',
         account: 0,
-        plan: 0 //Относится к запланированному
       },
+      // 2: {
+      //   id: 2,
+      //   category: 3,
+      //   name: "Паравоз",
+      //   amount: 25000.0,
+      //   commit: '2019-11-25T19:41:05.221Z',
+      //   account: 0,
+      // },
     }
   },
   incomes: {
@@ -204,38 +209,38 @@ module.exports = {
         title: "Зарплата",
         category: 0,
         planAvailableDay: "7",
-        amount: 100000.0,
+        amount: 34000.0,
         commit: '2019-12-07T19:41:05.221Z',
         member: 0,
         account: 0
       },
-      11: {
-        id: 11,
-        title: "Подарок",
-        category: 2,
-        amount: 10000.0,
-        commit: '2019-12-19T19:41:05.221Z',
-        member: 0,
-        account: 0
-      },
+      // 11: {
+      //   id: 11,
+      //   title: "Подарок",
+      //   category: 2,
+      //   amount: 10000.0,
+      //   commit: '2019-12-19T19:41:05.221Z',
+      //   member: 0,
+      //   account: 0
+      // },
       1: {
         id: 1,
         title: "Аванс",
         category: 1,
         commit: '2019-12-23T19:41:05.221Z',
-        amount: 50000.0,
+        amount: 16000.0,
         member: 0,
         account: 0
       },
-      2: {
-        id: 2,
-        title: "Перевод",
-        category: 10,
-        amount: 500,
-        commit: '2019-12-10T19:41:05.221Z',
-        account: 10,
-        from: 0
-      }
+      // 2: {
+      //   id: 2,
+      //   title: "Перевод",
+      //   category: 10,
+      //   amount: 500,
+      //   commit: '2019-12-10T19:41:05.221Z',
+      //   account: 10,
+      //   from: 0
+      // }
     }
   },
   saving: {

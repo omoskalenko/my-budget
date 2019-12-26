@@ -5,7 +5,7 @@ import { createReducer } from '@reduxjs/toolkit'
 import * as yup from 'yup'
 import { spawn, call, put, takeEvery } from 'redux-saga/effects'
 import { createSelector } from 'reselect'
-import { CALC_BALANCE, CALC_PLANNED_BALANCE } from '../balance'
+import { CALC_BALANCE } from '../balance'
 import { getPeriod } from '../parameters'
 import { getTransactionsForPeriod, validateTransaction, getPlannedTransactionsForPeriod} from '../../utils'
 import {
@@ -130,12 +130,6 @@ export const getPlannedCosts = createSelector(
     return getPlannedTransactionsForPeriod(plannedCosts, getPeriod)
   }
 )
-export const getPlannedCostsForCalcBalance = createSelector(
-  [plannedCosts, getPeriod],
-  (plannedCosts, getPeriod) => {
-    return getPlannedTransactionsForPeriod(plannedCosts, [moment(),getPeriod[1]])
-  }
-)
 
 
 
@@ -175,13 +169,14 @@ export const fetchCostsSaga = function* (action) {
         type: FETCH_COMMITTED_SUCCESS,
         payload,
       })
+      yield put({
+        type: CALC_BALANCE,
+        payload
+      })
     } else if (transactionsStatus === 'planned') {
       yield put({
         type: FETCH_PLANNED_SUCCESS,
         payload,
-      })
-      yield put({
-        type: CALC_PLANNED_BALANCE,
       })
     }
     } catch (error) {
@@ -210,9 +205,6 @@ export const addCostSaga = function* (action) {
         type: ADD_PLANNED_SUCCESS,
         payload: data,
       })
-      yield put({
-        type: CALC_PLANNED_BALANCE,
-      })
     }
   } catch (error) {
     yield put({
@@ -239,9 +231,6 @@ export const deleteCostSaga = function* (action) {
       type: DELETE_PLANNED_SUCCESS,
       payload: data,
       id: payload
-    })
-    yield put({
-      type: CALC_PLANNED_BALANCE,
     })
   }
   } catch (error) {

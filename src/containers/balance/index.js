@@ -1,2 +1,2 @@
-export * from './BalanceFactContainer'
+export * from './BalanceContainer'
 export * from './balance'

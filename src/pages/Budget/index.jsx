@@ -1,6 +1,6 @@
 import React from "react";
 
-import Accounts from "../../containers/balance/BalanceFactContainer";
+import Accounts from "../../containers/balance/BalanceContainer";
 import Costs from "../../containers/costs/PlannedCosts";
 import Incomes from "../../containers/incomes/PlannedIncomes";
 import { Layout, Row, Col } from "antd";
