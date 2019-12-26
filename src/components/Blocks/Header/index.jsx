@@ -45,9 +45,9 @@ export default function HeaderBlock({ handleChange, dates }) {
   }
   return (
     <Header id="header">
-      <Row type="flex">
-        <Col offset={1} span={10}>
+      <Row type="flex" >
 
+      <div style={{ marginLeft: "20px" }}>
           <Button size="large" data-direction="subtract" onClick={handleClick}>
             <Icon type="left" />
           </Button>
@@ -57,9 +57,8 @@ export default function HeaderBlock({ handleChange, dates }) {
           <Button size="large" data-direction="add" onClick={handleClick}>
             <Icon type="right" />
           </Button>
-
-        </Col>
-        <Col span={6}>
+          </div>
+        
           <div style={{ marginLeft: "20px" }}>
             <Radio.Group onChange={onChange} defaultValue={period}>
               <Radio.Button value={"day"}>День</Radio.Button>
@@ -67,10 +66,10 @@ export default function HeaderBlock({ handleChange, dates }) {
               <Radio.Button value={"years"}>Год</Radio.Button>
             </Radio.Group>
           </div>
-        </Col>
-        <Col offset={6} span={1}>
+
+          <div style={{marginLeft: 'auto', marginRight: "20px"}}>
           <Avatar className="header_user__avatar" icon="user" />
-        </Col>
+          </div>
       </Row>
     </Header>
   );
