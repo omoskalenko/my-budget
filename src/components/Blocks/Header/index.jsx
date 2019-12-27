@@ -23,7 +23,7 @@ export default function HeaderBlock({ handleChange, dates }) {
   const onChange = e => {
     const value = e.target.value;
     setPeriod(value);
-    handleChange(periods[value]);
+    handleChange(periods[value], value);
   };
 
   const handleClick = e => {
@@ -37,7 +37,7 @@ export default function HeaderBlock({ handleChange, dates }) {
     };
     const newPeriod = dates.map(manipulate[period]);
 
-    handleChange(newPeriod);
+    handleChange(newPeriod, period);
   };
   return (
     <Header id="header">

@@ -102,6 +102,7 @@ export const getTransactionsForPeriod = (transactions, period, type = 'committed
  * @param {[moment, moment]} period
  */
 export const getPlannedTransactionsForPeriod = (transactions, period) => {
+  console.log("TCL: getPlannedTransactionsForPeriod -> transactions", transactions)
   // Добавляем свойства для отображения даты, существет ли в эту дату платеж по этой транзакции, ключ
   const addDetailProps = (transaction, date) => {
     const newTransaction = { ...transaction }

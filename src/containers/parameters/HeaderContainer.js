@@ -20,6 +20,6 @@ export default connect(
     dates: getPeriod(state)
   }),
   dispatch => ({
-    changePeriod: dates => dispatch(changePeriod(dates))
+    changePeriod: (dates, period) => dispatch(changePeriod(dates, period))
   })
 )(HeaderContainer)

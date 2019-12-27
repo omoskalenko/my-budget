@@ -5,8 +5,7 @@ import { createReducer } from '@reduxjs/toolkit'
 import * as yup from 'yup'
 import { call, put, takeEvery } from 'redux-saga/effects'
 import { createSelector } from 'reselect'
-import { CALC_BALANCE, CALC_PLANNED_BALANCE } from '../balance'
-import { getPeriod } from '../parameters'
+import { getPeriod, getNextPeriod } from '../parameters'
 import { getTransactionsForPeriod, validateTransaction, getPlannedTransactionsForPeriod } from '../../utils'
 import {
   fetchTransactionsRequest,
@@ -130,6 +129,12 @@ export const getPlannedIncomes = createSelector(
     return getPlannedTransactionsForPeriod(plannedIncomes, getPeriod)
   }
 )
+export const getPlannedIncomesNext = createSelector(
+  [plannedIncomes, getNextPeriod],
+  (plannedIncomes, getNextPeriod) => {
+    return getPlannedTransactionsForPeriod(plannedIncomes, getNextPeriod)
+  }
+)
 
 /** Actions Creators */
 
@@ -167,20 +172,11 @@ export const fetchIncomesSaga = function* (action) {
         type: FETCH_COMMITTED_SUCCESS,
         payload,
       })
-      yield put({
-        type: CALC_BALANCE,
-      })
-      yield put({
-        type: CALC_PLANNED_BALANCE,
-      });
     } else if (transactionsStatus === 'planned') {
       yield put({
         type: FETCH_PLANNED_SUCCESS,
         payload,
       })
-      yield put({
-        type: CALC_PLANNED_BALANCE,
-      });
     }
     } catch (error) {
       yield put({
@@ -200,16 +196,10 @@ export const addIncomeSaga = function* (action) {
         type: ADD_COMMITTED_SUCCESS,
         payload: data,
       })
-      yield put({
-        type: CALC_BALANCE,
-      })
     } else if (transactionsStatus === 'planned') {
       yield put({
         type: ADD_PLANNED_SUCCESS,
         payload: data,
-      })
-      yield put({
-        type: CALC_PLANNED_BALANCE,
       })
     }
   } catch (error) {
@@ -229,17 +219,11 @@ export const deleteIncomeSaga = function* (action) {
       payload: data,
       id: payload
     })
-    yield put({
-      type: CALC_BALANCE,
-    })
   } else if (transactionsStatus === 'planned') {
     yield put({
       type: DELETE_PLANNED_SUCCESS,
       payload: data,
       id: payload
-    })
-    yield put({
-      type: CALC_PLANNED_BALANCE,
     })
   }
   } catch (error) {

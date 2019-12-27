@@ -3,6 +3,7 @@ import { takeEvery, put } from  'redux-saga/effects'
 import { createSelector } from 'reselect'
 import moment from 'moment'
 import { CALC_PLANNED_BALANCE } from '../balance'
+import { DEFAULT_PERIOD } from '../../config'
 
 /** Constants */
 
@@ -13,12 +14,12 @@ export const moduleName = 'parameters'
 
 export const CHANGE_PERIOD = `${moduleName}/CHANGE_PERIOD`
 
-
 /** Initial State */
 
 
 const initialState = Record({
-  dates: [moment().date(1), moment().date(31)],
+  dates: [],
+  period: DEFAULT_PERIOD
 })
 
 /** Reducer */
@@ -27,10 +28,9 @@ export const reducer = ( state = new initialState(), action) => {
   const { type, payload } = action
   switch (type) {
     case CHANGE_PERIOD: {
-      return {
-        ...state,
-        dates: payload,
-      }
+      return state
+        .set('dates', payload.dates )
+        .set('period', payload.period )
     }
     default:
       return state
@@ -42,21 +42,28 @@ export const reducer = ( state = new initialState(), action) => {
 export const stateSelector = state => state[moduleName]
 
 export const dates = createSelector(stateSelector, state => state.dates)
+export const period = createSelector(stateSelector, state => state.period)
 
 export const getPeriod = createSelector(
   dates,
   dates => dates
 )
 
+export const getNextPeriod = createSelector(
+  [dates, period],
+  (dates, period) => {
+    return dates.map(date => moment(date).add(1,`${period}s`))
+  }
+)
 
 /** Actions Creators */
 
-export const changePeriod = (dates) =>  ({ type: CHANGE_PERIOD, payload: dates })
+export const changePeriod = (dates, period) =>  ({ type: CHANGE_PERIOD, payload: { dates, period }  })
 
 /** Sagas */
 
-export const changePeriodSaga = function* () {
-  yield put({ type: CALC_PLANNED_BALANCE })
+export const changePeriodSaga = function* (action) {
+
 }
 
 

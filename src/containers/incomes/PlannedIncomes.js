@@ -40,21 +40,22 @@ function PlannedIncomes({
     />
   )
 }
+
 export default compose(
-  connect(
-    state => ({
-      isFetching: state[moduleName][transactionsStatus].isFetching,
-      deleting: state[moduleName][transactionsStatus].deleting,
-      incomes: getPlannedIncomes(state),
-      categories: getIncomeCategories(state),
-      accounts: getAccountsWhithPlannedBalance(state),
-      isSubmit: state[moduleName][transactionsStatus].isSubmit,
-      config: state[moduleName][transactionsStatus].config,
-    }),
-    dispatch => ({
-      addIncome: (transactionsStatus, income) => dispatch(addIncome(transactionsStatus, income)),
-      deleteIncome: (transactionsStatus, id) => dispatch(deleteIncome(transactionsStatus, id)),
-    })
-  ),
+  // connect(
+  //   state => ({
+  //     isFetching: state[moduleName][transactionsStatus].isFetching,
+  //     deleting: state[moduleName][transactionsStatus].deleting,
+  //     incomes: getPlannedIncomes(state),
+  //     categories: getIncomeCategories(state),
+  //     accounts: getAccountsWhithPlannedBalance(state),
+  //     isSubmit: state[moduleName][transactionsStatus].isSubmit,
+  //     config: state[moduleName][transactionsStatus].config,
+  //   }),
+  //   dispatch => ({
+  //     addIncome: (transactionsStatus, income) => dispatch(addIncome(transactionsStatus, income)),
+  //     deleteIncome: (transactionsStatus, id) => dispatch(deleteIncome(transactionsStatus, id)),
+  //   })
+  // ),
    withError,
 )(PlannedIncomes)
