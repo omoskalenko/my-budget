@@ -7,7 +7,7 @@ const isEmpty = (data, renderFunc) => {
     if (data.length === 0) return <Empty />
     else return data.map(renderFunc)
   } catch(error) {
-    return <Error />
+    return <Error error={error}/>
   }
 
 }
