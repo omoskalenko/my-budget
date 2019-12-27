@@ -16,7 +16,7 @@ export default function HeaderBlock({ handleChange, dates }) {
   const onChange = e => {
     const value = e.target.value;
     setPeriod(value);
-    handleChange(PERIODS[value], value);
+    handleChange(PERIODS(moment)[value], value);
   };
 
   const handleClick = e => {

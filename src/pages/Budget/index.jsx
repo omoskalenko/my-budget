@@ -1,37 +1,40 @@
 import React from "react";
-import { compose } from 'redux'
+import { compose } from "redux";
 import Accounts from "../../containers/balance/PlannedBalanceContainer";
 import Costs from "../../containers/costs/PlannedCosts";
 import Incomes from "../../containers/incomes/PlannedIncomes";
 import { Layout, Row, Col } from "antd";
 
-import { connect } from 'react-redux'
+import { connect } from "react-redux";
 
-import { addIncome, deleteIncome, getPlannedIncomes, moduleName, getPlannedIncomesNext } from '../../containers/incomes'
-import { getIncomeCategories } from '../../containers/directores'
-import { getAccountsWhithPlannedBalance, getAccountsWhithPlannedBalanceNext } from '../../containers/balance'
-import { TRANSACTIONS_STATUSES } from '../../config'
+import { addIncome, deleteIncome, getPlannedIncomes, getPlannedIncomesNext } from "../../containers/incomes";
+import { getAccountsWhithPlannedBalance, getAccountsWhithPlannedBalanceNext } from "../../containers/balance";
 import { getPlannedCosts, getPlannedCostsNext } from "../../containers/costs/costs";
+import { getPeriod, getNextPeriod } from "../../containers/parameters";
 
-const { Content } = Layout;
+const { Content } = Layout
 
-const transactionsStatus = TRANSACTIONS_STATUSES.PLANNED
-
-function Budget({
-  incomes,
-  nextIncomes,
-  costs,
-  nextCosts,
-  accounts,
-  nextAccounts,
-}) {
-  return (<Content style={{ margin: "20px 16px", overflowY: "scroll", overflowX: "hidden" }}>
-  <Row type="flex" gutter={[5, 20]}>
+function Budget({ incomes, nextIncomes, costs, nextCosts, accounts, nextAccounts, period, nextPeriod }) {
+  return (
+    <Content style={{ margin: "20px 16px", overflowY: "scroll", overflowX: "hidden" }}>
+      <Row type="flex" gutter={[5, 20]}>
     <Col span={12}>
       <Accounts accounts={accounts}/>
     </Col>
     <Col span={12}>
       <Accounts accounts={nextAccounts}/>
+    </Col>
+  </Row>
+  <Row type="flex" gutter={[5, 20]}>
+    <Col span={12}>
+    <div style={{ display: 'flex', justifyContent:'center', alignItems: 'center', padding: '10px', background: '#fff'}}>
+          <h3 style={{ margin: 0}}>{`${period[0].format('DD.MM.YYYY')} - ${period[1].format('DD.MM.YYYY')}`}</h3>
+      </div>
+    </Col>
+    <Col span={12}>
+      <div style={{ display: 'flex', justifyContent:'center', alignItems: 'center', padding: '10px', background: '#fff'}}>
+          <h3 style={{ margin: 0}}>{`${nextPeriod[0].format('DD.MM.YYYY')} - ${nextPeriod[1].format('DD.MM.YYYY')}`}</h3>
+      </div>
     </Col>
   </Row>
 
@@ -55,24 +58,64 @@ function Budget({
       />
     </Col>
   </Row>
-</Content>
+    </Content>
   );
 }
 
 export default compose(
   connect(
     state => ({
+      period: getPeriod(state),
+      nextPeriod: getNextPeriod(state),
       incomes: getPlannedIncomes(state),
       nextIncomes: getPlannedIncomesNext(state),
       costs: getPlannedCosts(state),
       nextCosts: getPlannedCostsNext(state),
       accounts: getAccountsWhithPlannedBalance(state),
-      nextAccounts: getAccountsWhithPlannedBalanceNext(state),
+      nextAccounts: getAccountsWhithPlannedBalanceNext(state)
     }),
     dispatch => ({
       addIncome: (transactionsStatus, income) => dispatch(addIncome(transactionsStatus, income)),
-      deleteIncome: (transactionsStatus, id) => dispatch(deleteIncome(transactionsStatus, id)),
+      deleteIncome: (transactionsStatus, id) => dispatch(deleteIncome(transactionsStatus, id))
     })
-  ),
+  )
   //  withError,
-)(Budget)
+)(Budget);
+
+
+
+       /* <Row type="flex" gutter={[5, 20]}>
+      <Col span={12}>
+        <Row  gutter={[5, 20]}>
+          <Accounts accounts={accounts} />
+        </Row>
+        <Row gutter={[5, 20]}>
+          <Card period={period} />
+        </Row>
+        <Row gutter={[5, 20]}>
+          <Col span={12}>
+            <Costs costs={costs} />
+          </Col>
+          <Col span={12}>
+            <Incomes incomes={incomes} accounts={accounts} />
+          </Col>
+        </Row>
+      </Col>
+
+      <Col span={12}>
+        <Row gutter={[5, 20]}>
+          <Accounts accounts={nextAccounts} />
+        </Row>
+        <Row  gutter={[5, 20]}>
+          <Card period={nextPeriod} />
+        </Row>
+        <Row gutter={[5, 20]}>
+          <Col span={12}>
+            <Costs costs={nextCosts} />
+          </Col>
+          <Col span={12}>
+            <Incomes incomes={nextIncomes} accounts={accounts} />
+          </Col>
+        </Row>
+      </Col>
+      </Row> */
