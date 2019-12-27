@@ -1,9 +1,8 @@
 import { Record } from 'immutable'
-import { takeEvery, put } from  'redux-saga/effects'
+import { takeEvery } from  'redux-saga/effects'
 import { createSelector } from 'reselect'
 import moment from 'moment'
-import { CALC_PLANNED_BALANCE } from '../balance'
-import { DEFAULT_PERIOD } from '../../config'
+import { DEFAULT_PERIOD, PERIODS } from '../../config'
 
 /** Constants */
 
@@ -18,7 +17,7 @@ export const CHANGE_PERIOD = `${moduleName}/CHANGE_PERIOD`
 
 
 const initialState = Record({
-  dates: [],
+  dates: PERIODS(moment)[DEFAULT_PERIOD],
   period: DEFAULT_PERIOD
 })
 

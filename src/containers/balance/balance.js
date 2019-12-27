@@ -5,8 +5,7 @@ import { createSelector } from "reselect"
 import { getPeriod, getNextPeriod } from "../parameters/index"
 import { committedCosts, plannedCosts } from "../costs/costs"
 import { committedIncomes, plannedIncomes } from "../incomes/incomes"
-import { getBalance, getPlannedTransactionsForPeriod, calculatePlannedBalance, calculateActulBalance } from "../../utils/index"
-import moment from "moment"
+import { calculatePlannedBalance, calculateActulBalance } from "../../utils/index"
 
 /** Constants */
 

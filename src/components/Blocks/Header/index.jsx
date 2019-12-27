@@ -1,7 +1,7 @@
 import { Layout, Avatar, DatePicker, Row, Radio, Button, Icon } from "antd";
 import React, { useState } from "react";
 import moment from "moment";
-import { DEFAULT_PERIOD } from '../../../config'
+import { DEFAULT_PERIOD, PERIODS } from '../../../config'
 import "./styles.sass";
 
 moment.locale("ru");
@@ -12,18 +12,11 @@ const { Header } = Layout;
 
 export default function HeaderBlock({ handleChange, dates }) {
   const [period, setPeriod] = useState(DEFAULT_PERIOD);
-  const periods = {
-    day: [moment(), moment()],
-    week: [moment().startOf("week"), moment().endOf("week")],
-    // twoWeek: [moment().startOf("month"), moment().add(moment().get('days') / 2, 'weeks')],
-    month: [moment().startOf("month"), moment().endOf("month")],
-    years: [moment().startOf("year"), moment().endOf("year")]
-  };
 
   const onChange = e => {
     const value = e.target.value;
     setPeriod(value);
-    handleChange(periods[value], value);
+    handleChange(PERIODS[value], value);
   };
 
   const handleClick = e => {
@@ -31,7 +24,6 @@ export default function HeaderBlock({ handleChange, dates }) {
     const manipulate = {
       years: date => date[direction](1, "year"),
       month: date => date[direction](1, "month"),
-      // twoWeek: date => date[direction](2, "week"),
       week: date => date[direction](1, "week"),
       day: date => date[direction](1, "days")
     };

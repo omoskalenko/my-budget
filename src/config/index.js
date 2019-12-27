@@ -78,6 +78,13 @@ export const DATE_LOCAL = {
 
 export const DEFAULT_PERIOD = 'week'
 
+export const PERIODS = (moment) => ({
+  day: [moment(), moment()],
+  week: [moment().startOf("week"), moment().endOf("week")],
+  month: [moment().startOf("month"), moment().endOf("month")],
+  years: [moment().startOf("year"), moment().endOf("year")]
+})
+
 export const TRANSACTIONS_TYPES = {
   COSTS: 'costs',
   INCOMES: 'incomes'

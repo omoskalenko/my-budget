@@ -4,9 +4,8 @@ import withError from '../../HOC/withError'
 import Incomes from '../../components/Incomes'
 import { connect } from 'react-redux'
 
-import { addIncome, deleteIncome, getPlannedIncomes, moduleName } from './incomes'
+import { addIncome, deleteIncome, moduleName } from './incomes'
 import { getIncomeCategories } from '../directores'
-import { getAccountsWhithPlannedBalance } from '../balance'
 import { TRANSACTIONS_STATUSES } from '../../config'
 
 const transactionsStatus = TRANSACTIONS_STATUSES.PLANNED
@@ -46,9 +45,7 @@ export default compose(
     state => ({
       isFetching: state[moduleName][transactionsStatus].isFetching,
       deleting: state[moduleName][transactionsStatus].deleting,
-      // incomes: getPlannedIncomes(state),
       categories: getIncomeCategories(state),
-      // accounts: getAccountsWhithPlannedBalance(state),
       isSubmit: state[moduleName][transactionsStatus].isSubmit,
       config: state[moduleName][transactionsStatus].config,
     }),
