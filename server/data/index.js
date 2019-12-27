@@ -124,6 +124,7 @@ module.exports = {
           category: 0,
           name: 'oleg_moskalenko',
           start: '2019-12-26T12:48:13.186Z',
+          end: '2020-04-26T12:48:13.186Z',
           periodicity: 'monthly',
           account: 0,
           committed: ['26.12.2019']
