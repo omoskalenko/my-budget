@@ -4,6 +4,7 @@ import moment from "moment";
 import { TRANSACTIONS_TITLES } from "../../../config";
 
 import Rub from "../../../images/rub.svg";
+import isEmpty from "../../../HOC/isEmpty";
 
 const { Option } = Select;
 
@@ -24,22 +25,19 @@ function AddTransactionForm({ isFetching, handleAdd, categories, accounts, form,
   if (!titles) return null;
 
   const renderCategories = () => {
-    return categories.map(category => {
-      return (
-        <Option value={category.id} key={category.id}>
-          {category.title}
-        </Option>
-      );
-    });
+    return isEmpty(categories, category => (
+      <Option value={category.id} key={category.id}>
+        {category.title}
+      </Option>
+    ))
   };
+
   const renderAccounts = () => {
-    return accounts.map(account => {
-      return (
-        <Option value={account.id} key={account.id}>
-          {account.title}
-        </Option>
-      );
-    });
+    return isEmpty(accounts, account => (
+      <Option value={account.id} key={account.id}>
+        {account.title}
+      </Option>
+    ))
   };
 
   const renderPeriodicity = () => {

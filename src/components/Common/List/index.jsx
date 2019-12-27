@@ -3,6 +3,7 @@ import React from 'react'
 import { Empty, Table, Icon  } from 'antd'
 
 import styles from './list.module.sass'
+import isEmpty from '../../../HOC/isEmpty'
 
 function List({
   isFetching,
@@ -12,6 +13,8 @@ function List({
   categories,
   config,
 }) {
+
+  if (items.length === 0) return <Empty />
 
   const renderItems = (id) => {
     const dataSource = items
@@ -79,21 +82,18 @@ function List({
       />)
   }
 
-  const renderCategories = () => {
-    if (items.length === 0) return <Empty />
-    return categories.map(category => {
-      const catigoryItems = items.filter(item => String(category.id) === String(item.category.id))
-      if (catigoryItems.length === 0) return null 
-      return <div className={styles.transactionsBlock} key={category.id}>
-      <b style={{ color: '#333', fontSize: '16px'}}>{category.title}</b>
-      {renderItems(category.id)}
-      </div>
-    })
+  const renderItemsByCategory = category => {
+    const catigoryItems = items.filter(item => String(category.id) === String(item.category.id))
+    if (catigoryItems.length === 0) return null 
+    return <div className={styles.transactionsBlock} key={category.id}>
+    <b style={{ color: '#333', fontSize: '16px'}}>{category.title}</b>
+    {renderItems(category.id)}
+    </div>
   }
 
   return (
     <div>
-      {!isFetching && renderCategories()}
+      {!isFetching && isEmpty(categories, renderItemsByCategory)}
     </div>
   )
 }

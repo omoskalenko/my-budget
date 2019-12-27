@@ -65,7 +65,7 @@ export const DELETE_PLANNED_ERROR = `${moduleName}/DELETE_PLANNED_ERROR`
 
 const initialState = (status) => ({
   list: [],
-  isFetching: true,
+  isFetching: false,
   deleting: false,
   error: false,
   isSubmit: false,

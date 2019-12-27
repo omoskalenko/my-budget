@@ -1,5 +1,5 @@
 import API from '../../API';
-// import { Record } from 'immutable'
+import { Record } from 'immutable'
 import { combineReducers } from 'redux'
 import { createReducer } from '@reduxjs/toolkit'
 import * as yup from 'yup'
@@ -65,7 +65,7 @@ export const DELETE_PLANNED_ERROR = `${moduleName}/DELETE_PLANNED_ERROR`
 
 const initialState = (status) => ({
   list: [],
-  isFetching: true,
+  isFetching: false,
   deleting: false,
   error: false,
   isSubmit: false,

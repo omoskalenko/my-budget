@@ -40,36 +40,26 @@ export const reducer = (state = new initialState(), action) => {
   const { type, payload } = action
   switch (type) {
     case FETCH_ACCOUNTS_REQUEST: {
-      return {
-        ...state,
-        isFetching: true,
-      }
+      return state.set('isFetching', true)
     }
     case FETCH_ACCOUNTS_SUCCESS: {
-      return {
-        ...state,
-        list: payload,
-        isFetching: false
-      }
+      return state
+        .set('list', payload)
+        .set('isFetching', false)
     }
     case FETCH_ACCOUNTS_ERROR: {
-      return {
-        ...state,
-        error: true,
-        isFetching: false
-      }
+      return state
+        .set('error', true)
+        .set('isFetching', false)
     }
     case SET_ACTUL_BALANCE: {
-      return {
-        ...state,
-        actulBalance: payload
-      }
+      return state
+        .set('actulBalance', payload)
+
     }
     case SET_PLANNED_BALANCE: {
-      return {
-        ...state,
-        plannedBalance: payload
-      }
+      return state
+        .set('plannedBalance', payload)
     }
 
     default:
@@ -87,23 +77,30 @@ export const balanceSelector = createSelector(stateSelector, state => state.actu
 
 export const balancePlannedSelector = createSelector(stateSelector, state => state.plannedBalance)
 
-export const getAccountsWhithActulBalance = createSelector([accountsSelector, balanceSelector], (accounts, balanceSelector) =>
-  accounts.map(account => {
-    account.balance = balanceSelector && balanceSelector[account.id]
-    return account
-  })
+export const getAccountsWhithActulBalance = createSelector(
+  [accountsSelector, balanceSelector],
+  (accountsSelector, balanceSelector) => {
+    try {
+      return accountsSelector.map(account => {
+        account.balance = balanceSelector && balanceSelector[account.id]
+        return account
+      })
+    } catch(error) {
+      return accountsSelector
+    }
+  }
 )
 
 export const getAccountsWhithPlannedBalance = createSelector(
   [accountsSelector, balancePlannedSelector],
-  (accounts, balancePlannedSelector) => {
+  (accountsSelector, balancePlannedSelector) => {
     try {
-      return accounts.map(account => {
+      return accountsSelector.map(account => {
         account.balance = balancePlannedSelector && balancePlannedSelector[account.id]
         return account
       })
     } catch(error) {
-      return accounts
+      return accountsSelector
     }
   }
 
@@ -117,8 +114,9 @@ export const calcPlannedBalance = () => ({type: CALC_PLANNED_BALANCE})
 /** Sagas */
 
 export const fetchAccountsSaga = function* () {
-  while (yield take(FETCH_ACCOUNTS_REQUEST)) {
+  while (true) {
     try {
+      yield take(FETCH_ACCOUNTS_REQUEST)
       const payload = yield call([API, API.fetchAccounts])
       yield put({
         type: FETCH_ACCOUNTS_SUCCESS,
@@ -135,8 +133,12 @@ export const fetchAccountsSaga = function* () {
 
 export const calcActulBalanceSaga = function* () {
   while (true) {
+    try {
     yield take(CALC_BALANCE)
     const accounts = yield select(state => getAccountsWhithActulBalance(state))
+
+    if(!accounts || accounts.length === 0) break
+
     const selectCosts = yield select(state => committedCosts(state))
     const selectIncomes = yield select(state => committedIncomes(state))
 
@@ -154,6 +156,12 @@ export const calcActulBalanceSaga = function* () {
       type: SET_ACTUL_BALANCE,
       payload
     })
+  } catch(error) {
+    yield put({
+      type: SET_ACTUL_BALANCE,
+      payload: []
+    })
+  }
   }
 }
 
@@ -163,6 +171,9 @@ export const calcPlanedBalanceSaga = function* () {
       yield take(CALC_PLANNED_BALANCE)
 
       const accounts = yield select(state => accountsSelector(state))
+
+      if(!accounts || accounts.length === 0) break
+
       const balance = yield select(state => balanceSelector(state))
       const selectCosts = yield select(state => plannedCosts(state))
       const selectIncomes = yield select(state => plannedIncomes(state))
@@ -189,7 +200,12 @@ export const calcPlanedBalanceSaga = function* () {
         type: SET_PLANNED_BALANCE,
         payload
       })
-    } catch (error) { }
+    } catch (error) {
+      yield put({
+        type: SET_PLANNED_BALANCE,
+        payload: []
+      })
+     }
   }
 }
 

@@ -21,7 +21,7 @@ export const FETCH_DIRECTORIES_ERROR = `${moduleName}/FETCH_DIRECTORIES_ERROR`
 
 const initialState = Record({
   categories: [],
-  isFetching: true,
+  isFetching: false,
   error: false,
 })
 
@@ -30,19 +30,19 @@ const initialState = Record({
 export const reducer = ( state = new initialState(), action) => {
   const { type, payload } = action
   switch (type) {
+    case FETCH_DIRECTORIES_REQUEST: {
+      return state
+        .set('isFetching', true)
+    }
     case FETCH_DIRECTORIES_SUCCESS: {
-      return {
-        ...state,
-        ...payload,
-        isFetching: false
-      }
+      return state
+        .set('categories', payload.categories)
+        .set('isFetching', false)
     }
     case FETCH_DIRECTORIES_ERROR: {
-      return {
-        ...state,
-        error: true,
-        isFetching: false
-      }
+      return state
+        .set('isFetching', false)
+        .set('error', true)
     }
     default:
       return state
