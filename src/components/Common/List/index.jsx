@@ -20,13 +20,14 @@ function List({
     const dataSource = items
       .filter(item => String(item.category.id) === String(id))
       .map(({
-        id, displayDate, name, amount, key
+        id, displayDate, name, amount, key, isCommit
       }) => ({
         id,
         key,
         committed: displayDate,
         name,
         amount,
+        isCommit,
       }))
     let columns = [
       {
@@ -70,7 +71,9 @@ function List({
         onRow={(record, rowIndex) => {
           return {
             style: {
-              cursor: 'pointer'
+              cursor: 'pointer',
+              background: record.isCommit ? '#d7ffd9' : 'none'
+
             },
             onClick: event => {}, // click row
             onDoubleClick: event => {}, // double click row
