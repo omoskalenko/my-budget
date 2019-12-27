@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { compose } from 'redux'
 import { Accounts } from '../../components/Accounts/Accounts'
 import { connect } from 'react-redux'
@@ -11,9 +11,6 @@ function BalanceContainer({
   fetchAccounts,
   accounts,
 }) {
-  // useEffect(() => {
-  //   fetchAccounts()
-  // }, [fetchAccounts])
   return (
     <Accounts
       isFetching={isFetching}

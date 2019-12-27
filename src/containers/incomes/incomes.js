@@ -1,5 +1,5 @@
 import API from '../../API';
-import { Record } from 'immutable'
+// import { Record } from 'immutable'
 import { combineReducers } from 'redux'
 import { createReducer } from '@reduxjs/toolkit'
 import * as yup from 'yup'
@@ -17,7 +17,7 @@ import {
   deleteTransactionSuccess,
   error } from '../../utils/transactionsState'
 import { TRANSACTIONS_STATUSES, TRANSACTIONS_TYPES } from '../../config'
-import moment from 'moment';
+
 /** Constants */
 
 export const moduleName = TRANSACTIONS_TYPES.INCOMES

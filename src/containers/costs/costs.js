@@ -17,7 +17,7 @@ import {
   deleteTransactionSuccess,
   error } from '../../utils/transactionsState'
 import { TRANSACTIONS_STATUSES, TRANSACTIONS_TYPES } from '../../config'
-import moment from 'moment';
+
 /** Constants */
 
 export const moduleName = TRANSACTIONS_TYPES.COSTS
