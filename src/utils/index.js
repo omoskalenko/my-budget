@@ -188,8 +188,8 @@ export function calculatePlannedBalance(accounts, balance, incomes, costs, perio
   const newAccounts = [...accounts]
   // Получаем плановые транзакции с настоящего дня до конечного дня выбранного в периоде, что бы получить сумму только будующих запланированных платежей
   // Если дата начала больше дата конца то вернется пустой массив, соответственно баланс счета останется реальным
-  const costsForPeriod = getPlannedTransactionsForPeriod(costs, [moment(), moment(period[1]).add(1, "days")])
-  const incomesForPeriod = getPlannedTransactionsForPeriod(incomes, [moment(), moment(period[1]).add(1, "days")])
+  const costsForPeriod = getPlannedTransactionsForPeriod(costs, [moment(), moment(period[1])])
+  const incomesForPeriod = getPlannedTransactionsForPeriod(incomes, [moment(), moment(period[1])])
   // Фильтр для отфильтровывания плановых транзакции по которым уже были совершены расходы/приходы, что бы повторно их не учитывать
   const filter = transations => transations.filter(transation => !transation.isCommit)
   // Добавляем свойство balance в счета с суммой реального остатка с планируемым
