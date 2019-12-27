@@ -154,7 +154,7 @@ module.exports = {
         create: "19.12.2019",
       },
       6: {
-        id: 5,
+        id: 6,
         account: 0,
         category: 1,
         name: 'ЖКУ',
@@ -166,7 +166,7 @@ module.exports = {
         create: "19.12.2019",
       },
       7: {
-        id: 5,
+        id: 7,
         account: 0,
         category: 1,
         name: 'Телефон',
