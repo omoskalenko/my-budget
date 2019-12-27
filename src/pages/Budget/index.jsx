@@ -9,66 +9,49 @@ import { connect } from 'react-redux'
 
 import { addIncome, deleteIncome, getPlannedIncomes, moduleName, getPlannedIncomesNext } from '../../containers/incomes'
 import { getIncomeCategories } from '../../containers/directores'
-import { getAccountsWhithPlannedBalance } from '../../containers/balance'
+import { getAccountsWhithPlannedBalance, getAccountsWhithPlannedBalanceNext } from '../../containers/balance'
 import { TRANSACTIONS_STATUSES } from '../../config'
+import { getPlannedCosts, getPlannedCostsNext } from "../../containers/costs/costs";
 
 const { Content } = Layout;
 
 const transactionsStatus = TRANSACTIONS_STATUSES.PLANNED
 
 function Budget({
-  isFetching,
-  addIncome,
-  deleteIncome,
-  deleting,
   incomes,
   nextIncomes,
-  categories,
+  costs,
+  nextCosts,
   accounts,
-  isSubmit,
-  config,
+  nextAccounts,
 }) {
   return (<Content style={{ margin: "20px 16px", overflowY: "scroll", overflowX: "hidden" }}>
   <Row type="flex" gutter={[5, 20]}>
     <Col span={12}>
-      <Accounts />
+      <Accounts accounts={accounts}/>
     </Col>
     <Col span={12}>
-      <Accounts />
+      <Accounts accounts={nextAccounts}/>
     </Col>
   </Row>
 
   <Row type="flex" justify="space-between" gutter={[5, 20]}>
     <Col span={6}>
-      <Costs />
+      <Costs costs={costs}/>
     </Col>
     <Col span={6}>
       <Incomes
-      isFetching={isFetching}
-      addIncome={addIncome}
-      deleteIncome={deleteIncome}
-      deleting={deleting}
-      incomes={incomes}
-      categories={categories}
-      accounts={accounts}
-      isSubmit={isSubmit}
-      config={config}
+        incomes={incomes}
+        accounts={accounts}
       />
     </Col>
     <Col span={6}>
-      <Costs />
+      <Costs costs={nextCosts}/>
     </Col>
     <Col span={6}>
       <Incomes
-      isFetching={isFetching}
-      addIncome={addIncome}
-      deleteIncome={deleteIncome}
-      deleting={deleting}
-      incomes={nextIncomes}
-      categories={categories}
-      accounts={accounts}
-      isSubmit={isSubmit}
-      config={config}
+        incomes={nextIncomes}
+        accounts={accounts}
       />
     </Col>
   </Row>
@@ -79,14 +62,12 @@ function Budget({
 export default compose(
   connect(
     state => ({
-      isFetching: state[moduleName][transactionsStatus].isFetching,
-      deleting: state[moduleName][transactionsStatus].deleting,
       incomes: getPlannedIncomes(state),
       nextIncomes: getPlannedIncomesNext(state),
-      categories: getIncomeCategories(state),
+      costs: getPlannedCosts(state),
+      nextCosts: getPlannedCostsNext(state),
       accounts: getAccountsWhithPlannedBalance(state),
-      isSubmit: state[moduleName][transactionsStatus].isSubmit,
-      config: state[moduleName][transactionsStatus].config,
+      nextAccounts: getAccountsWhithPlannedBalanceNext(state),
     }),
     dispatch => ({
       addIncome: (transactionsStatus, income) => dispatch(addIncome(transactionsStatus, income)),

@@ -44,10 +44,10 @@ export default compose(
   connect(
     state => ({
       isFetching: state[moduleName][transactionsStatus].isFetching,
-      costs: getPlannedCosts(state),
+      // costs: getPlannedCosts(state),
       deleting: state[moduleName][transactionsStatus].deleting,
       categories: getCostCategories(state),
-      accounts: getAccountsWhithPlannedBalance(state),
+      // accounts: getAccountsWhithPlannedBalance(state),
       isSubmit: state[moduleName][transactionsStatus].isSubmit,
       config: state[moduleName][transactionsStatus].config,
     }),

@@ -136,6 +136,7 @@ export const getPlannedIncomesNext = createSelector(
   }
 )
 
+
 /** Actions Creators */
 
 export const fetchIncomes = (transactionsStatus) => {

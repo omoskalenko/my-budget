@@ -129,7 +129,7 @@ export const getPlannedCosts = createSelector(
     return getPlannedTransactionsForPeriod(plannedCosts, getPeriod)
   }
 )
-export const getNextPlannedCosts = createSelector(
+export const getPlannedCostsNext = createSelector(
   [plannedCosts, getNextPeriod],
   (plannedCosts, getNextPeriod) => {
     return getPlannedTransactionsForPeriod(plannedCosts, getNextPeriod)
