@@ -195,8 +195,8 @@ module.exports = {
         commit: '2019-12-23T19:41:05.221Z',
         account: 0,
       },
-      1: {
-        id: 1,
+      2: {
+        id: 2,
         category: 0,
         name: "Ипотека",
         amount: 7000,
