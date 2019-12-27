@@ -14,7 +14,8 @@ export default function HeaderBlock({ handleChange, dates }) {
   const [period, setPeriod] = useState("month");
   const periods = {
     day: [moment(), moment()],
-    month: [moment().date(1), moment().date(31)],
+    week: [moment().startOf("week"), moment().endOf("week")],
+    month: [moment().startOf("month"), moment().endOf("month")],
     years: [moment().startOf("year"), moment().endOf("year")]
   };
 
@@ -34,6 +35,7 @@ export default function HeaderBlock({ handleChange, dates }) {
     const manipulate = {
       years: date => date[direction](1, "year"),
       month: date => date[direction](1, "month"),
+      week: date => date[direction](1, "week"),
       day: date => date[direction](1, "days")
     };
     const newPeriod = dates.map(manipulate[period]);
@@ -58,6 +60,7 @@ export default function HeaderBlock({ handleChange, dates }) {
         <div style={{ marginLeft: "20px" }}>
           <Radio.Group onChange={onChange} defaultValue={period}>
             <Radio.Button value={"day"}>День</Radio.Button>
+            <Radio.Button value={"week"}>Неделя</Radio.Button>
             <Radio.Button value={"month"}>Месяц</Radio.Button>
             <Radio.Button value={"years"}>Год</Radio.Button>
           </Radio.Group>
