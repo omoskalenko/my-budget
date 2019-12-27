@@ -2,10 +2,10 @@ import API from "../../API"
 import { Record } from "immutable"
 import { take, spawn, call, put } from "redux-saga/effects"
 import { createSelector } from "reselect"
-import { getPeriod } from "../parameters/index"
+import { getPeriod, getNextPeriod } from "../parameters/index"
 import { committedCosts, plannedCosts } from "../costs/costs"
 import { committedIncomes, plannedIncomes } from "../incomes/incomes"
-import { getBalance, getPlannedTransactionsForPeriod } from "../../utils/index"
+import { getBalance, getPlannedTransactionsForPeriod, calculatePlannedBalance, calculateActulBalance } from "../../utils/index"
 import moment from "moment"
 
 /** Constants */
@@ -68,83 +68,56 @@ export const balancePlannedSelector = createSelector(stateSelector, state => sta
 export const getActulBalance = createSelector(
   [accountsSelector, committedCosts, committedIncomes],
   (accountsSelector, committedCosts, committedIncomes) => {
-    const accounts = accountsSelector
-
-    if(!accounts || accounts.length === 0) return []
-
-    const selectCosts = committedCosts
-    const selectIncomes = committedIncomes
-
-    const payload = accounts
-      .map(account => ({
-        accountId: account.id,
-        value: getBalance(account.id, selectIncomes, selectCosts)
-      }))
-      .reduce((res, balance) => {
-        res[balance.accountId] = balance.value
-        return res
-      }, {})
-
-    return payload
+    return calculateActulBalance(accountsSelector, committedCosts, committedIncomes)
   }
 )
 
-export const getPlannedBalance = createSelector(
-  [accountsSelector, getActulBalance, plannedIncomes, plannedCosts, getPeriod],
-  (accountsSelector, getActulBalance, plannedIncomes, plannedCosts, getPeriod) => {
-    const accounts = accountsSelector
+// export const getPlannedBalance = createSelector(
+//   [accountsSelector, getActulBalance, plannedIncomes, plannedCosts, getPeriod],
+//   (accountsSelector, getActulBalance, plannedIncomes, plannedCosts, getPeriod) => {
+//     return calculatePlannedBalance(accountsSelector, getActulBalance, plannedIncomes, plannedCosts, getPeriod)
+//   })
 
-      if(!accounts || accounts.length === 0) return []
-
-      const balance = getActulBalance
-      const selectCosts = plannedCosts
-      const selectIncomes = plannedIncomes
-      const period = getPeriod
-      // Получаем плановые транзакции с настоящего дня до конечного дня выбранного в периоде, что бы получить сумму только будующих запланированных платежей
-      // Если дата начала больше дата конца то вернется пустой массив, соответственно баланс счета останется реальным
-      const costsForPeriod = getPlannedTransactionsForPeriod(selectCosts, [moment(), moment(period[1]).add(1, 'days')])
-      const incomesForPeriod = getPlannedTransactionsForPeriod(selectIncomes, [moment(), moment(period[1]).add(1, 'days')])
-      // Фильтр для отфильтровывания плановых транзакции по которым уже были совершены расходы/приходы, что бы повторно их не учитывать
-      const filter = transations => transations.filter(transation => !transation.isCommit)
-      // Добавляем свойство balance в счета с суммой реального остатка с планируемым
-      const payload = accounts
-        .map(account => ({
-          accountId: account.id,
-          // Получаем сумму планируемых остатков по счете и прибавляем текущий фактический остаток на счете
-          value: getBalance(account.id, filter(incomesForPeriod), filter(costsForPeriod), account.commit) + balance[account.id]
-        }))
-        .reduce((res, balance) => {
-          res[balance.accountId] = balance.value
-          return res
-        }, {})
-        return payload
-  })
+const setBalance = (balance) => (account) => {
+  const newAccount = {...account}
+  newAccount.balance = balance[account.id]
+  return newAccount
+}
 
 export const getAccountsWhithActulBalance = createSelector(
   [accountsSelector, getActulBalance],
   (accountsSelector, getActulBalance) => {
+    const newAccounts = [...accountsSelector]
     try {
-      return accountsSelector.map(account => {
-        account.balance = balanceSelector && getActulBalance[account.id]
-        return account
-      })
+      return newAccounts.map(setBalance(getActulBalance))
     } catch(error) {
-      return accountsSelector
+      return newAccounts
     }
   }
 )
 
-
 export const getAccountsWhithPlannedBalance = createSelector(
-  [accountsSelector, getPlannedBalance],
-  (accountsSelector, getPlannedBalance) => {
+  [accountsSelector, getActulBalance, plannedIncomes, plannedCosts, getPeriod],
+  (accountsSelector, getActulBalance, plannedIncomes, plannedCosts, getPeriod) => {
+    const newAccounts = [...accountsSelector]
     try {
-      return accountsSelector.map(account => {
-        account.balance = balancePlannedSelector && getPlannedBalance[account.id]
-        return account
-      })
+      const plannedBalance = calculatePlannedBalance(newAccounts, getActulBalance, plannedIncomes, plannedCosts, getPeriod)
+      return newAccounts.map(setBalance(plannedBalance))
     } catch(error) {
-      return accountsSelector
+      return newAccounts
+    }
+  }
+)
+
+export const getAccountsWhithPlannedBalanceNext = createSelector(
+  [accountsSelector, getActulBalance, plannedIncomes, plannedCosts, getNextPeriod],
+  (accountsSelector, getActulBalance, plannedIncomes, plannedCosts, getNextPeriod) => {
+    const newAccounts = [...accountsSelector]
+    try {
+      const plannedBalance = calculatePlannedBalance(newAccounts, getActulBalance, plannedIncomes, plannedCosts, getNextPeriod)
+      return newAccounts.map(setBalance(plannedBalance))
+    } catch(error) {
+      return newAccounts
     }
   }
 )

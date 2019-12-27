@@ -8,7 +8,6 @@ import { fetchAccounts, getAccountsWhithPlannedBalance, moduleName } from './bal
 
 function BalanceContainer({
   isFetching,
-  fetchAccounts,
   accounts,
 }) {
   return (
@@ -22,7 +21,7 @@ export default compose(
   connect(
     state => ({
       isFetching: state[moduleName].isFetching,
-      accounts: getAccountsWhithPlannedBalance(state),
+      // accounts: getAccountsWhithPlannedBalance(state),
     }),
     dispatch => ({
       fetchAccounts: () => dispatch(fetchAccounts()),
