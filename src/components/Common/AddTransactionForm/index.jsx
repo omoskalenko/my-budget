@@ -99,9 +99,10 @@ function AddTransactionForm({ isFetching, handleAdd, categories, accounts, form,
     category: selectField('category', renderCategories, true),
     name: inputField('name', (config.type === 'costs')),
     amount: amountField,
-    startDate: dateField('start'),
-    periodicity: selectField('periodicity', renderPeriodicity, true),
     account: selectField('account', renderAccounts, true),
+    periodicity: selectField('periodicity', renderPeriodicity, true),
+    startDate: dateField('start'),
+    endDate: dateField('end'),
     committed: [],
   })
 

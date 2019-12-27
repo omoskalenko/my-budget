@@ -155,6 +155,11 @@ export const TRANSACTIONS_TITLES = {
           message: 'Выберите дату!',
           placeholder: '',
         },
+        end: {
+          label: 'Дата последнего платежа',
+          message: 'Выберите дату!',
+          placeholder: '',
+        },
         periodicity: {
           label: '',
           message: 'Выберите периодичность!',
@@ -226,6 +231,11 @@ export const TRANSACTIONS_TITLES = {
           label: 'Дата первого платежа',
           message: 'Выберите дату!',
           placeholder: 'Дата начала',
+        },
+        end: {
+          label: 'Дата последнего платежа',
+          message: 'Выберите дату!',
+          placeholder: '',
         },
         periodicity: {
           label: '',

@@ -40,7 +40,7 @@ function Budget({ incomes, nextIncomes, costs, nextCosts, accounts, nextAccounts
 
   <Row type="flex" justify="space-between" gutter={[5, 20]}>
     <Col span={6}>
-      <Costs costs={costs}/>
+      <Costs costs={costs} accounts={accounts}/>
     </Col>
     <Col span={6}>
       <Incomes
@@ -49,12 +49,12 @@ function Budget({ incomes, nextIncomes, costs, nextCosts, accounts, nextAccounts
       />
     </Col>
     <Col span={6}>
-      <Costs costs={nextCosts}/>
+      <Costs costs={nextCosts} accounts={nextAccounts}/>
     </Col>
     <Col span={6}>
       <Incomes
         incomes={nextIncomes}
-        accounts={accounts}
+        accounts={nextAccounts}
       />
     </Col>
   </Row>
