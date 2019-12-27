@@ -3,7 +3,7 @@ import API from '../../API';
 import { combineReducers } from 'redux'
 import { createReducer } from '@reduxjs/toolkit'
 import * as yup from 'yup'
-import { spawn, call, put, takeEvery } from 'redux-saga/effects'
+import { call, put, takeEvery } from 'redux-saga/effects'
 import { createSelector } from 'reselect'
 import { CALC_BALANCE, CALC_PLANNED_BALANCE } from '../balance'
 import { getPeriod } from '../parameters'

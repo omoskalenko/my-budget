@@ -1,10 +1,10 @@
-import React, { useEffect, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { compose } from 'redux'
 import withError from '../../HOC/withError'
 import Costs from '../../components/Costs'
 import { connect } from 'react-redux'
 
-import { fetchCosts, addCost, deleteCost, getPlannedCosts, moduleName } from './costs'
+import { addCost, deleteCost, getPlannedCosts, moduleName } from './costs'
 import { getCostCategories } from '../directores'
 import { getAccountsWhithPlannedBalance } from '../balance'
 import { TRANSACTIONS_STATUSES } from '../../config'
@@ -13,7 +13,6 @@ const transactionsStatus = TRANSACTIONS_STATUSES.PLANNED
 
 function PlannedCosts({
   isFetching,
-  fetchCosts,
   addCost,
   deleteCost,
   deleting,
@@ -53,7 +52,6 @@ export default compose(
       config: state[moduleName][transactionsStatus].config,
     }),
     dispatch => ({
-      fetchCosts: (part) => dispatch(fetchCosts(part)),
       addCost: (transactionsStatus, cost) => dispatch(addCost(transactionsStatus, cost)),
       deleteCost: (transactionsStatus, id) => dispatch(deleteCost(transactionsStatus, id))
     })

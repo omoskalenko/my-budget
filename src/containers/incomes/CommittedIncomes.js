@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { compose } from 'redux'
 import withError from '../../HOC/withError'
 import Incomes from '../../components/Incomes'

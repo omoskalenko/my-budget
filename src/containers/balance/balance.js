@@ -109,6 +109,7 @@ export const getAccountsWhithPlannedBalance = createSelector(
 /** Actions Creators */
 
 export const fetchAccounts = () => ({ type: FETCH_ACCOUNTS_REQUEST })
+export const calcBalance = () => ({type: CALC_BALANCE})
 export const calcPlannedBalance = () => ({type: CALC_PLANNED_BALANCE})
 /** Sagas */
 
@@ -121,6 +122,8 @@ export const fetchAccountsSaga = function* () {
         type: FETCH_ACCOUNTS_SUCCESS,
         payload
       })
+      yield put(calcBalance())
+      yield put(calcPlannedBalance())
     } catch (error) {
       yield put({
         type: FETCH_ACCOUNTS_ERROR,
@@ -208,24 +211,24 @@ export const calcPlanedBalanceSaga = function* () {
   }
 }
 
-export const fetchCostsSaga = function* () {
-  while (true) {
-    yield take(FETCH_COSTS_REQUEST)
-    try {
-      const payload = yield call([API, API.fetchCostsByCategory])
+// export const fetchCostsSaga = function* () {
+//   while (true) {
+//     yield take(FETCH_COSTS_REQUEST)
+//     try {
+//       const payload = yield call([API, API.fetchCostsByCategory])
 
-      yield put({
-        type: FETCH_COSTS_SUCCESS,
-        payload
-      })
-    } catch (error) {
-      yield put({
-        type: FETCH_COSTS_ERROR,
-        error
-      })
-    }
-  }
-}
+//       yield put({
+//         type: FETCH_COSTS_SUCCESS,
+//         payload
+//       })
+//     } catch (error) {
+//       yield put({
+//         type: FETCH_COSTS_ERROR,
+//         error
+//       })
+//     }
+//   }
+// }
 
 export const saga = function* () {
   yield spawn(fetchAccountsSaga)

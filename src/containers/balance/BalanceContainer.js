@@ -1,14 +1,13 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { compose } from 'redux'
 import { Accounts } from '../../components/Accounts/Accounts'
 import { connect } from 'react-redux'
 import withError from '../../HOC/withError'
 
-import { fetchAccounts, getAccountsWhithActulBalance, moduleName } from './balance'
+import { getAccountsWhithActulBalance, moduleName } from './balance'
 
 function BalanceContainer({
   isFetching,
-  fetchAccounts,
   accounts,
 }) {
   return (
@@ -23,9 +22,6 @@ export default compose(
     state => ({
       isFetching: state[moduleName].isFetching,
       accounts: getAccountsWhithActulBalance(state),
-    }),
-    dispatch => ({
-      fetchAccounts: () => dispatch(fetchAccounts()),
     })
   ),
   withError,
