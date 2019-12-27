@@ -1,8 +1,22 @@
 import React from "react";
 import { Card, Icon, Statistic, Row } from "antd";
+import isEmpty from "../../HOC/isEmpty";
 
 
 export function Accounts({ isFetching, accounts }) {
+
+  const renderAccount = ({ id, title, balance }) => (
+    <Statistic
+    key={id}
+    title={title}
+    value={balance}
+    precision={2}
+    valueStyle={{ color: "#3f8600" }}
+    prefix={<Icon type="wallet" />}
+    suffix="₽"
+  />
+ )
+
   return (
     <Card
       loading={isFetching}
@@ -16,17 +30,7 @@ export function Accounts({ isFetching, accounts }) {
       className="accounts"
     >
       <Row type="flex" justify="space-around" gutter={16}>
-        {!isFetching && accounts.map(({ id, title, balance }) => (
-           <Statistic
-           key={id}
-           title={title}
-           value={balance}
-           precision={2}
-           valueStyle={{ color: "#3f8600" }}
-           prefix={<Icon type="wallet" />}
-           suffix="₽"
-         />
-        ))}
+        {!isFetching && isEmpty(accounts, renderAccount)}
       </Row>
     </Card>
   );
