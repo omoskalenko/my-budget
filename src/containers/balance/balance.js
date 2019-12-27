@@ -109,7 +109,6 @@ export const getAccountsWhithPlannedBalance = createSelector(
 /** Actions Creators */
 
 export const fetchAccounts = () => ({ type: FETCH_ACCOUNTS_REQUEST })
-export const fetchCosts = () => ({ type: FETCH_COSTS_REQUEST })
 export const calcPlannedBalance = () => ({type: CALC_PLANNED_BALANCE})
 /** Sagas */
 

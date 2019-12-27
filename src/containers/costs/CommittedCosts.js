@@ -23,9 +23,6 @@ function CommittedCosts({
   isSubmit,
   config,
 }) {
-  useEffect(() => {
-    fetchCosts(transactionsStatus)
-  }, [fetchCosts])
 
   const addCostCB = useCallback(addCost.bind(null, transactionsStatus), [addCost])
   const deleteCostCB = useCallback(deleteCost.bind(null, transactionsStatus), [deleteCost])

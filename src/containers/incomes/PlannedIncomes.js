@@ -23,9 +23,6 @@ function PlannedIncomes({
   isSubmit,
   config,
 }) {
-  useEffect(() => {
-    fetchIncomes(transactionsStatus)
-  }, [fetchIncomes])
 
   const addIncomeCB = useCallback(addIncome.bind(null, transactionsStatus), [addIncome])
   const deleteIncomeCB = useCallback(deleteIncome.bind(null, transactionsStatus), [deleteIncome])

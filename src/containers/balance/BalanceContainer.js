@@ -11,9 +11,6 @@ function BalanceContainer({
   fetchAccounts,
   accounts,
 }) {
-  useEffect(() => {
-    fetchAccounts()
-  }, [fetchAccounts])
   return (
     <Accounts
       isFetching={isFetching}

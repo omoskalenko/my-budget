@@ -1,9 +1,12 @@
 import API from '../../API';
 import { Record } from 'immutable'
-import { take, spawn, call, put } from  'redux-saga/effects'
+import { take, spawn, call, put, all } from  'redux-saga/effects'
 import { createSelector } from 'reselect'
 import { push } from 'connected-react-router';
 import { PATHS } from '../../config';
+import { fetchIncomes } from '../incomes/incomes';
+import { fetchCosts } from '../costs/costs';
+import { fetchAccounts } from '../balance';
 
 /** Constants */
 
@@ -78,10 +81,18 @@ export const fetchDirectoriesSaga = function* () {
   while(yield take(FETCH_DIRECTORIES_REQUEST)) {
     try {
       const payload = yield call([API, API.fetchDirectories])
+      yield all([
+        yield put(fetchAccounts()),
+        yield put(fetchIncomes('committed')),
+        yield put(fetchIncomes('planned')),
+        yield put(fetchCosts('committed')),
+        yield put(fetchCosts('planned')),
+      ])
       yield put({
         type: FETCH_DIRECTORIES_SUCCESS,
         payload
       })
+
       if(window.location.pathname === '/') {
         yield put(push(PATHS.MAIN))
       }
