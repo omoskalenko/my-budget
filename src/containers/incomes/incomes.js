@@ -250,7 +250,7 @@ export const deleteIncomeSaga = function* (action) {
 }
 
 export const saga = function* () {
-  yield spawn(fetchIncomesSaga)
+  // yield spawn(fetchIncomesSaga)
   yield takeEvery(FETCH_COMMITTED_REQUEST, fetchIncomesSaga)
   yield takeEvery(FETCH_PLANNED_REQUEST, fetchIncomesSaga)
   yield takeEvery(ADD_COMMITTED_REQUEST, addIncomeSaga)

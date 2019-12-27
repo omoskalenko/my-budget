@@ -252,7 +252,7 @@ export const deleteCostSaga = function* (action) {
 }
 
 export const saga = function* () {
-  yield spawn(fetchCostsSaga)
+  // yield spawn(fetchCostsSaga)
   yield takeEvery(FETCH_COMMITTED_REQUEST, fetchCostsSaga)
   yield takeEvery(FETCH_PLANNED_REQUEST, fetchCostsSaga)
   yield takeEvery(ADD_COMMITTED_REQUEST, addCostSaga)
