@@ -1,7 +1,7 @@
 import { Layout, Avatar, DatePicker, Row, Radio, Button, Icon } from "antd";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import moment from "moment";
-
+import { DEFAULT_PERIOD } from '../../../config'
 import "./styles.sass";
 
 moment.locale("ru");
@@ -11,18 +11,14 @@ const { RangePicker } = DatePicker;
 const { Header } = Layout;
 
 export default function HeaderBlock({ handleChange, dates }) {
-  const [period, setPeriod] = useState("month");
+  const [period, setPeriod] = useState(DEFAULT_PERIOD);
   const periods = {
     day: [moment(), moment()],
     week: [moment().startOf("week"), moment().endOf("week")],
+    // twoWeek: [moment().startOf("month"), moment().add(moment().get('days') / 2, 'weeks')],
     month: [moment().startOf("month"), moment().endOf("month")],
     years: [moment().startOf("year"), moment().endOf("year")]
   };
-
-  // useEffect(() => {
-  //   handleChange(periods[period]);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [period]);
 
   const onChange = e => {
     const value = e.target.value;
@@ -35,6 +31,7 @@ export default function HeaderBlock({ handleChange, dates }) {
     const manipulate = {
       years: date => date[direction](1, "year"),
       month: date => date[direction](1, "month"),
+      // twoWeek: date => date[direction](2, "week"),
       week: date => date[direction](1, "week"),
       day: date => date[direction](1, "days")
     };
@@ -61,6 +58,7 @@ export default function HeaderBlock({ handleChange, dates }) {
           <Radio.Group onChange={onChange} defaultValue={period}>
             <Radio.Button value={"day"}>День</Radio.Button>
             <Radio.Button value={"week"}>Неделя</Radio.Button>
+            {/* <Radio.Button value={"twoWeek"}>2 Недели</Radio.Button> */}
             <Radio.Button value={"month"}>Месяц</Radio.Button>
             <Radio.Button value={"years"}>Год</Radio.Button>
           </Radio.Group>

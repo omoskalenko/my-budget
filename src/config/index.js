@@ -76,6 +76,8 @@ export const DATE_LOCAL = {
   }
 };
 
+export const DEFAULT_PERIOD = 'week'
+
 export const TRANSACTIONS_TYPES = {
   COSTS: 'costs',
   INCOMES: 'incomes'
@@ -232,5 +234,6 @@ export const TRANSACTIONS_TITLES = {
     }
   }
 }
+
 
 
