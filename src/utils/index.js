@@ -139,6 +139,11 @@ export const getPlannedTransactionsForPeriod = (transactions, period) => {
       const tDay = moment(transaction.start).get("date")
       const tMonth = moment(transaction.start).get("month")
       // сравниваем день
+      if (transaction.periodicity === "onetime") {
+        if (startPeriod.format('DD.MM.YYYY') === moment(transaction.start).format('DD.MM.YYYY')) {
+          filteredTransaction.push(addDetailProps(transaction, startPeriod))
+        }
+      }
       if (tDay === pDay) {
         // Если транзакция ежемесячная возвращаем транзакцию с датой дня периода для отображения
         if (transaction.periodicity === "monthly") {
@@ -163,7 +168,7 @@ export const getPlannedTransactionsForPeriod = (transactions, period) => {
 }
 
 export function calculateActulBalance(accounts, costs, incomes) {
-  if(!accounts || accounts.length === 0) return []
+  if (!accounts || accounts.length === 0) return []
   const newAccounts = [...accounts]
   const payload = newAccounts
     .map(account => ({

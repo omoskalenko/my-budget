@@ -41,7 +41,7 @@ function AddTransactionForm({ isFetching, handleAdd, categories, accounts, form,
   };
 
   const renderPeriodicity = () => {
-    return ['everyyear', 'monthly','daily'].map(periodicity => {
+    return ['everyyear', 'monthly', 'daily', 'onetime'].map(periodicity => {
       return (
         <Option value={periodicity} key={periodicity}>
           {periodicity}
