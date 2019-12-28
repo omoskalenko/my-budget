@@ -77,47 +77,46 @@ export const getActulBalance = createSelector(
 //     return calculatePlannedBalance(accountsSelector, getActulBalance, plannedIncomes, plannedCosts, getPeriod)
 //   })
 
-const setBalance = (balance) => (account) => {
-  const newAccount = {...account}
-  newAccount.balance = balance[account.id]
-  return newAccount
+
+
+
+const getAccountsWithBalance = (accounts, balance) => {
+  const setBalance = (balance) => (account) => {
+    const newAccount = {...account}
+    newAccount.balance = balance[account.id]
+    return newAccount
+  }
+
+  const newAccounts = [...accounts]
+  try {
+    return newAccounts.map(setBalance(balance))
+  } catch(error) {
+    return newAccounts
+  }
+  
 }
 
 export const getAccountsWithActulBalance = createSelector(
   [accountsSelector, getActulBalance],
   (accountsSelector, getActulBalance) => {
-    const newAccounts = [...accountsSelector]
-    try {
-      return newAccounts.map(setBalance(getActulBalance))
-    } catch(error) {
-      return newAccounts
-    }
+    return getAccountsWithBalance(accountsSelector, getActulBalance)
   }
 )
 
 export const getAccountsWithPlannedBalance = createSelector(
   [accountsSelector, getActulBalance, plannedIncomes, plannedCosts, getPeriod],
   (accountsSelector, getActulBalance, plannedIncomes, plannedCosts, getPeriod) => {
-    const newAccounts = [...accountsSelector]
-    try {
-      const plannedBalance = calculatePlannedBalance(newAccounts, getActulBalance, plannedIncomes, plannedCosts, getPeriod)
-      return newAccounts.map(setBalance(plannedBalance))
-    } catch(error) {
-      return newAccounts
-    }
+
+    const plannedBalance = calculatePlannedBalance(accountsSelector, getActulBalance, plannedIncomes, plannedCosts, getPeriod)
+    return getAccountsWithBalance(accountsSelector, plannedBalance)
   }
 )
 
 export const getAccountsWithPlannedBalanceNext = createSelector(
   [accountsSelector, getActulBalance, plannedIncomes, plannedCosts, getNextPeriod],
   (accountsSelector, getActulBalance, plannedIncomes, plannedCosts, getNextPeriod) => {
-    const newAccounts = [...accountsSelector]
-    try {
-      const plannedBalance = calculatePlannedBalance(newAccounts, getActulBalance, plannedIncomes, plannedCosts, getNextPeriod)
-      return newAccounts.map(setBalance(plannedBalance))
-    } catch(error) {
-      return newAccounts
-    }
+    const plannedBalance = calculatePlannedBalance(accountsSelector, getActulBalance, plannedIncomes, plannedCosts, getNextPeriod)
+    return getAccountsWithBalance(accountsSelector, plannedBalance)
   }
 )
 
