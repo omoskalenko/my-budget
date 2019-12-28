@@ -83,7 +83,7 @@ const setBalance = (balance) => (account) => {
   return newAccount
 }
 
-export const getAccountsWhithActulBalance = createSelector(
+export const getAccountsWithActulBalance = createSelector(
   [accountsSelector, getActulBalance],
   (accountsSelector, getActulBalance) => {
     const newAccounts = [...accountsSelector]
@@ -95,7 +95,7 @@ export const getAccountsWhithActulBalance = createSelector(
   }
 )
 
-export const getAccountsWhithPlannedBalance = createSelector(
+export const getAccountsWithPlannedBalance = createSelector(
   [accountsSelector, getActulBalance, plannedIncomes, plannedCosts, getPeriod],
   (accountsSelector, getActulBalance, plannedIncomes, plannedCosts, getPeriod) => {
     const newAccounts = [...accountsSelector]
@@ -108,7 +108,7 @@ export const getAccountsWhithPlannedBalance = createSelector(
   }
 )
 
-export const getAccountsWhithPlannedBalanceNext = createSelector(
+export const getAccountsWithPlannedBalanceNext = createSelector(
   [accountsSelector, getActulBalance, plannedIncomes, plannedCosts, getNextPeriod],
   (accountsSelector, getActulBalance, plannedIncomes, plannedCosts, getNextPeriod) => {
     const newAccounts = [...accountsSelector]

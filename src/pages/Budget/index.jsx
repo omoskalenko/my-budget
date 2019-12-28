@@ -8,7 +8,7 @@ import { Layout, Row, Col } from "antd";
 import { connect } from "react-redux";
 
 import { addIncome, deleteIncome, getPlannedIncomes, getPlannedIncomesNext } from "../../containers/incomes";
-import { getAccountsWhithPlannedBalance, getAccountsWhithPlannedBalanceNext } from "../../containers/balance";
+import { getAccountsWithPlannedBalance, getAccountsWithPlannedBalanceNext } from "../../containers/balance";
 import { getPlannedCosts, getPlannedCostsNext } from "../../containers/costs/costs";
 import { getPeriod, getNextPeriod } from "../../containers/parameters";
 
@@ -71,8 +71,8 @@ export default compose(
       nextIncomes: getPlannedIncomesNext(state),
       costs: getPlannedCosts(state),
       nextCosts: getPlannedCostsNext(state),
-      accounts: getAccountsWhithPlannedBalance(state),
-      nextAccounts: getAccountsWhithPlannedBalanceNext(state)
+      accounts: getAccountsWithPlannedBalance(state),
+      nextAccounts: getAccountsWithPlannedBalanceNext(state)
     }),
     dispatch => ({
       addIncome: (transactionsStatus, income) => dispatch(addIncome(transactionsStatus, income)),
