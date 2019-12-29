@@ -78,11 +78,11 @@ function AddTransactionForm({ isFetching, handleAdd, categories, accounts, form,
     </Form.Item>
   );
 
-  const dateField = name => (
+  const dateField = (name, required, initialValue) => (
     <Form.Item key={name} label={titles[name].label}>
       {getFieldDecorator(name, {
-        rules: [{ required: true, message: titles[name].message, type: "object" }],
-        initialValue: moment()
+        rules: [{ required, message: titles[name].message, type: "object" }],
+        initialValue,
       })(<DatePicker size="large" format="DD.MM.YYYY" />)}
     </Form.Item>
   );
@@ -92,7 +92,7 @@ function AddTransactionForm({ isFetching, handleAdd, categories, accounts, form,
     category: selectField('category', renderCategories, true),
     amount: amountField,
     name: inputField('name', (config.type === 'costs')),
-    commit: dateField('commit'),
+    commit: dateField('commit',  true, moment()),
   })
 
   const plannedFields = () => ({
@@ -101,8 +101,8 @@ function AddTransactionForm({ isFetching, handleAdd, categories, accounts, form,
     amount: amountField,
     account: selectField('account', renderAccounts, true),
     periodicity: selectField('periodicity', renderPeriodicity, true),
-    startDate: dateField('start'),
-    endDate: dateField('end'),
+    startDate: dateField('start', true, moment()),
+    endDate: dateField('end', false, null),
     committed: [],
   })
 
