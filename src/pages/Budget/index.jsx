@@ -28,12 +28,12 @@ function Budget({ incomes, nextIncomes, costs, nextCosts, accounts, nextAccounts
   <Row type="flex" gutter={[5, 20]}>
     <Col span={12}>
     <div style={{ display: 'flex', justifyContent:'center', alignItems: 'center', padding: '10px', background: '#fff'}}>
-          <h3 style={{ margin: 0}}>{`${period[0].format('DD.MM.YYYY')} - ${period[1].format('DD.MM.YYYY')}`}</h3>
+          {period.length === 2 && <h3 style={{ margin: 0}}>{`${period[0].format('DD.MM.YYYY')} - ${period[1].format('DD.MM.YYYY')}`}</h3>}
       </div>
     </Col>
     <Col span={12}>
       <div style={{ display: 'flex', justifyContent:'center', alignItems: 'center', padding: '10px', background: '#fff'}}>
-          <h3 style={{ margin: 0}}>{`${nextPeriod[0].format('DD.MM.YYYY')} - ${nextPeriod[1].format('DD.MM.YYYY')}`}</h3>
+          {period.length === 2 && <h3 style={{ margin: 0}}>{`${nextPeriod[0].format('DD.MM.YYYY')} - ${nextPeriod[1].format('DD.MM.YYYY')}`}</h3>}
       </div>
     </Col>
   </Row>
