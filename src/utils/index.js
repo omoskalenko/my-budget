@@ -146,7 +146,7 @@ export const getPlannedTransactionsForPeriod = (transactions, period) => {
       }
       if (tDay === pDay) {
         // Если транзакция ежемесячная возвращаем транзакцию с датой дня периода для отображения
-        if (transaction.periodicity === "monthly") {
+        if (transaction.periodicity === "monthly" && moment(transaction.start).isSameOrBefore(startPeriod, 'day')) {
           filteredTransaction.push(addDetailProps(transaction, startPeriod))
         }
         // Если транзакция ежедгодная сравниваем месяц и возвращаем транзакцию с датой дня периода для отображения
