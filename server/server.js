@@ -11,7 +11,15 @@ app.use(bodyParser.json())
 app.use(cors({
   origin: 'http://localhost:3000'
 }));
+
+app.use(express.static('build'))
 app.use('/api', api)
+
+
+app.get('*', (req, res) => {
+  res.sendFile(__dirname + '/build/index.html');
+});
+
 
 
 
