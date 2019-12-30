@@ -336,7 +336,7 @@
                 "end": "",
                 "periodicity": "monthly",
                 "amount": 34000,
-                "missed": ["07.01.2019"],
+                "missed": ["07.01.2020"],
                 "committed": [
                     "07.12.2019"
                 ],
