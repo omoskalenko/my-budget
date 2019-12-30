@@ -1,0 +1,436 @@
+{
+    "members": {
+        "0": {
+            "firstName": "Олег"
+        },
+        "1": {
+            "firstName": "Саша"
+        }
+    },
+    "accounts": {
+        "0": {
+            "name": "main",
+            "title": "Основной",
+            "member": 0
+        },
+        "1": {
+            "name": "second",
+            "title": "Саша",
+            "member": 1
+        },
+        "10": {
+            "name": "savings",
+            "title": "Сбережения",
+            "member": 1
+        }
+    },
+    "periods": {},
+    "categories": {
+        "costs": {
+            "0": {
+                "name": "credits",
+                "title": "Кредиты"
+            },
+            "1": {
+                "name": "utilities",
+                "title": "ЖКХ"
+            },
+            "2": {
+                "name": "personal",
+                "title": "Личные"
+            },
+            "3": {
+                "name": "transport",
+                "title": "Транспорт"
+            },
+            "4": {
+                "name": "food",
+                "title": "Питание"
+            },
+            "5": {
+                "name": "household",
+                "title": "Бытовые товары"
+            },
+            "6": {
+                "name": "others",
+                "title": "Прочие"
+            },
+            "7": {
+                "name": "transferToAccount",
+                "title": "Перевод на другой счет"
+            }
+        },
+        "incomes": {
+            "0": {
+                "name": "salary",
+                "title": "ЗП"
+            },
+            "1": {
+                "name": "prepaidExpense",
+                "title": "Аванс"
+            },
+            "2": {
+                "name": "other",
+                "title": "Прочие"
+            },
+            "10": {
+                "name": "receiptWithYourAccount",
+                "title": "Поступление с своего счета"
+            },
+            "20": {
+                "name": "receiptOther",
+                "title": "Прочие поступление"
+            }
+        }
+    },
+    "costs": {
+        "planned": {
+            "0": {
+                "id": 0,
+                "account": 0,
+                "category": 3,
+                "name": "Бензин 1",
+                "amount": 2000,
+                "start": "2019-12-07T11:00:09.296Z",
+                "end": "",
+                "committed": [
+                    "07.12.2019"
+                ],
+                "periodicity": "monthly",
+                "create": "19.12.2019"
+            },
+            "1": {
+                "id": 1,
+                "account": 0,
+                "category": 3,
+                "name": "Бензин 2",
+                "amount": 2000,
+                "start": "2019-12-23T11:00:09.296Z",
+                "end": "",
+                "committed": [
+                    "23.12.2019"
+                ],
+                "periodicity": "monthly",
+                "create": "19.12.2019"
+            },
+            "3": {
+                "id": 3,
+                "account": 0,
+                "category": 0,
+                "name": "Ипотека часть 2",
+                "amount": 13000,
+                "start": "2018-01-07T11:00:09.296Z",
+                "end": "2023-01-07T11:00:09.296Z",
+                "committed": [
+                    "07.12.2019"
+                ],
+                "periodicity": "monthly",
+                "create": "19.12.2019"
+            },
+            "5": {
+                "id": 5,
+                "account": 0,
+                "category": 0,
+                "name": "Ипотека часть 1",
+                "amount": 7000,
+                "start": "2018-01-23T11:00:09.296Z",
+                "end": "2023-12-23T11:00:09.296Z",
+                "committed": [
+                    "23.12.2019"
+                ],
+                "periodicity": "monthly",
+                "create": "19.12.2019"
+            },
+            "6": {
+                "id": 6,
+                "account": 0,
+                "category": 1,
+                "name": "ЖКУ",
+                "amount": 2500,
+                "_amount": {
+                  "07.12.2019": 1800,
+                  "07.01.2020": 2000
+                },
+                "start": "2018-01-07T11:00:09.296Z",
+                "end": "",
+                "committed": [
+                    "07.12.2019"
+                ],
+                "periodicity": "monthly",
+                "create": "19.12.2019"
+            },
+            "1577610878884": {
+                "amount": "5000",
+                "category": "0",
+                "name": "Кредитка",
+                "account": "0",
+                "periodicity": "monthly",
+                "start": "2020-01-07T09:14:24.499Z",
+                "end": null,
+                "committed": []
+            },
+            "1577610887464": {
+                "amount": "5000",
+                "category": "0",
+                "name": "Кредитка",
+                "account": "0",
+                "periodicity": "monthly",
+                "start": "2020-01-23T09:14:24.499Z",
+                "end": null,
+                "committed": []
+            },
+            "1577610909360": {
+                "amount": "466",
+                "category": "1",
+                "name": "Телефон",
+                "account": "0",
+                "periodicity": "monthly",
+                "start": "2019-12-23T09:14:24.499Z",
+                "end": null,
+                "committed": [
+                    "23.12.2019"
+                ]
+            },
+            "1577610924961": {
+                "amount": "601",
+                "category": "1",
+                "name": "Интернет",
+                "account": "0",
+                "periodicity": "monthly",
+                "start": "2019-12-07T09:14:24.499Z",
+                "end": null,
+                "committed": [
+                    "07.12.2019"
+                ]
+            },
+            "1577611055130": {
+                "amount": "1098",
+                "category": "0",
+                "name": "Халва",
+                "account": "0",
+                "periodicity": "onetime",
+                "start": "2019-11-07T09:14:24.499Z",
+                "end": null,
+                "committed": [
+                    "07.11.2019"
+                ]
+            },
+            "1577611433592": {
+                "amount": "250",
+                "category": "1",
+                "name": "Кап.ремонт дома",
+                "account": "0",
+                "periodicity": "monthly",
+                "start": "2018-01-23T09:14:24.499Z",
+                "end": null,
+                "committed": [
+                    "23.12.2019"
+                ]
+            },
+            "1577611718581": {
+                "amount": "1300",
+                "category": "6",
+                "name": "Кот",
+                "account": "0",
+                "periodicity": "monthly",
+                "start": "2019-12-23T09:14:24.499Z",
+                "end": null,
+                "committed": [
+                    "23.12.2019"
+                ]
+            },
+            "1577611824399": {
+                "amount": "3000",
+                "category": "4",
+                "name": "Закупка 1",
+                "account": "1",
+                "periodicity": "monthly",
+                "start": "2019-12-01T09:14:24.499Z",
+                "end": null,
+                "committed": [
+                    "01.12.2019"
+                ]
+            },
+            "1577611831030": {
+                "amount": "3000",
+                "category": "4",
+                "name": "Закупка 2",
+                "account": "1",
+                "periodicity": "monthly",
+                "start": "2019-12-15T09:14:24.499Z",
+                "end": null,
+                "committed": [
+                    "15.12.2019"
+                ]
+            },
+            "1577694813396": {
+                "amount": "400",
+                "category": "2",
+                "name": "Аптека",
+                "account": "1",
+                "periodicity": "monthly",
+                "start": "2020-01-23T08:32:46.398Z",
+                "end": null,
+                "committed": []
+            },
+            "1577694891557": {
+                "amount": "1000",
+                "category": "2",
+                "name": "Маникюр",
+                "account": "1",
+                "periodicity": "monthly",
+                "start": "2019-12-15T08:34:01.526Z",
+                "end": null,
+                "committed": []
+            },
+            "1577694989740": {
+                "amount": "400",
+                "category": "2",
+                "name": "Парикмахер",
+                "account": "0",
+                "periodicity": "everyyear",
+                "start": "2020-02-29T08:34:01.526Z",
+                "end": null,
+                "committed": []
+            },
+            "1577695217976": {
+                "amount": "2500",
+                "category": "0",
+                "name": "Страхование имущества",
+                "account": "0",
+                "periodicity": "everyyear",
+                "start": "2019-01-05T08:39:31.597Z",
+                "end": "2022-01-04T21:00:00.758Z",
+                "committed": []
+            },
+            "1577695995513": {
+                "amount": "1100",
+                "category": "0",
+                "name": "Халва",
+                "account": "0",
+                "periodicity": "onetime",
+                "start": "2019-12-30T08:39:31.597Z",
+                "end": null,
+                "committed": []
+            }
+        },
+        "committed": {
+            "1577693187241": {
+                "amount": "1067",
+                "account": "1",
+                "category": "6",
+                "name": "Термопаста",
+                "commit": "2019-12-29T08:06:19.113Z",
+                "committed": []
+            }
+        }
+    },
+    "incomes": {
+        "planned": {
+            "0": {
+                "id": 0,
+                "name": "Зарплата",
+                "account": 0,
+                "category": 0,
+                "start": "2019-12-07T11:00:09.296Z",
+                "end": "",
+                "periodicity": "monthly",
+                "amount": 34000,
+                "missed": ["07.01.2020"],
+                "committed": [
+                    "07.12.2019"
+                ],
+                "member": 0
+            },
+            "1": {
+                "id": 1,
+                "name": "Аванс",
+                "account": 0,
+                "category": 1,
+                "start": "2019-12-23T11:00:09.296Z",
+                "end": "",
+                "periodicity": "monthly",
+                "amount": 16000,
+                "committed": [
+                    "23.12.2019"
+                ],
+                "member": 0
+            },
+            "1577692747345": {
+                "amount": "5000",
+                "category": "2",
+                "name": "Саша",
+                "account": "1",
+                "periodicity": "monthly",
+                "start": "2019-11-30T07:58:52.531Z",
+                "end": null,
+                "committed": [
+                    "30.12.2019"
+                ]
+            },
+            "1577692772459": {
+                "amount": "7000",
+                "category": "2",
+                "name": "Саша",
+                "account": "1",
+                "periodicity": "monthly",
+                "start": "2019-12-14T07:58:52.531Z",
+                "end": null,
+                "committed": [
+                    "14.12.2019"
+                ]
+            },
+            "1577692887851": {
+                "amount": "4000",
+                "category": "1",
+                "name": "Саша",
+                "account": "1",
+                "periodicity": "monthly",
+                "start": "2019-12-30T07:58:52.531Z",
+                "end": null,
+                "committed": [
+                    "30.12.2019"
+                ]
+            },
+            "1577693015373": {
+                "amount": "6000",
+                "category": "0",
+                "name": "Саша",
+                "account": "1",
+                "periodicity": "monthly",
+                "start": "2020-01-15T07:58:52.531Z",
+                "end": null,
+                "committed": []
+            }
+        },
+        "committed": {
+            "1577693079678": {
+                "amount": "4000",
+                "account": "1",
+                "category": "0",
+                "commit": "2019-12-30T08:04:36.649Z",
+                "committed": []
+            },
+            "1577693101873": {
+                "amount": "5000",
+                "account": "1",
+                "category": "2",
+                "commit": "2019-12-27T08:04:36.649Z",
+                "committed": []
+            },
+            "1577696089492": {
+                "amount": "34000",
+                "account": "0",
+                "category": "0",
+                "name": "ЗП за декбарь(вместо 7.01.2019)",
+                "commit": "2019-12-30T08:54:46.628Z",
+                "committed": []
+            }
+        }
+    },
+    "saving": {
+        "planned": {},
+        "perfect": {}
+    },
+    "balance": {}
+}
