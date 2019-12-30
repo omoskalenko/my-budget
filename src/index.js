@@ -12,6 +12,7 @@ import * as serviceWorker from './serviceWorker';
 import App from './App';
 
 import "antd/dist/antd.css";
+import 'moment/locale/ru'
 
 moment.locale('ru')
 
