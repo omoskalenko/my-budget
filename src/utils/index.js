@@ -10,6 +10,7 @@ export function normalize(object) {
   return Object.entries(object).map(item => ({ id: item[0], ...item[1] }))
 }
 
+
 /**
  * Получить сумму транзакций по id счета
  *
@@ -102,10 +103,20 @@ export const getTransactionsForPeriod = (transactions, period, type = "committed
  * @param {[moment, moment]} period
  */
 export const getPlannedTransactionsForPeriod = (transactions, period) => {
+  // Получим сумму транзакции, для запланированных транзакций - изменная или по умолчанию
+  const getAmount = (transaction, date) => {
+    if (transaction.hasOwnProperty('_amount')) {
+      return transaction._amount[date] || transaction.amount
+    } else {
+      return transaction.amount
+    }
+
+  }
   // Добавляем свойства для отображения даты, существет ли в эту дату платеж по этой транзакции, ключ
   const addDetailProps = (transaction, date) => {
     const newTransaction = { ...transaction }
     newTransaction.displayDate = date.format("DD.MM.YYYY")
+    newTransaction.amount = getAmount(newTransaction, date.format("DD.MM.YYYY"))
     newTransaction.isCommit = transaction.committed.includes(date.format("DD.MM.YYYY"))
     newTransaction.key = uuid()
     return newTransaction
