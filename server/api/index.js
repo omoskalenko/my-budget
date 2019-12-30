@@ -2,6 +2,7 @@ let router = require('express').Router()
 let origin = require('../data/db.json')
 const fs = require('fs')
 const path = require('path')
+const uuid = require('uuid/v4')
 
 
 
@@ -33,7 +34,13 @@ const withCategory = (data, type, subType) => {
 
 const addItem = (item, type, subType) => {
   try {
-    const id = Date.now()
+    // let i = 0
+    // while(i < 50) {
+    //   const id = uuid()
+    //   db[type][subType][id] = item
+    //   i++
+    // }
+    const id = uuid()
     db[type][subType][id] = item
     saveToFile(db)
     return { status: 'ok', [type]: withCategory(db, type, subType) }
@@ -55,7 +62,7 @@ router.get('/directories', (req, res, next) => {
     incomes: normalize(db.categories.incomes)
   }
   const members = normalize(db.members)
-  
+
   reply(res, { categories, members })
 })
 
