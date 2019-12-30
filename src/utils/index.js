@@ -131,7 +131,7 @@ export const getPlannedTransactionsForPeriod = (transactions, period) => {
     })
 
   // Получаем действующие транзакции
-  const notCompletedTransaction = copyTransactions.filter(transaction => moment(transaction.end).isSameOrAfter(period[0]) || !transaction.end)
+  // const notCompletedTransaction = copyTransactions.filter(transaction => moment(transaction.end).isSameOrAfter(period[0]) || !transaction.end)
 
   // Получаем первый день периода
   const startPeriod = moment(period[0]) // необходимо скопировать
@@ -145,10 +145,11 @@ export const getPlannedTransactionsForPeriod = (transactions, period) => {
     // Получаем дату и месяц дня периода
     const pDay = startPeriod.get("date")
     const pMonth = startPeriod.get("month")
-    notCompletedTransaction.forEach(transaction => {
+    copyTransactions.forEach(transaction => {
       // Если транзакция пропущена на данную дату, то не включаем в список
       const isMissed = (transaction, date) => transaction.missed && ~transaction.missed.indexOf(moment(date).format('DD.MM.YYYY'))
-      if (isMissed(transaction, startPeriod)) return false
+      const isComplited = (transaction, date) => !(moment(transaction.end).isSameOrAfter(moment(date).format('DD.MM.YYYY')) || !transaction.end)
+      if (isMissed(transaction, startPeriod) || isComplited(transaction, startPeriod)) return false
       // Получаем дату и месяц стартового дня транзакции
       const tDay = moment(transaction.start).get("date")
       const tMonth = moment(transaction.start).get("month")
