@@ -80,7 +80,7 @@ export const DEFAULT_PERIOD = 'week'
 
 export const PERIODS = (moment) => ({
   day: [moment(), moment()],
-  week: [moment().startOf("week"), moment().endOf("week")],
+  week: [moment().startOf("isoWeek"), moment().endOf("isoWeek")],
   month: [moment().startOf("month"), moment().endOf("month")],
   years: [moment().startOf("year"), moment().endOf("year")]
 })
