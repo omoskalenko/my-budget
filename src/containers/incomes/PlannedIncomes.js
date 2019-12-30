@@ -19,6 +19,7 @@ function PlannedIncomes({
   categories,
   accounts,
   isSubmit,
+  showDetail,
   config,
 }) {
 
@@ -34,6 +35,7 @@ function PlannedIncomes({
       incomes={incomes}
       categories={categories}
       accounts={accounts}
+      showDetail={showDetail}
       isSubmit={isSubmit}
       config={config}
     />

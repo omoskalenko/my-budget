@@ -19,6 +19,7 @@ function CommittedCosts({
   costs,
   categories,
   accounts,
+  showDetail,
   isSubmit,
   config,
 }) {
@@ -35,6 +36,7 @@ function CommittedCosts({
       deleting={deleting}
       costs={costs}
       categories={categories}
+      showDetail={showDetail}
       accounts={accounts}
       config={config}
     />

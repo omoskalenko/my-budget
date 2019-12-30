@@ -19,6 +19,7 @@ function PlannedCosts({
   categories,
   accounts,
   isSubmit,
+  showDetail,
   config,
 }) {
 
@@ -35,6 +36,7 @@ function PlannedCosts({
       categories={categories}
       accounts={accounts}
       isSubmit={isSubmit}
+      showDetail={showDetail}
       config={config}
     />
   )

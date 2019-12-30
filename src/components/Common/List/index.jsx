@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 // import PropTypes from 'prop-types'
 import { Empty, Table, Icon  } from 'antd'
 
 import styles from './list.module.sass'
 import isEmpty from '../../../HOC/isEmpty'
 
+
 function List({
   isFetching,
   items,
   handleDelete,
+  showDetail,
   deleting,
   categories,
   config,
@@ -75,7 +77,7 @@ function List({
               background: record.isCommit ? '#d7ffd9' : 'none'
 
             },
-            onClick: event => {}, // click row
+            onClick: (event) => showDetail(items.find(item => item.id === record.id)), // click row
             onDoubleClick: event => {}, // double click row
             onContextMenu: event => {}, // right button click row
             onMouseEnter: event => { }, // mouse enter row

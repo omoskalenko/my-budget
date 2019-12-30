@@ -11,10 +11,11 @@ import { addIncome, deleteIncome, getPlannedIncomes, getPlannedIncomesNext } fro
 import { getAccountsWithPlannedBalance, getAccountsWithPlannedBalanceNext } from "../../containers/balance";
 import { getPlannedCosts, getPlannedCostsNext } from "../../containers/costs/costs";
 import { getPeriod, getNextPeriod } from "../../containers/parameters";
+import { showDetail } from '../../containers/actions'
 
 const { Content } = Layout
 
-function Budget({ incomes, nextIncomes, costs, nextCosts, accounts, nextAccounts, period, nextPeriod }) {
+function Budget({ incomes, nextIncomes, costs, nextCosts, accounts, nextAccounts, period, nextPeriod, showDetail}) {
   return (
     <Content style={{ margin: "20px 16px", overflowY: "scroll", overflowX: "hidden" }}>
       <Row type="flex" gutter={[5, 20]}>
@@ -40,21 +41,23 @@ function Budget({ incomes, nextIncomes, costs, nextCosts, accounts, nextAccounts
 
   <Row type="flex" justify="space-between" gutter={[5, 20]}>
     <Col span={6}>
-      <Costs costs={costs} accounts={accounts}/>
+      <Costs costs={costs} accounts={accounts} showDetail={showDetail}/>
     </Col>
     <Col span={6}>
       <Incomes
         incomes={incomes}
         accounts={accounts}
+        showDetail={showDetail}
       />
     </Col>
     <Col span={6}>
-      <Costs costs={nextCosts} accounts={nextAccounts}/>
+      <Costs costs={nextCosts} accounts={nextAccounts} showDetail={showDetail}/>
     </Col>
     <Col span={6}>
       <Incomes
         incomes={nextIncomes}
         accounts={nextAccounts}
+        showDetail={showDetail}
       />
     </Col>
   </Row>
@@ -76,7 +79,8 @@ export default compose(
     }),
     dispatch => ({
       addIncome: (transactionsStatus, income) => dispatch(addIncome(transactionsStatus, income)),
-      deleteIncome: (transactionsStatus, id) => dispatch(deleteIncome(transactionsStatus, id))
+      deleteIncome: (transactionsStatus, id) => dispatch(deleteIncome(transactionsStatus, id)),
+      showDetail: (transaction) => dispatch(showDetail(transaction))
     })
   )
   //  withError,

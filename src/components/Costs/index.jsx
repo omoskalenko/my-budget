@@ -12,6 +12,7 @@ function Costs({
   costs,
   categories,
   accounts,
+  showDetail,
   isSubmit,
   config,
 }) {
@@ -36,7 +37,15 @@ function Costs({
         />
       }
     >
-      <List deleting={deleting} isFetching={isFetching} handleDelete={deleteCost} items={costs} categories={categories}  config={config}/>
+      <List
+        deleting={deleting}
+        isFetching={isFetching}
+        handleDelete={deleteCost}
+        items={costs}
+        categories={categories}
+        showDetail={showDetail}
+        config={config}
+      />
     </Card>
   )
 }

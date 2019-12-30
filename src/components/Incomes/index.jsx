@@ -12,6 +12,7 @@ function Incomes({
   incomes,
   categories,
   accounts,
+  showDetail,
   isSubmit,
   config,
 }) {
@@ -36,8 +37,16 @@ function Incomes({
         />
       }
     >
-      <List deleting={deleting} isFetching={isFetching} handleDelete={deleteIncome} items={incomes} categories={categories} config={config}/>
-    </Card>
+      <List
+        deleting={deleting}
+        isFetching={isFetching}
+        handleDelete={deleteIncome}
+        items={incomes}
+        categories={categories}
+        showDetail={showDetail}
+        config={config}
+      />
+   </Card>
   )
 }
 

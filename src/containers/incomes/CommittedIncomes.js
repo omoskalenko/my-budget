@@ -20,6 +20,7 @@ function CommittedIncomes({
   incomes,
   categories,
   accounts,
+  showDetail,
   isSubmit,
   config,
 }) {
@@ -36,6 +37,7 @@ function CommittedIncomes({
       incomes={incomes}
       categories={categories}
       accounts={accounts}
+      showDetail={showDetail}
       isSubmit={isSubmit}
       config={config}
     />
