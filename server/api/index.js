@@ -55,7 +55,15 @@ const addItem = (item, type, subType) => {
 }
 
 const deleteItem = (id, type, subType) => {
-  if(!db[type][subType][id]) return { status: 'error', message: 'Запись не найдена' }
+  const transaction = db[type][subType][id]
+  if(!transaction) return { status: 'error', message: 'Запись не найдена' }
+  const refSubType = (subType === 'committed') ? 'planned' : 'committed'
+  const refId = db[type][subType][id].ref
+  if(refId) {
+    const plannedTransaction = db[type][refSubType][refId]
+    plannedTransaction.committed = plannedTransaction.committed.filter(commit => commit !== moment(transaction.commit).format('DD.MM.YYYY'))
+  }
+  
   delete db[type][subType][id]
   saveToFile(db)
   return { status: 'ok', [type]: withCategory(db, type, subType) }
@@ -152,8 +160,9 @@ router.post('/incomes/planned/delete/', (req, res) => {
 
 router.post('/commit', (req, res) => {
   try {
-    const { id, transaction, target } = req.body
-    commitTransaction(id, target.type, moment(transaction.commit).format('DD.MM.YYYY'))
+    const { date, transaction, target } = req.body
+    const id = transaction.ref
+    commitTransaction(id, target.type, date)
     addItem(transaction, target.type, 'committed')
     const data = createResponse.ok({ [target.type]: withCategory(db, target.type, target.status) })
     reply(res, data)

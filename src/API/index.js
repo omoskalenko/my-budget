@@ -54,9 +54,9 @@ export async function addIncome(income, type) {
   }
 }
 
-export async function deleteIncome(id, type) {
+export async function deleteIncome(id, type, refId) {
   try {
-    const response = await axios.post(`/api/incomes/${type}/delete`, { id })
+    const response = await axios.post(`/api/incomes/${type}/delete`, { id, refId })
     return response.data.incomes
   } catch (error) {
     throw Error(error)
@@ -72,9 +72,9 @@ export async function fetchDirectories() {
   }
 }
 
-export async function commitTransaction(id, transaction, target) {
+export async function commitTransaction(date, transaction, target) {
   try {
-    const response = await axios.post('/api/commit', { id, transaction, target })
+    const response = await axios.post('/api/commit', { date, transaction, target })
     return response.data[target.type]
   } catch (error) {
     throw Error(error)

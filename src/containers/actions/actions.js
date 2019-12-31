@@ -96,16 +96,16 @@ export const commitSaga = function* (action) {
       name,
       amount,
       commit: start,
+      ref: originTransaction.id
     }
-    const id = originTransaction.id
-
+    const date = originTransaction.displayDate
     if (target.type === 'incomes') {
       incomesSchemas.committed.isValidSync(transaction)
     } else if (target.type === 'costs') {
       costsSchemas.committed.isValidSync(transaction)
     }
 
-    const payload = yield call([API, API.commitTransaction], id, transaction, target)
+    const payload = yield call([API, API.commitTransaction], date, transaction, target)
     if (target.type === 'incomes') {
       yield put({ type: FETCH_PLANNED_SUCCESS_INCOMES, payload, transactionsStatus: target.type })
     } else if (target.type === 'costs') {

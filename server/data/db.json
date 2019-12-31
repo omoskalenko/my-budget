@@ -119,10 +119,14 @@
                 "category": 0,
                 "name": "Ипотека часть 2",
                 "amount": 13000,
+                "_amount": {
+                    "07.01.2020": 14100
+                },
                 "start": "2018-01-07T11:00:09.296Z",
                 "end": "2023-01-07T11:00:09.296Z",
                 "committed": [
-                    "07.12.2019"
+                    "07.12.2019",
+                    "07.01.2020"
                 ],
                 "periodicity": "monthly",
                 "create": "19.12.2019"
@@ -149,12 +153,13 @@
                 "amount": 2500,
                 "_amount": {
                     "07.12.2019": 1800,
-                    "07.01.2020": 2000
+                    "07.01.2020": 1793.65
                 },
                 "start": "2018-01-07T11:00:09.296Z",
                 "end": "",
                 "committed": [
-                    "07.12.2019"
+                    "07.12.2019",
+                    "07.01.2020"
                 ],
                 "periodicity": "monthly",
                 "create": "19.12.2019"
@@ -200,7 +205,8 @@
                 "start": "2019-12-07T09:14:24.499Z",
                 "end": null,
                 "committed": [
-                    "07.12.2019"
+                    "07.12.2019",
+                    "07.01.2020"
                 ]
             },
             "1577611055130": {
@@ -294,14 +300,16 @@
                 "committed": []
             },
             "1577695217976": {
-                "amount": "2500",
+                "amount": "1288",
                 "category": "0",
                 "name": "Страхование имущества",
                 "account": "0",
                 "periodicity": "everyyear",
                 "start": "2019-01-05T08:39:31.597Z",
                 "end": "2022-01-04T21:00:00.758Z",
-                "committed": []
+                "committed": [
+                    "05.01.2020"
+                ]
             },
             "1577695995513": {
                 "amount": "1100",
@@ -314,6 +322,16 @@
                 "committed": [
                     "30.12.2019"
                 ]
+            },
+            "c6fd5912-2e65-40f9-a841-9ebf0ece8033": {
+                "amount": "1234",
+                "category": "0",
+                "name": "ascas",
+                "account": "0",
+                "periodicity": "onetime",
+                "start": "2019-12-31T15:37:13.219Z",
+                "end": null,
+                "committed": []
             }
         },
         "committed": {
@@ -325,12 +343,65 @@
                 "commit": "2019-12-29T08:06:19.113Z",
                 "committed": []
             },
-            "1aa1975b-741e-44b4-88d5-56f46097ea65": {
+            "139b5b86-1e20-4edc-ad7f-00e39908f2f7": {
+                "account": 0,
+                "category": 0,
+                "name": "Ипотека часть 2",
+                "amount": 14100,
+                "commit": "2020-01-07T11:00:09.296Z"
+            },
+            "26b15c15-aa26-4cf4-8aed-a67c50d73d2a": {
+                "account": 0,
+                "category": 1,
+                "name": "ЖКУ",
+                "amount": 1793.65,
+                "commit": "2020-01-07T11:00:09.296Z"
+            },
+            "8cdd64ec-e6ec-4b62-80d5-0c3176db1cf7": {
+                "account": "0",
+                "category": "0",
+                "name": "Страхование имущества",
+                "amount": "1288",
+                "commit": "2020-01-05T08:39:31.597Z"
+            },
+            "5bdc7a6c-c536-4920-a2fe-993b43002f9c": {
+                "account": "0",
+                "category": "1",
+                "name": "Интернет",
+                "amount": "601",
+                "commit": "2019-12-07T09:14:24.499Z"
+            },
+            "483f4b9b-07d6-41d4-9eb3-7bed1e64c8ab": {
+                "amount": "50000",
+                "account": "0",
+                "category": "7",
+                "name": "Сбережения",
+                "commit": "2019-12-31T15:13:21.815Z",
+                "committed": []
+            },
+            "4613772e-8ca3-423e-a1b9-d0eb0e38de2a": {
+                "amount": "1098",
                 "account": "0",
                 "category": "0",
                 "name": "Халва",
-                "amount": "1100",
-                "commit": "2019-12-30T08:39:31.597Z"
+                "commit": "2019-12-31T15:17:02.295Z",
+                "committed": []
+            },
+            "8892ff0c-3578-4b11-b8b2-e464b760fc3f": {
+                "amount": "1320",
+                "account": "0",
+                "category": "4",
+                "name": "Жрачка на НГ",
+                "commit": "2019-12-31T15:17:02.295Z",
+                "committed": []
+            },
+            "c9cb94ba-1bfb-4e3c-9bac-39c0607ecb57": {
+                "amount": "605",
+                "account": "1",
+                "category": "4",
+                "name": "Жрачка на НГ",
+                "commit": "2019-12-31T15:17:02.295Z",
+                "committed": []
             }
         }
     },
@@ -443,20 +514,27 @@
                 "commit": "2019-12-27T08:04:36.649Z",
                 "committed": []
             },
-            "1577696089492": {
-                "amount": "34000",
-                "account": "0",
-                "category": "0",
-                "name": "ЗП за декбарь(вместо 7.01.2019)",
-                "commit": "2019-12-30T08:54:46.628Z",
-                "committed": []
-            },
             "3cbbfef6-5f77-4b6d-959b-633f2e1f7a32": {
                 "account": "0",
                 "category": "0",
                 "name": "ЗП за декбарь(вместо 7.01.2019)",
                 "amount": "34000",
                 "commit": "2019-12-30T10:39:17.465Z"
+            },
+            "c88e3242-4dc0-4596-b279-1f2c6a7a397b": {
+                "amount": "50000",
+                "account": "0",
+                "category": "2",
+                "name": "Премия",
+                "commit": "2019-12-31T14:39:44.477Z",
+                "committed": []
+            },
+            "56acd1ac-87c7-4c37-82c5-a8005e5d7bac": {
+                "amount": "50000",
+                "account": "10",
+                "category": "10",
+                "commit": "2019-12-31T15:14:14.189Z",
+                "committed": []
             }
         }
     },
