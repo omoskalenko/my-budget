@@ -253,6 +253,9 @@
                 "periodicity": "monthly",
                 "start": "2019-12-01T09:14:24.499Z",
                 "end": null,
+                "missed": [
+                    "01.01.2020"
+                ],
                 "committed": [
                     "01.12.2019"
                 ]
