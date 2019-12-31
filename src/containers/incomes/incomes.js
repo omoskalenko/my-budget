@@ -21,7 +21,7 @@ import { TRANSACTIONS_STATUSES, TRANSACTIONS_TYPES } from '../../config'
 
 export const moduleName = TRANSACTIONS_TYPES.INCOMES
 
-const schemas = {
+export const schemas = {
   committed: yup.object().shape({
     account: yup.string().required(),
     category: yup.string().required(),

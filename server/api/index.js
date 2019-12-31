@@ -3,7 +3,7 @@ let origin = require('../data/db.json')
 const fs = require('fs')
 const path = require('path')
 const uuid = require('uuid/v4')
-
+const moment = require('moment')
 
 
 let db = JSON.parse(fs.readFileSync(path.resolve('data/db.json')))
@@ -32,6 +32,11 @@ const withCategory = (data, type, subType) => {
   })
 }
 
+const createResponse = {
+  ok: (data) => ({ status: 'ok', ...data }),
+  error: (err) => ({ status: 'error', message: err })
+}
+
 const addItem = (item, type, subType) => {
   try {
     // let i = 0
@@ -54,6 +59,14 @@ const deleteItem = (id, type, subType) => {
   delete db[type][subType][id]
   saveToFile(db)
   return { status: 'ok', [type]: withCategory(db, type, subType) }
+}
+
+const commitTransaction = (id, target, date) => {
+  const transaction = db[target].planned[id]
+  if(!transaction.committed.includes(date)) {
+    transaction.committed.push(date)
+    saveToFile(db)
+  }
 }
 
 router.get('/directories', (req, res, next) => {
@@ -136,5 +149,30 @@ router.post('/incomes/planned/delete/', (req, res) => {
   const data = deleteItem(req.body.id, 'incomes', 'planned')
   reply(res, data)
 })
+
+router.post('/commit', (req, res) => {
+  try {
+    const { id, transaction, target } = req.body
+    commitTransaction(id, target.type, moment(transaction.commit).format('DD.MM.YYYY'))
+    addItem(transaction, target.type, 'committed')
+    const data = createResponse.ok({ [target.type]: withCategory(db, target.type, target.status) })
+    reply(res, data)
+  } catch(error) {
+    const data = createResponse.error(error)
+    reply(res, data)
+  }
+  
+})
+
+router.post('/bind', (req, res) => {
+  const data = null
+  reply(res, data)
+})
+
+router.post('/skip', (req, res) => {
+  const data = null
+  reply(res, data)
+})
+
 
 module.exports = router

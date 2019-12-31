@@ -311,7 +311,9 @@
                 "periodicity": "onetime",
                 "start": "2019-12-30T08:39:31.597Z",
                 "end": null,
-                "committed": []
+                "committed": [
+                    "30.12.2019"
+                ]
             }
         },
         "committed": {
@@ -322,6 +324,13 @@
                 "name": "Термопаста",
                 "commit": "2019-12-29T08:06:19.113Z",
                 "committed": []
+            },
+            "1aa1975b-741e-44b4-88d5-56f46097ea65": {
+                "account": "0",
+                "category": "0",
+                "name": "Халва",
+                "amount": "1100",
+                "commit": "2019-12-30T08:39:31.597Z"
             }
         }
     },
@@ -412,7 +421,9 @@
                 "periodicity": "onetime",
                 "start": "2019-12-30T10:39:17.465Z",
                 "end": null,
-                "committed": []
+                "committed": [
+                    "30.12.2019"
+                ]
             }
         },
         "committed": {
@@ -439,6 +450,13 @@
                 "name": "ЗП за декбарь(вместо 7.01.2019)",
                 "commit": "2019-12-30T08:54:46.628Z",
                 "committed": []
+            },
+            "3cbbfef6-5f77-4b6d-959b-633f2e1f7a32": {
+                "account": "0",
+                "category": "0",
+                "name": "ЗП за декбарь(вместо 7.01.2019)",
+                "amount": "34000",
+                "commit": "2019-12-30T10:39:17.465Z"
             }
         }
     },

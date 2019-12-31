@@ -72,6 +72,33 @@ export async function fetchDirectories() {
   }
 }
 
+export async function commitTransaction(id, transaction, target) {
+  try {
+    const response = await axios.post('/api/commit', { id, transaction, target })
+    return response.data[target.type]
+  } catch (error) {
+    throw Error(error)
+  }
+}
+
+export async function bindTransaction(data, target) {
+  try {
+    const response = await axios.post('/api/bind', { data, target })
+    return response.data
+  } catch (error) {
+    throw Error(error)
+  }
+}
+
+export async function skipTransaction(data, target) {
+  try {
+    const response = await axios.post('/api/skip', { data, target })
+    return response.data
+  } catch (error) {
+    throw Error(error)
+  }
+}
+
 
 
 export default {
@@ -83,4 +110,7 @@ export default {
   addIncome,
   deleteIncome,
   fetchDirectories,
+  commitTransaction,
+  bindTransaction,
+  skipTransaction,
 }

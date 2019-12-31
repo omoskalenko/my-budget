@@ -80,7 +80,7 @@ export default compose(
     dispatch => ({
       addIncome: (transactionsStatus, income) => dispatch(addIncome(transactionsStatus, income)),
       deleteIncome: (transactionsStatus, id) => dispatch(deleteIncome(transactionsStatus, id)),
-      showDetail: (transaction) => dispatch(showDetail(transaction))
+      showDetail: (transaction, config) => dispatch(showDetail(transaction, config))
     })
   )
   //  withError,

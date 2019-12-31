@@ -77,7 +77,7 @@ function List({
               background: record.isCommit ? '#d7ffd9' : 'none'
 
             },
-            onClick: (event) => showDetail(items.find(item => item.id === record.id)), // click row
+            onClick: (event) => showDetail(items.find(item => item.id === record.id), config), // click row
             onDoubleClick: event => {}, // double click row
             onContextMenu: event => {}, // right button click row
             onMouseEnter: event => { }, // mouse enter row
