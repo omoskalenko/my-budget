@@ -8,6 +8,7 @@ import { addCost, deleteCost, getCommittedCosts, moduleName } from './costs'
 import { getCostCategories } from '../directores'
 import { getAccountsWithActulBalance } from '../balance'
 import { TRANSACTIONS_STATUSES } from '../../config'
+import { showDetail } from '../actions'
 
 const transactionsStatus = TRANSACTIONS_STATUSES.COMMITTED
 
@@ -55,7 +56,8 @@ export default compose(
     }),
     dispatch => ({
       addCost: (transactionsStatus, cost) => dispatch(addCost(transactionsStatus, cost)),
-      deleteCost: (transactionsStatus, id) => dispatch(deleteCost(transactionsStatus, id))
+      deleteCost: (transactionsStatus, id) => dispatch(deleteCost(transactionsStatus, id)),
+      showDetail: (transaction, config) => dispatch(showDetail(transaction, config))
     })
   ),
    withError,

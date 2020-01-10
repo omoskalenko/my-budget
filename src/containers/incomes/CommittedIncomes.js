@@ -8,12 +8,12 @@ import { fetchIncomes, addIncome, deleteIncome, getCommittedIncomes, moduleName 
 import { getIncomeCategories } from '../directores'
 import { getAccountsWithActulBalance } from '../balance'
 import { TRANSACTIONS_STATUSES } from '../../config'
+import { showDetail } from '../actions'
 
 const transactionsStatus = TRANSACTIONS_STATUSES.COMMITTED
 
 function CommittedIncomes({
   isFetching,
-  fetchIncomes,
   addIncome,
   deleteIncome,
   deleting,
@@ -55,9 +55,9 @@ export default compose(
       config: state[moduleName][transactionsStatus].config,
     }),
     dispatch => ({
-      fetchIncomes: transactionsStatus => dispatch(fetchIncomes(transactionsStatus)),
       addIncome: (transactionsStatus, income) => dispatch(addIncome(transactionsStatus, income)),
       deleteIncome: (transactionsStatus, id) => dispatch(deleteIncome(transactionsStatus, id)),
+      showDetail: (transaction, config) => dispatch(showDetail(transaction, config))
     })
   ),
    withError,

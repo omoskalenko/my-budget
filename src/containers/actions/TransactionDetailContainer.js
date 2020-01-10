@@ -1,8 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import TransactionInfo from '../../components/Common/TransactionInfo'
-import { isVisible, handleOk, handleCancel, getTransaction, commit, bind, skip, closeDetail } from './actions'
-
+import { isVisible, handleOk, handleCancel, getTransaction, commit, bind, skip, closeDetail, moduleName } from './actions'
 
 function TransactionDetailContainer({
   visible,
@@ -11,6 +10,7 @@ function TransactionDetailContainer({
   commit,
   bind,
   skip,
+  target
 }) {
   return (
     <TransactionInfo
@@ -21,6 +21,7 @@ function TransactionDetailContainer({
       commit={commit}
       bind={bind}
       skip={skip}
+      target={target}
     />
   )
 }
@@ -29,6 +30,7 @@ export default connect(
   state => ({
     visible: isVisible(state),
     transaction: getTransaction(state),
+    target: state[moduleName]?.target,
   }),
   dispatch => ({
     closeDetail: () => dispatch(closeDetail()),
