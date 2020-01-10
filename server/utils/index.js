@@ -49,7 +49,28 @@ const getBalance = (accountId, income, costs) => {
   return getIncoming(accountId, income) - getCosts(accountId, costs)
 }
 
+const reply = (res, body, timeout = 1000, status = 200) => res.status(status).json(body)
+  // setTimeout(() => {
+  //   res.status(status).json(body)
+  // }, timeout)
+
+
+
+const withCategory = (data, type, subType) => {
+  const items = normalize(data[type][subType])
+  const categories = data.categories[type]
+  const accounts = data.accounts
+
+  return  items.map(item => {
+    item.category = { id: item.category, ...categories[item.category] }
+    item.account = { id: item.account, ...accounts[item.account] }
+    return item
+  })
+}
+
 module.exports = {
   normalize,
-  getBalance
+  getBalance,
+  reply,
+  withCategory
 }
