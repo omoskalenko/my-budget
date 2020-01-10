@@ -46,8 +46,20 @@ const commitTransaction = (id, target, date) => {
   }
 }
 
+const skipTransaction = (id, type, date) => {
+    const transaction = db[type].planned[id]
+    console.log(transaction);
+    if(!transaction.missed) transaction.missed = []
+    if(!transaction.missed.includes(date)) {
+      transaction.missed.push(date)
+      saveToFile(db)
+    }
+
+}
+
 module.exports = {
   commitTransaction,
   deleteItem,
-  addItem
+  addItem,
+  skipTransaction
 }

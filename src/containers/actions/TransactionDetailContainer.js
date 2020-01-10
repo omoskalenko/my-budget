@@ -10,7 +10,9 @@ function TransactionDetailContainer({
   commit,
   bind,
   skip,
-  target
+  target,
+  isCommitted,
+  isSkipped,
 }) {
   return (
     <TransactionInfo
@@ -22,12 +24,16 @@ function TransactionDetailContainer({
       bind={bind}
       skip={skip}
       target={target}
+      isCommitted={isCommitted}
+      isSkipped={isSkipped}
     />
   )
 }
 
 export default connect(
   state => ({
+    isCommitted: state[moduleName]?.isCommitted,
+    isSkipped: state[moduleName]?.isSkipped,
     visible: isVisible(state),
     transaction: getTransaction(state),
     target: state[moduleName]?.target,

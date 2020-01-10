@@ -90,10 +90,10 @@ export async function bindTransaction(data, target) {
   }
 }
 
-export async function skipTransaction(data, target) {
+export async function skipTransaction({ id, date, type }) {
   try {
-    const response = await axios.post('/api/skip', { data, target })
-    return response.data
+    const response = await axios.post('/api/skip', { id, date, type })
+    return response.data[type]
   } catch (error) {
     throw Error(error)
   }

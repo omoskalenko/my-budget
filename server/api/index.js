@@ -1,7 +1,7 @@
 const router = require('express').Router()
 
 const { db, getTransaction, } = require('../db')
-const { addItem, deleteItem, commitTransaction } = require('../model')
+const { addItem, deleteItem, commitTransaction, skipTransaction } = require('../model')
 const { getBalance, normalize, withCategory, reply } = require('../utils')
 
 const createResponse = {
@@ -111,8 +111,19 @@ router.post('/bind', (req, res) => {
 })
 
 router.post('/skip', (req, res) => {
-  const data = null
-  reply(res, data)
+  try {
+    const { id, type, date } = req.body
+
+    skipTransaction(id, type, date)
+    const data = createResponse.ok({ [type]: withCategory(db, type, 'planned') })
+    reply(res, data)
+  } catch(error) {
+    console.log(error);
+
+    const data = createResponse.error(error)
+    reply(res, data)
+  }
+  console.log('error');
 })
 
 

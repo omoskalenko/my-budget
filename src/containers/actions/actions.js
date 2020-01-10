@@ -32,6 +32,8 @@ const initialState = Record({
   target: {},
   visible: false,
   isFetching: false,
+  isCommitted: false,
+  isSkipped: false,
 })
 
 /** Reducer */
@@ -52,13 +54,22 @@ export const reducer = (state = new initialState(), action) => {
     }
     case COMMIT_TRANSACTION_REQUEST: {
       return state
-        .set('isFetching', true)
+        .set('isCommitted', true)
+    }
+    case SKIP_TRANSACTION_REQUEST: {
+      return state
+        .set('isSkipped', true)
     }
     case COMMIT_TRANSACTION_ERROR:
     case COMMIT_TRANSACTION_SUCCESS: {
       return state
-        .set('isFetching', false)
+        .set('isCommitted', false)
     }
+    case SKIP_TRANSACTION_ERROR:
+    case SKIP_TRANSACTION_SUCCESS: {
+        return state
+          .set('isSkipped', false)
+      }
     default:
       return state
   }
@@ -85,41 +96,58 @@ export const handleCancel = () => ({ type: '' })
 
 /** Sagas */
 
-export const commitSaga = function* (action) {
+export const commitSaga = function* () {
   try {
     const originTransaction = yield select(state => stateSelector(state).transaction)
     const target = yield select(state => stateSelector(state).target)
-    const { account, category, name, amount, start } = originTransaction
+    const { account, category, name, amount, start, displayDate } = originTransaction
     const transaction = {
       account: account.id,
       category: category.id,
       name,
       amount,
-      commit: start,
+      commit: moment(displayDate, 'DD.MM.YYYY'),
       ref: originTransaction.id
     }
-    const date = originTransaction.displayDate
     if (target.type === 'incomes') {
       incomesSchemas.committed.isValidSync(transaction)
     } else if (target.type === 'costs') {
       costsSchemas.committed.isValidSync(transaction)
     }
 
-    const payload = yield call([API, API.commitTransaction], date, transaction, target)
+    const payload = yield call([API, API.commitTransaction], displayDate, transaction, target)
     if (target.type === 'incomes') {
       yield put({ type: FETCH_PLANNED_SUCCESS_INCOMES, payload, transactionsStatus: target.type })
     } else if (target.type === 'costs') {
       yield put({ type: FETCH_PLANNED_SUCCESS_COSTS, payload, transactionsStatus: target.type })
     }
-
+    yield put({ type: COMMIT_TRANSACTION_SUCCESS })
   } catch (error) {
     yield put({ type: COMMIT_TRANSACTION_ERROR })
   }
 }
 
+export const skipSaga = function* () {
+  try {
+    const originTransaction = yield select(state => stateSelector(state).transaction)
+    const target = yield select(state => stateSelector(state).target)
+    const { id, displayDate } = originTransaction
+
+    const payload = yield call([API, API.skipTransaction], { id, type: target.type, date: displayDate })
+    if (target.type === 'incomes') {
+      yield put({ type: FETCH_PLANNED_SUCCESS_INCOMES, payload, transactionsStatus: target.type })
+    } else if (target.type === 'costs') {
+      yield put({ type: FETCH_PLANNED_SUCCESS_COSTS, payload, transactionsStatus: target.type })
+    }
+    yield put({ type: SKIP_TRANSACTION_SUCCESS })
+  } catch (error) {
+    yield put({ type: SKIP_TRANSACTION_ERROR })
+  }
+}
 
 export const saga = function* () {
   yield takeEvery(COMMIT_TRANSACTION_REQUEST, commitSaga)
+  yield takeEvery(SKIP_TRANSACTION_REQUEST, skipSaga)
 }
 
 

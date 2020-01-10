@@ -10,6 +10,8 @@ const TransactionInfo = ({
   bind,
   skip,
   isFetching,
+  isCommitted,
+  isSkipped,
   target
 }) => {
   const renderPlannedInfo = () => {
@@ -23,8 +25,8 @@ const TransactionInfo = ({
         <Descriptions>
           {Object.keys(transaction).map(prop => <Descriptions.Item label={prop}>{typeof transaction[prop] === 'object' ? '' : transaction[prop]}</Descriptions.Item>)}
         </Descriptions>
-        <Button type="primary" loading={isFetching} onClick={() => commit()}>Провести операцию</Button>
-        <Button type="primary" loading={isFetching} onClick={() => skip()}>Пропустить операцию</Button>
+        <Button type="primary" loading={isCommitted} onClick={() => commit()}>Провести операцию</Button>
+        <Button type="primary" loading={isSkipped} onClick={() => skip()}>Пропустить операцию</Button>
         <Button type="primary" loading={isFetching} onClick={() => bind()}>Привязать операцию</Button>
       </Modal>
     );
