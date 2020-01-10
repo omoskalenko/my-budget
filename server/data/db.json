@@ -131,20 +131,6 @@
                 "periodicity": "monthly",
                 "create": "19.12.2019"
             },
-            "5": {
-                "id": 5,
-                "account": 0,
-                "category": 0,
-                "name": "Ипотека часть 1",
-                "amount": 7000,
-                "start": "2018-01-23T11:00:09.296Z",
-                "end": "2023-12-23T11:00:09.296Z",
-                "committed": [
-                    "23.12.2019"
-                ],
-                "periodicity": "monthly",
-                "create": "19.12.2019"
-            },
             "6": {
                 "id": 6,
                 "account": 0,
@@ -164,18 +150,45 @@
                 "periodicity": "monthly",
                 "create": "19.12.2019"
             },
+            "523": {
+                "id": 523,
+                "account": 0,
+                "category": 0,
+                "name": "Ипотека часть 1",
+                "amount": 7000,
+                "start": "2018-01-23T11:00:09.296Z",
+                "end": "",
+                "committed": [
+                    "23.12.2019"
+                ],
+                "periodicity": "monthly",
+                "create": "19.12.2019"
+            },
             "1577610878884": {
                 "amount": "5000",
+                "_amount": {
+                    "07.01.2020": 2000,
+                    "07.02.2020": 2000,
+                    "07.03.2020": 2000,
+                    "07.04.2020": 2000
+                },
                 "category": "0",
                 "name": "Кредитка",
                 "account": "0",
                 "periodicity": "monthly",
                 "start": "2020-01-07T09:14:24.499Z",
                 "end": null,
-                "committed": []
+                "committed": [
+                    "07.01.2020"
+                ]
             },
             "1577610887464": {
                 "amount": "5000",
+                "_amount": {
+                    "23.01.2020": 2000,
+                    "23.02.2020": 2000,
+                    "23.03.2020": 2000
+                },
                 "category": "0",
                 "name": "Кредитка",
                 "account": "0",
@@ -246,7 +259,7 @@
                 ]
             },
             "1577611824399": {
-                "amount": "3000",
+                "amount": "4000",
                 "category": "4",
                 "name": "Закупка 1",
                 "account": "1",
@@ -326,14 +339,24 @@
                     "30.12.2019"
                 ]
             },
-            "c6fd5912-2e65-40f9-a841-9ebf0ece8033": {
-                "amount": "1234",
+            "10ad0edd-bf8d-4530-86b2-da5587d8209d": {
+                "amount": "3700",
                 "category": "0",
-                "name": "ascas",
+                "name": "Халва: комп",
                 "account": "0",
-                "periodicity": "onetime",
-                "start": "2019-12-31T15:37:13.219Z",
-                "end": null,
+                "periodicity": "monthly",
+                "start": "2020-01-23T11:25:20.642Z",
+                "end": "",
+                "committed": []
+            },
+            "4b4bc429-f12b-448f-bc96-8948b7c5291d": {
+                "amount": "3700",
+                "category": "0",
+                "name": "Халва: комп",
+                "account": "0",
+                "periodicity": "monthly",
+                "start": "2020-02-07T11:25:20.642Z",
+                "end": "",
                 "committed": []
             }
         },
@@ -405,6 +428,150 @@
                 "name": "Жрачка на НГ",
                 "commit": "2019-12-31T15:17:02.295Z",
                 "committed": []
+            },
+            "4b3915b4-3306-475e-b8d7-f9cf87a26751": {
+                "amount": "4000",
+                "account": "0",
+                "category": "6",
+                "name": "RDR2x2",
+                "commit": "2020-01-01T11:19:42.170Z",
+                "committed": []
+            },
+            "312dc4ea-e18d-4b73-b035-b73a68e75e64": {
+                "amount": "1400",
+                "account": "0",
+                "category": "6",
+                "name": "БЕРУ: Кофе, клавиатура",
+                "commit": "2020-01-02T11:19:42.170Z",
+                "committed": []
+            },
+            "50bfeff0-6425-4b94-9173-ee2c385e3912": {
+                "amount": "500",
+                "account": "0",
+                "category": "3",
+                "name": "Бензин",
+                "commit": "2020-01-02T11:21:32.207Z",
+                "committed": []
+            },
+            "eee3b81e-f2b7-48ed-9a0b-da1aacc4c9cf": {
+                "amount": "10000",
+                "account": "10",
+                "category": "6",
+                "name": "Комп",
+                "commit": "2020-01-02T11:21:32.207Z",
+                "committed": []
+            },
+            "bffa0570-4b25-4311-b94c-b1d22e3ba0e0": {
+                "amount": "440",
+                "account": "0",
+                "category": "6",
+                "name": "Прогуляли",
+                "commit": "2020-01-02T11:28:30.707Z",
+                "committed": []
+            },
+            "d2d1f8f3-06fd-4fc2-9838-b8453a9e2806": {
+                "amount": "335",
+                "account": "1",
+                "category": "3",
+                "name": "Такси",
+                "commit": "2020-01-01T11:30:36.889Z",
+                "committed": []
+            },
+            "cdc66a09-d0f9-4838-8986-d52d3346255c": {
+                "amount": "116",
+                "account": "1",
+                "category": "4",
+                "name": "Еда",
+                "commit": "2020-01-02T11:30:36.889Z",
+                "committed": []
+            },
+            "46571508-8bd3-40a5-8543-aa74ecfe733d": {
+                "amount": "348",
+                "account": "1",
+                "category": "6",
+                "name": "КБ",
+                "commit": "2020-01-02T11:30:36.889Z",
+                "committed": []
+            },
+            "743b5c04-a9ea-4306-a379-5c7c4df10fdf": {
+                "account": "0",
+                "category": "0",
+                "name": "Кредитка",
+                "amount": 2000,
+                "commit": "2020-01-07T09:14:24.499Z",
+                "ref": "1577610878884"
+            },
+            "8293aa8c-59d1-4c27-9c0b-b8d0e8dd7860": {
+                "amount": "1300",
+                "account": "0",
+                "category": "6",
+                "name": "Прогуляли",
+                "commit": "2020-01-04T16:21:11.035Z",
+                "committed": []
+            },
+            "dc821a74-6f37-4a0e-823a-49e9d09d5b7f": {
+                "amount": "1500",
+                "account": "0",
+                "category": "3",
+                "name": "Бензин",
+                "commit": "2020-01-05T16:21:11.035Z",
+                "committed": []
+            },
+            "139f5251-e573-483d-9ff8-f7b7ec55c392": {
+                "amount": "1700",
+                "account": "0",
+                "category": "4",
+                "name": "Ресторан",
+                "commit": "2020-01-05T16:21:11.035Z",
+                "committed": []
+            },
+            "0d90392c-721c-492b-a691-095941753485": {
+                "amount": "959.35",
+                "account": "0",
+                "category": "4",
+                "name": "Прогуляли",
+                "commit": "2020-01-06T16:21:11.035Z",
+                "committed": []
+            },
+            "db50ba82-f632-4473-a984-f8e27964f912": {
+                "amount": "9280",
+                "account": "10",
+                "category": "4",
+                "name": "ТО Авто",
+                "commit": "2020-01-09T16:21:11.035Z",
+                "committed": []
+            },
+            "e3155781-12c1-4d8e-a9f8-32764fbf18e7": {
+                "amount": "1000",
+                "account": "1",
+                "category": "2",
+                "name": "Универ",
+                "commit": "2020-01-09T16:21:11.035Z",
+                "committed": []
+            },
+            "c68615d0-df0f-4d67-bbbe-e51634ac58cf": {
+                "amount": "3000",
+                "account": "1",
+                "category": "4",
+                "name": "Закупка",
+                "commit": "2020-01-07T16:21:11.035Z",
+                "committed": []
+            },
+            "6e829a81-bd44-484f-b311-1b926f5d80dd": {
+                "amount": "2529",
+                "account": "1",
+                "category": "6",
+                "name": "Прогуляли",
+                "commit": "2020-01-07T16:21:11.035Z",
+                "committed": []
+            },
+            "7ca390df-b50d-4b1d-a1e3-c801056738e2": {
+                "amount": "720",
+                "account": "10",
+                "category": "6",
+                "name": "Прогуляли",
+                "commit": "2020-01-08T16:21:11.035Z",
+                "committed": []
             }
         }
     },
@@ -447,7 +614,7 @@
                 "name": "Саша",
                 "account": "1",
                 "periodicity": "monthly",
-                "start": "2019-11-30T07:58:52.531Z",
+                "start": "2019-12-01T07:58:52.531Z",
                 "end": null,
                 "committed": [
                     "30.12.2019"
@@ -471,7 +638,7 @@
                 "name": "Саша",
                 "account": "1",
                 "periodicity": "monthly",
-                "start": "2019-12-30T07:58:52.531Z",
+                "start": "2019-12-01T07:58:52.531Z",
                 "end": null,
                 "committed": [
                     "30.12.2019"
@@ -537,6 +704,14 @@
                 "account": "10",
                 "category": "10",
                 "commit": "2019-12-31T15:14:14.189Z",
+                "committed": []
+            },
+            "ed870b66-71f0-4e47-bc14-c76ed826cf2b": {
+                "amount": "7000",
+                "account": "1",
+                "category": "2",
+                "name": "За 15 число",
+                "commit": "2020-01-10T16:28:40.435Z",
                 "committed": []
             }
         }
