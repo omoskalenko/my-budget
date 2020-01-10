@@ -15,7 +15,7 @@ import { showDetail } from '../../containers/actions'
 
 const { Content } = Layout
 
-function Budget({ incomes, nextIncomes, costs, nextCosts, accounts, nextAccounts, period, nextPeriod, showDetail}) {
+function Budget({ incomes, nextIncomes, costs, nextCosts, accounts, nextAccounts, period, nextPeriod, showDetail }) {
   return (
     <Content style={{ margin: "20px 16px", overflowY: "scroll", overflowX: "hidden" }}>
       <Row type="flex" gutter={[5, 20]}>
