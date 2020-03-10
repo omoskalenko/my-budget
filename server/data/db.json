@@ -84,8 +84,28 @@
         }
     },
     "costs": {
-        "planned": {},
-        "committed": {}
+        "planned": {
+            "42545c2b-6218-4a29-8fd0-864b3f9a2e44": {
+                "amount": "40000",
+                "category": "0",
+                "name": "Кредит",
+                "account": "0",
+                "periodicity": "monthly",
+                "start": "2020-03-10T12:37:55.137Z",
+                "end": null,
+                "committed": []
+            }
+        },
+        "committed": {
+            "097556a8-8c31-4f25-995a-97cbd2da6566": {
+                "amount": "20000",
+                "account": "0",
+                "category": "2",
+                "name": "Прочее",
+                "commit": "2020-03-10T12:37:29.201Z",
+                "committed": []
+            }
+        }
     },
     "incomes": {
         "planned": {},
