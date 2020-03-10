@@ -1,0 +1,99 @@
+{
+    "members": {
+        "0": {
+            "firstName": "Owner1"
+        },
+        "1": {
+            "firstName": "Owner2"
+        }
+    },
+    "accounts": {
+        "0": {
+            "name": "main",
+            "title": "Основной",
+            "member": 0
+        },
+        "1": {
+            "name": "second",
+            "title": "Еще один",
+            "member": 1
+        },
+        "10": {
+            "name": "savings",
+            "title": "Сбережения",
+            "member": 1
+        }
+    },
+    "periods": {},
+    "categories": {
+        "costs": {
+            "0": {
+                "name": "credits",
+                "title": "Кредиты"
+            },
+            "1": {
+                "name": "utilities",
+                "title": "ЖКХ"
+            },
+            "2": {
+                "name": "personal",
+                "title": "Личные"
+            },
+            "3": {
+                "name": "transport",
+                "title": "Транспорт"
+            },
+            "4": {
+                "name": "food",
+                "title": "Питание"
+            },
+            "5": {
+                "name": "household",
+                "title": "Бытовые товары"
+            },
+            "6": {
+                "name": "others",
+                "title": "Прочие"
+            },
+            "7": {
+                "name": "transferToAccount",
+                "title": "Перевод на другой счет"
+            }
+        },
+        "incomes": {
+            "0": {
+                "name": "salary",
+                "title": "ЗП"
+            },
+            "1": {
+                "name": "prepaidExpense",
+                "title": "Аванс"
+            },
+            "2": {
+                "name": "other",
+                "title": "Прочие"
+            },
+            "10": {
+                "name": "receiptWithYourAccount",
+                "title": "Поступление с своего счета"
+            },
+            "20": {
+                "name": "receiptOther",
+                "title": "Прочие поступление"
+            }
+        }
+    },
+    "costs": {
+        "planned": {},
+        "committed": {}
+    },
+    "incomes": {
+        "planned": {},
+        "committed": {}
+    },
+    "saving": {
+        "planned": {},
+        "perfect": {}
+    },
+    "balance": {}
+}
